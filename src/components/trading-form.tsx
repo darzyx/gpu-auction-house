@@ -29,7 +29,6 @@ export default function TradingForm() {
                                 <div className="w-full grid grid-cols-2 gap-4">
                                     <Button
                                         variant={buyOrderType === "market" ? "default" : "outline"}
-                                        className="rounded-full"
                                         size="sm"
                                         onClick={() => setBuyOrderType("market")}
                                     >
@@ -37,7 +36,6 @@ export default function TradingForm() {
                                     </Button>
                                     <Button
                                         variant={buyOrderType === "limit" ? "default" : "outline"}
-                                        className="rounded-full"
                                         size="sm"
                                         onClick={() => setBuyOrderType("limit")}
                                     >
@@ -79,7 +77,6 @@ export default function TradingForm() {
                                 <div className="w-full grid grid-cols-2 gap-4">
                                     <Button
                                         variant={sellOrderType === "market" ? "default" : "outline"}
-                                        className="rounded-full"
                                         size="sm"
                                         onClick={() => setSellOrderType("market")}
                                     >
@@ -87,7 +84,6 @@ export default function TradingForm() {
                                     </Button>
                                     <Button
                                         variant={sellOrderType === "limit" ? "default" : "outline"}
-                                        className="rounded-full"
                                         size="sm"
                                         onClick={() => setSellOrderType("limit")}
                                     >
