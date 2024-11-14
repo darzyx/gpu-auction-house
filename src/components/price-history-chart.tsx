@@ -16,18 +16,9 @@ const chartData = [
 ];
 
 const chartConfig = {
-    high: {
-        label: "High",
-        color: "hsl(var(--chart-1))",
-    },
-    average: {
-        label: "Average",
-        color: "hsl(var(--chart-2))",
-    },
-    low: {
-        label: "Low",
-        color: "hsl(var(--chart-3))",
-    },
+    high: { label: "High", color: "hsl(var(--chart-1))" },
+    average: { label: "Average", color: "hsl(var(--chart-2))" },
+    low: { label: "Low", color: "hsl(var(--chart-3))" },
 } satisfies ChartConfig;
 
 export default function PriceHistoryChart() {
