@@ -21,7 +21,7 @@ const chartConfig = {
     low: { label: "Low", color: "hsl(var(--chart-3))" },
 } satisfies ChartConfig;
 
-export default function PriceHistoryChart() {
+export default function PriceHistory() {
     return (
         <Card>
             <CardHeader>
