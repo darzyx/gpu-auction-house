@@ -57,7 +57,7 @@ export default function TradingForm() {
                                 <Label htmlFor="duration">Duration (hours)</Label>
                                 <Input id="duration" type="number" placeholder="24" />
                             </div>
-                            <Button className="w-full bg-green-700">
+                            <Button className="w-full bg-green-700 hover:bg-green-600">
                                 Place {buyOrderType === "market" ? "Market" : "Limit"} Buy Order
                             </Button>
                         </div>
@@ -105,7 +105,7 @@ export default function TradingForm() {
                                 <Label htmlFor="sell-duration">Duration (hours)</Label>
                                 <Input id="sell-duration" type="number" placeholder="24" />
                             </div>
-                            <Button className="w-full bg-red-700">
+                            <Button className="w-full bg-red-700 hover:bg-red-600">
                                 Place {sellOrderType === "market" ? "Market" : "Limit"} Sell Order
                             </Button>
                         </div>
