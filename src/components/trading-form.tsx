@@ -9,8 +9,18 @@ export default function TradingForm() {
         <div className="w-[400px]">
             <Tabs defaultValue="buy">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="buy">Buy</TabsTrigger>
-                    <TabsTrigger value="sell">Sell</TabsTrigger>
+                    <TabsTrigger
+                        value="buy"
+                        className="data-[state=active]:text-green-600 data-[state=active]:bg-green-50"
+                    >
+                        Buy
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value="sell"
+                        className="data-[state=active]:text-red-600 data-[state=active]:bg-red-50"
+                    >
+                        Sell
+                    </TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
                     <Card>
@@ -22,10 +32,10 @@ export default function TradingForm() {
                             <div className="flex justify-center items-center">
                                 <div className="w-full grid grid-cols-2 gap-4">
                                     <Button variant="default" className="rounded-full" size="sm">
-                                        Limit
+                                        Market
                                     </Button>
                                     <Button variant="outline" className="rounded-full" size="sm">
-                                        Market
+                                        Limit
                                     </Button>
                                 </div>
                             </div>
@@ -41,7 +51,7 @@ export default function TradingForm() {
                                 <Label htmlFor="duration">Duration (hours)</Label>
                                 <Input id="duration" type="number" placeholder="24" />
                             </div>
-                            <Button className="w-full">Place Buy Order</Button>
+                            <Button className="w-full">Place Market Buy Order</Button>
                         </CardContent>
                         <CardFooter className="text-sm text-muted-foreground">
                             Orders will be filled when matching offers are available
@@ -58,10 +68,10 @@ export default function TradingForm() {
                             <div className="flex justify-center items-center">
                                 <div className="w-full grid grid-cols-2 gap-4">
                                     <Button variant="default" className="rounded-full" size="sm">
-                                        Limit
+                                        Market
                                     </Button>
                                     <Button variant="outline" className="rounded-full" size="sm">
-                                        Market
+                                        Limit
                                     </Button>
                                 </div>
                             </div>
@@ -77,7 +87,7 @@ export default function TradingForm() {
                                 <Label htmlFor="duration">Duration (hours)</Label>
                                 <Input id="duration" type="number" placeholder="24" />
                             </div>
-                            <Button className="w-full">Place Buy Order</Button>
+                            <Button className="w-full">Place Market Sell Order</Button>
                         </CardContent>
                         <CardFooter className="text-sm text-muted-foreground">
                             Orders will be filled when matching offers are available
