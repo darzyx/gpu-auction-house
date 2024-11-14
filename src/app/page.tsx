@@ -1,9 +1,13 @@
 import PriceHistoryChart from "@/components/price-history-chart";
+import TradingForm from "@/components/trading-form";
 
 export default function Home() {
     return (
-        <div>
-            <PriceHistoryChart />
+        <div className="p-4">
+            <div className="flex gap-2">
+                <PriceHistoryChart />
+                <TradingForm />
+            </div>
         </div>
     );
 }
