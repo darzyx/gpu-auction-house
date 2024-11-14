@@ -5,10 +5,10 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
     return (
-        <div className="p-4 flex flex-col">
+        <div className="p-8 flex flex-col">
+            <h1>Trade GPUs</h1>
             <div className="w-full grid grid-cols-[1fr_auto_1fr]">
                 <div className="p-4">
-                    <h1>Trade GPUs</h1>
                     <PriceHistory />
                 </div>
                 <div>
