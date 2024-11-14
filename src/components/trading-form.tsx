@@ -15,18 +15,8 @@ export default function TradingForm() {
         <div className="w-[400px]">
             <Tabs defaultValue="buy">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger
-                        value="buy"
-                        className="data-[state=active]:text-green-600 data-[state=active]:bg-green-50"
-                    >
-                        Buy
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="sell"
-                        className="data-[state=active]:text-red-600 data-[state=active]:bg-red-50"
-                    >
-                        Sell
-                    </TabsTrigger>
+                    <TabsTrigger value="buy">Buy</TabsTrigger>
+                    <TabsTrigger value="sell">Sell</TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
                     <Card>
