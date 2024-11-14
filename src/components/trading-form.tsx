@@ -12,7 +12,7 @@ export default function TradingForm() {
     const [sellOrderType, setSellOrderType] = useState("market");
 
     return (
-        <div className="w-[400px]">
+        <div>
             <Tabs defaultValue="buy">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="buy">Buy</TabsTrigger>
