@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+import PriceHistoryChart from "@/components/price-history-chart";
 
 export default function Home() {
     return (
         <div>
-            <Button>Hello, world!</Button>
+            <PriceHistoryChart />
         </div>
     );
 }
