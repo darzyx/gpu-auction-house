@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,12 +19,12 @@ export default function TradingForm() {
                     <TabsTrigger value="sell">Sell</TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Buy Order</CardTitle>
-                            <CardDescription>Buy H100 GPU compute time</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
+                    <div>
+                        <div>
+                            <div>Buy Order</div>
+                            <div>Buy H100 GPU compute time</div>
+                        </div>
+                        <div className="space-y-4">
                             <div className="flex justify-center items-center">
                                 <div className="w-full grid grid-cols-2 gap-4">
                                     <Button
@@ -63,19 +62,19 @@ export default function TradingForm() {
                             <Button className="w-full bg-green-700">
                                 Place {buyOrderType === "market" ? "Market" : "Limit"} Buy Order
                             </Button>
-                        </CardContent>
-                        <CardFooter className="text-sm text-muted-foreground">
+                        </div>
+                        <div className="text-sm text-muted-foreground">
                             Orders will be filled when matching offers are available
-                        </CardFooter>
-                    </Card>
+                        </div>
+                    </div>
                 </TabsContent>
                 <TabsContent value="sell">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Sell Order</CardTitle>
-                            <CardDescription>Sell H100 GPU compute time</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
+                    <div>
+                        <div>
+                            <div>Sell Order</div>
+                            <div>Sell H100 GPU compute time</div>
+                        </div>
+                        <div className="space-y-4">
                             <div className="flex justify-center items-center">
                                 <div className="w-full grid grid-cols-2 gap-4">
                                     <Button
@@ -113,11 +112,11 @@ export default function TradingForm() {
                             <Button className="w-full bg-red-700">
                                 Place {sellOrderType === "market" ? "Market" : "Limit"} Sell Order
                             </Button>
-                        </CardContent>
-                        <CardFooter className="text-sm text-muted-foreground">
+                        </div>
+                        <div className="text-sm text-muted-foreground">
                             Orders will be filled when matching offers are available
-                        </CardFooter>
-                    </Card>
+                        </div>
+                    </div>
                 </TabsContent>
             </Tabs>
         </div>
