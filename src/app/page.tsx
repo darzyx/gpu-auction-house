@@ -5,6 +5,7 @@ import TradingForm from "@/components/trading-form";
 export default function Home() {
     return (
         <div className="p-4">
+            <h1 className="mb-4">Trade GPUs</h1>
             <div className="w-full grid grid-cols-2 gap-6 mb-6">
                 <div>
                     <PriceHistory />

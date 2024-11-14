@@ -38,4 +38,8 @@
         @apply bg-background text-foreground;
         font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     }
+
+    h1 {
+        @apply text-4xl font-bold;
+    }
 }
