@@ -19,7 +19,7 @@ export default function Home() {
                 </div>
             </div>
             <Separator />
-            <div className="p-4">
+            <div className="py-4 px-2">
                 <OrderHistory />
             </div>
         </div>

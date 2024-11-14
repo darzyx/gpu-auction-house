@@ -60,36 +60,38 @@ const orders = [
 
 export default function OrderHistory() {
     return (
-        <Table>
-            <TableCaption>Recent H100 GPU orders</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Order Date</TableHead>
-                    <TableHead>Side</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>GPUs</TableHead>
-                    <TableHead>$/GPU/hr</TableHead>
-                    <TableHead>Total Price</TableHead>
-                    <TableHead>Start Date</TableHead>
-                    <TableHead>End Date</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {orders.map((order) => (
-                    <TableRow key={order.orderDate}>
-                        <TableCell>{order.orderDate}</TableCell>
-                        <TableCell>{order.side}</TableCell>
-                        <TableCell>{order.type}</TableCell>
-                        <TableCell>{order.gpus}</TableCell>
-                        <TableCell>{order.pricePerGpu}</TableCell>
-                        <TableCell>{order.totalPrice}</TableCell>
-                        <TableCell>{order.startDate}</TableCell>
-                        <TableCell>{order.endDate}</TableCell>
-                        <TableCell className="text-right">{order.status}</TableCell>
+        <div>
+            <div className="px-2">Order History</div>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Order Date</TableHead>
+                        <TableHead>Side</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead>GPUs</TableHead>
+                        <TableHead>$/GPU/hr</TableHead>
+                        <TableHead>Total Price</TableHead>
+                        <TableHead>Start Date</TableHead>
+                        <TableHead>End Date</TableHead>
+                        <TableHead className="text-right">Status</TableHead>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHeader>
+                <TableBody>
+                    {orders.map((order) => (
+                        <TableRow key={order.orderDate}>
+                            <TableCell>{order.orderDate}</TableCell>
+                            <TableCell>{order.side}</TableCell>
+                            <TableCell>{order.type}</TableCell>
+                            <TableCell>{order.gpus}</TableCell>
+                            <TableCell>{order.pricePerGpu}</TableCell>
+                            <TableCell>{order.totalPrice}</TableCell>
+                            <TableCell>{order.startDate}</TableCell>
+                            <TableCell>{order.endDate}</TableCell>
+                            <TableCell className="text-right">{order.status}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     );
 }
