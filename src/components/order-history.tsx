@@ -54,7 +54,7 @@ const orders = [
         gpus: 1024,
         pricePerGpu: "$1.75",
         totalPrice: "$432,000.00",
-        status: "Pending",
+        status: "Canceled",
     },
 ];
 
