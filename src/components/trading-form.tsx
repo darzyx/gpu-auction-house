@@ -48,9 +48,15 @@ export default function TradingForm() {
                                 <Input id="price" type="number" step="0.01" placeholder="1.20" />
                             </div>
                         )}
-                        <div className="space-y-2">
-                            <Label htmlFor="duration">Duration (hours)</Label>
-                            <Input id="duration" type="number" placeholder="24" />
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="duration">Days</Label>
+                                <Input id="duration" type="number" placeholder="24" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="duration">Hours</Label>
+                                <Input id="duration" type="number" placeholder="24" />
+                            </div>
                         </div>
                         <Button className="w-full bg-green-700 hover:bg-green-600">
                             Place {buyOrderType === "market" ? "Market" : "Limit"} Buy Order
