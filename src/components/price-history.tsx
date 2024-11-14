@@ -1,17 +1,16 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 const chartData = [
     { day: "Sunday", high: 1.3, average: 0.8, low: 0.4 },
-    { day: "Monday", high: 2.1, average: 1.2, low: 0.6 },
-    { day: "Tuesday", high: 1.8, average: 1.0, low: 0.3 },
-    { day: "Wednesday", high: 1.9, average: 1.4, low: 0.8 },
+    { day: "Monday", high: 1.85, average: 1.2, low: 0.6 },
+    { day: "Tuesday", high: 1.75, average: 1.0, low: 0.3 },
+    { day: "Wednesday", high: 1.85, average: 1.4, low: 0.8 },
     { day: "Thursday", high: 1.6, average: 0.9, low: 0.4 },
-    { day: "Friday", high: 2.1, average: 1.3, low: 0.7 },
+    { day: "Friday", high: 1.9, average: 1.3, low: 0.7 },
     { day: "Saturday", high: 1.5, average: 0.95, low: 0.6 },
 ];
 
@@ -23,12 +22,12 @@ const chartConfig = {
 
 export default function PriceHistory() {
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Average Prices</CardTitle>
-                <CardDescription>Dec 12 - Dec 18, 2024</CardDescription>
-            </CardHeader>
-            <CardContent>
+        <div>
+            <div>
+                <div>Average Prices</div>
+                <div>Dec 12 - Dec 18, 2024</div>
+            </div>
+            <div>
                 <ChartContainer config={chartConfig}>
                     <LineChart accessibilityLayer data={chartData} margin={{ left: 12, right: 12 }}>
                         <CartesianGrid vertical={false} />
@@ -66,8 +65,8 @@ export default function PriceHistory() {
                         />
                     </LineChart>
                 </ChartContainer>
-            </CardContent>
-            <CardFooter>
+            </div>
+            <div>
                 <div className="flex w-full items-start gap-2 text-sm">
                     <div className="grid gap-2">
                         <div className="flex items-center gap-2 font-medium leading-none">
@@ -78,7 +77,7 @@ export default function PriceHistory() {
                         </div>
                     </div>
                 </div>
-            </CardFooter>
-        </Card>
+            </div>
+        </div>
     );
 }
