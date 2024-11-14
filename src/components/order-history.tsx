@@ -2,43 +2,58 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 const orders = [
     {
-        datetime: "2024-12-18 14:32",
-        type: "Market",
+        orderDate: "2024-12-18 14:32",
+        startDate: "2024-12-19 00:00",
+        endDate: "2024-12-26 00:00",
         side: "Buy",
-        price: "$1.40",
-        gpus: 64,
+        type: "Market",
+        gpus: 256,
+        pricePerGpu: "$2.40",
+        totalPrice: "$103,219.20",
         status: "Filled",
     },
     {
-        datetime: "2024-12-18 11:15",
-        type: "Limit",
+        orderDate: "2024-12-18 11:15",
+        startDate: "2024-12-20 09:00",
+        endDate: "2024-12-27 09:00",
         side: "Sell",
-        price: "$0.95",
-        gpus: 128,
+        type: "Limit",
+        gpus: 512,
+        pricePerGpu: "$1.95",
+        totalPrice: "$168,979.20",
         status: "Pending",
     },
     {
-        datetime: "2024-12-17 23:45",
-        type: "Limit",
+        orderDate: "2024-12-17 23:45",
+        startDate: "2024-12-18 12:00",
+        endDate: "2024-12-25 12:00",
         side: "Buy",
-        price: "$0.85",
-        gpus: 256,
+        type: "Limit",
+        gpus: 1024,
+        pricePerGpu: "$1.85",
+        totalPrice: "$321,331.20",
         status: "Filled",
     },
     {
-        datetime: "2024-12-17 16:20",
-        type: "Market",
+        orderDate: "2024-12-17 16:20",
+        startDate: "2024-12-18 00:00",
+        endDate: "2024-12-28 00:00",
         side: "Sell",
-        price: "$1.20",
-        gpus: 32,
+        type: "Market",
+        gpus: 768,
+        pricePerGpu: "$2.20",
+        totalPrice: "$405,504.00",
         status: "Filled",
     },
     {
-        datetime: "2024-12-17 09:05",
-        type: "Limit",
+        orderDate: "2024-12-17 09:05",
+        startDate: "2024-12-19 09:00",
+        endDate: "2024-12-29 09:00",
         side: "Buy",
-        price: "$0.75",
-        gpus: 512,
+        type: "Limit",
+        gpus: 1024,
+        pricePerGpu: "$1.75",
+        totalPrice: "$432,000.00",
         status: "Pending",
     },
 ];
@@ -49,22 +64,28 @@ export default function OrderHistory() {
             <TableCaption>Recent H100 GPU orders</TableCaption>
             <TableHeader>
                 <TableRow>
-                    <TableHead>Date/Time</TableHead>
-                    <TableHead>Type</TableHead>
+                    <TableHead>Order Date</TableHead>
                     <TableHead>Side</TableHead>
-                    <TableHead>Price</TableHead>
+                    <TableHead>Type</TableHead>
                     <TableHead>GPUs</TableHead>
+                    <TableHead>$/GPU/hr</TableHead>
+                    <TableHead>Total Price</TableHead>
+                    <TableHead>Start Date</TableHead>
+                    <TableHead>End Date</TableHead>
                     <TableHead className="text-right">Status</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {orders.map((order) => (
-                    <TableRow key={order.datetime}>
-                        <TableCell>{order.datetime}</TableCell>
-                        <TableCell>{order.type}</TableCell>
+                    <TableRow key={order.orderDate}>
+                        <TableCell>{order.orderDate}</TableCell>
                         <TableCell>{order.side}</TableCell>
-                        <TableCell>{order.price}</TableCell>
+                        <TableCell>{order.type}</TableCell>
                         <TableCell>{order.gpus}</TableCell>
+                        <TableCell>{order.pricePerGpu}</TableCell>
+                        <TableCell>{order.totalPrice}</TableCell>
+                        <TableCell>{order.startDate}</TableCell>
+                        <TableCell>{order.endDate}</TableCell>
                         <TableCell className="text-right">{order.status}</TableCell>
                     </TableRow>
                 ))}
