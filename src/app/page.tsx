@@ -1,3 +1,4 @@
+import OrderHistory from "@/components/order-history";
 import PriceHistory from "@/components/price-history";
 import TradingForm from "@/components/trading-form";
 
@@ -12,6 +13,7 @@ export default function Home() {
                     <TradingForm />
                 </div>
             </div>
+            <OrderHistory />
         </div>
     );
 }
