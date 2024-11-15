@@ -148,6 +148,18 @@ const validateFormData = (data: OrderFormData, orderType: OrderType): boolean =>
     return true;
 };
 
+const InfoBox = ({ orderType, isBuy }: { orderType: OrderType; isBuy: boolean }) => (
+    <div className="bg-gray-100 p-4 rounded-md mb-4 text-sm text-gray-600 text-center">
+        {orderType === "limit" ? (
+            "Orders will be filled when matching offers are available"
+        ) : (
+            <>
+                Current market {isBuy ? "ask" : "bid"}: ${isBuy ? "1.15" : "0.95"}/GPU/hour
+            </>
+        )}
+    </div>
+);
+
 const OrderForm = ({
     orderType,
     setOrderType,
@@ -192,17 +204,13 @@ const OrderForm = ({
                     setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
                 />
             </div>
+            <InfoBox orderType={orderType} isBuy={isBuy} />
             <Button
                 disabled={!isValid}
                 className={cn("w-full", isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600")}
             >
                 Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
             </Button>
-            {orderType === "limit" && (
-                <div className="text-sm text-muted-foreground">
-                    Orders will be filled when matching offers are available
-                </div>
-            )}
         </div>
     );
 };
