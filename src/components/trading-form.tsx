@@ -58,41 +58,38 @@ export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivE
 }
 
 export default function TradingForm() {
-    const [buyOrderType, setBuyOrderType] = useState("market");
-    const [sellOrderType, setSellOrderType] = useState("market");
+    const [orderType, setOrderType] = useState("market");
 
     return (
         <div>
             <Tabs defaultValue="buy">
-                <TabsList className="grid w-full grid-cols-2 mb-5">
+                <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="buy">Buy</TabsTrigger>
                     <TabsTrigger value="sell">Sell</TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
                     <div className="space-y-4">
-                        <div className="flex justify-center items-center">
-                            <div className="w-full grid grid-cols-2 gap-4">
-                                <Button
-                                    variant={buyOrderType === "market" ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setBuyOrderType("market")}
+                        <Tabs defaultValue="market">
+                            <TabsList className="inline-flex h-9 items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">
+                                <TabsTrigger
+                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+                                    value="market"
                                 >
                                     Market
-                                </Button>
-                                <Button
-                                    variant={buyOrderType === "limit" ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setBuyOrderType("limit")}
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+                                    value="limit"
                                 >
                                     Limit
-                                </Button>
-                            </div>
-                        </div>
+                                </TabsTrigger>
+                            </TabsList>
+                        </Tabs>
                         <div className="space-y-2">
                             <Label htmlFor="quantity">Quantity (GPUs)</Label>
                             <Input id="quantity" type="number" placeholder="8" />
                         </div>
-                        {buyOrderType === "limit" && (
+                        {orderType === "limit" && (
                             <div className="space-y-2">
                                 <Label htmlFor="price">Max price ($/GPU/hour)</Label>
                                 <Input id="price" type="number" step="0.01" placeholder="1.20" />
@@ -103,7 +100,7 @@ export default function TradingForm() {
                             <DatePickerWithRange />
                         </div>
                         <Button className="w-full bg-green-700 hover:bg-green-600">
-                            Place {buyOrderType === "market" ? "Market" : "Limit"} Buy Order
+                            Place {orderType === "market" ? "Market" : "Limit"} Buy Order
                         </Button>
                     </div>
                     <div className="text-sm text-muted-foreground">
@@ -112,29 +109,27 @@ export default function TradingForm() {
                 </TabsContent>
                 <TabsContent value="sell">
                     <div className="space-y-4">
-                        <div className="flex justify-center items-center">
-                            <div className="w-full grid grid-cols-2 gap-4">
-                                <Button
-                                    variant={sellOrderType === "market" ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setSellOrderType("market")}
+                        <Tabs defaultValue="market">
+                            <TabsList className="inline-flex h-9 items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">
+                                <TabsTrigger
+                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+                                    value="market"
                                 >
                                     Market
-                                </Button>
-                                <Button
-                                    variant={sellOrderType === "limit" ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setSellOrderType("limit")}
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+                                    value="limit"
                                 >
                                     Limit
-                                </Button>
-                            </div>
-                        </div>
+                                </TabsTrigger>
+                            </TabsList>
+                        </Tabs>
                         <div className="space-y-2">
                             <Label htmlFor="sell-quantity">Quantity (GPUs)</Label>
                             <Input id="sell-quantity" type="number" placeholder="8" />
                         </div>
-                        {sellOrderType === "limit" && (
+                        {orderType === "limit" && (
                             <div className="space-y-2">
                                 <Label htmlFor="sell-price">Min price ($/GPU/hour)</Label>
                                 <Input id="sell-price" type="number" step="0.01" placeholder="0.80" />
@@ -145,7 +140,7 @@ export default function TradingForm() {
                             <Input id="sell-duration" type="number" placeholder="24" />
                         </div>
                         <Button className="w-full bg-red-700 hover:bg-red-600">
-                            Place {sellOrderType === "market" ? "Market" : "Limit"} Sell Order
+                            Place {orderType === "market" ? "Market" : "Limit"} Sell Order
                         </Button>
                     </div>
                     <div className="text-sm text-muted-foreground">
