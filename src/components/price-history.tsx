@@ -49,7 +49,7 @@ export default function PriceHistory() {
                             tickMargin={8}
                             tickFormatter={(v: number) => `$${v.toFixed(2)}`}
                         />
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent dollarAmount />} />
                         <Line
                             dataKey="high"
                             type="monotone"
