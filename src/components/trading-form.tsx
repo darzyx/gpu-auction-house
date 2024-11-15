@@ -215,8 +215,12 @@ export default function TradingForm() {
         <div>
             <Tabs value={tradeType} onValueChange={(value) => setTradeType(value as TradeType)}>
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="buy">Buy</TabsTrigger>
-                    <TabsTrigger value="sell">Sell</TabsTrigger>
+                    <TabsTrigger value="buy">
+                        <span className={tradeType === "buy" ? "text-green-600" : ""}>Buy</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="sell">
+                        <span className={tradeType === "sell" ? "text-red-600" : ""}>Sell</span>
+                    </TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
                     <OrderForm orderType={orderType} setOrderType={setOrderType} isBuy={true} />
