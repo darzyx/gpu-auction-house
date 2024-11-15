@@ -2,7 +2,7 @@
 
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts";
 
 const chartData = [
     { day: "Sunday", high: 1.3, average: 0.8, low: 0.4 },
@@ -29,14 +29,25 @@ export default function PriceHistory() {
             </div>
             <div>
                 <ChartContainer config={chartConfig}>
-                    <LineChart accessibilityLayer data={chartData} margin={{ left: 12, right: 12 }}>
+                    <LineChart
+                        accessibilityLayer
+                        data={chartData}
+                        margin={{ left: 40, right: 12, top: 20, bottom: 12 }}
+                        height={300}
+                    >
                         <CartesianGrid vertical={false} />
                         <XAxis
                             dataKey="day"
                             tickLine={false}
                             axisLine={false}
                             tickMargin={8}
-                            tickFormatter={(value) => value.slice(0, 3)}
+                            tickFormatter={(v: string) => v.slice(0, 3)}
+                        />
+                        <YAxis
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={8}
+                            tickFormatter={(v: number) => `$${v.toFixed(2)}`}
                         />
                         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
                         <Line
@@ -46,7 +57,15 @@ export default function PriceHistory() {
                             strokeWidth={2}
                             dot={{ fill: "var(--color-high)" }}
                             activeDot={{ r: 5 }}
-                        />
+                        >
+                            <LabelList
+                                position="top"
+                                offset={12}
+                                className="fill-foreground"
+                                fontSize={12}
+                                formatter={(v: number) => `$${v.toFixed(2)}`}
+                            />
+                        </Line>
                         <Line
                             dataKey="average"
                             type="monotone"
@@ -54,7 +73,15 @@ export default function PriceHistory() {
                             strokeWidth={2}
                             dot={{ fill: "var(--color-average)" }}
                             activeDot={{ r: 5 }}
-                        />
+                        >
+                            <LabelList
+                                position="top"
+                                offset={12}
+                                className="fill-foreground"
+                                fontSize={12}
+                                formatter={(v: number) => `$${v.toFixed(2)}`}
+                            />
+                        </Line>
                         <Line
                             dataKey="low"
                             type="monotone"
@@ -62,7 +89,15 @@ export default function PriceHistory() {
                             strokeWidth={2}
                             dot={{ fill: "var(--color-low)" }}
                             activeDot={{ r: 5 }}
-                        />
+                        >
+                            <LabelList
+                                position="bottom"
+                                offset={12}
+                                className="fill-foreground"
+                                fontSize={12}
+                                formatter={(v: number) => `$${v.toFixed(2)}`}
+                            />
+                        </Line>
                     </LineChart>
                 </ChartContainer>
             </div>
