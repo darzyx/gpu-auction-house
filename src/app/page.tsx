@@ -9,10 +9,7 @@ export default function Home() {
             <h1>Trade</h1>
             <div className="w-full grid grid-cols-[1fr_auto_2fr]">
                 <div>
-                    <div className="p-4">
-                        <div>Inventory</div>
-                        <div>You have $245,073 and 512 GPUs</div>
-                    </div>
+                    <div className="p-4">You have $245,073 and 512 GPUs</div>
                     <Separator />
                     <div className="p-4">
                         <TradingForm />
