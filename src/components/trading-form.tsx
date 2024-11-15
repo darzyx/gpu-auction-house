@@ -13,6 +13,47 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
+type OrderType = "market" | "limit";
+
+const OrderTypeTabs = ({
+    orderType,
+    setOrderType,
+}: {
+    orderType: OrderType;
+    setOrderType: (type: OrderType) => void;
+}) => (
+    <Tabs value={orderType} onValueChange={(value) => setOrderType(value as OrderType)}>
+        <TabsList className="inline-flex h-9 items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">
+            <TabsTrigger
+                className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+                value="market"
+            >
+                Market
+            </TabsTrigger>
+            <TabsTrigger
+                className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+                value="limit"
+            >
+                Limit
+            </TabsTrigger>
+        </TabsList>
+    </Tabs>
+);
+
+const QuantityInput = ({ id = "quantity", label = "Quantity (GPUs)" }) => (
+    <div className="space-y-2">
+        <Label htmlFor={id}>{label}</Label>
+        <Input id={id} type="number" placeholder="8" />
+    </div>
+);
+
+const PriceInput = ({ isBuy }: { isBuy: boolean }) => (
+    <div className="space-y-2">
+        <Label htmlFor={isBuy ? "price" : "sell-price"}>{isBuy ? "Max" : "Min"} price ($/GPU/hour)</Label>
+        <Input id={isBuy ? "price" : "sell-price"} type="number" step="0.01" placeholder={isBuy ? "1.20" : "0.80"} />
+    </div>
+);
+
 export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivElement>) {
     const [date, setDate] = useState<DateRange | undefined>({
         from: new Date(2022, 0, 20),
@@ -57,9 +98,33 @@ export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivE
     );
 }
 
-export default function TradingForm() {
-    const [orderType, setOrderType] = useState("market");
+const OrderForm = ({ isBuy }: { isBuy: boolean }) => {
+    const [orderType, setOrderType] = useState<OrderType>("market");
 
+    return (
+        <div className="space-y-4">
+            <OrderTypeTabs orderType={orderType} setOrderType={setOrderType} />
+            <QuantityInput id={isBuy ? "quantity" : "sell-quantity"} />
+            {orderType === "limit" && <PriceInput isBuy={isBuy} />}
+            <div>
+                <Label htmlFor="date-range">Date Range</Label>
+                <DatePickerWithRange />
+            </div>
+            <Button
+                className={cn("w-full", isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600")}
+            >
+                Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
+            </Button>
+            {orderType === "limit" && (
+                <div className="text-sm text-muted-foreground">
+                    Orders will be filled when matching offers are available
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default function TradingForm() {
     return (
         <div>
             <Tabs defaultValue="buy">
@@ -68,84 +133,10 @@ export default function TradingForm() {
                     <TabsTrigger value="sell">Sell</TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
-                    <div className="space-y-4">
-                        <Tabs defaultValue="market">
-                            <TabsList className="inline-flex h-9 items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">
-                                <TabsTrigger
-                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
-                                    value="market"
-                                >
-                                    Market
-                                </TabsTrigger>
-                                <TabsTrigger
-                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
-                                    value="limit"
-                                >
-                                    Limit
-                                </TabsTrigger>
-                            </TabsList>
-                        </Tabs>
-                        <div className="space-y-2">
-                            <Label htmlFor="quantity">Quantity (GPUs)</Label>
-                            <Input id="quantity" type="number" placeholder="8" />
-                        </div>
-                        {orderType === "limit" && (
-                            <div className="space-y-2">
-                                <Label htmlFor="price">Max price ($/GPU/hour)</Label>
-                                <Input id="price" type="number" step="0.01" placeholder="1.20" />
-                            </div>
-                        )}
-                        <div>
-                            <Label htmlFor="start-date">Start Date</Label>
-                            <DatePickerWithRange />
-                        </div>
-                        <Button className="w-full bg-green-700 hover:bg-green-600">
-                            Place {orderType === "market" ? "Market" : "Limit"} Buy Order
-                        </Button>
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                        Orders will be filled when matching offers are available
-                    </div>
+                    <OrderForm isBuy={true} />
                 </TabsContent>
                 <TabsContent value="sell">
-                    <div className="space-y-4">
-                        <Tabs defaultValue="market">
-                            <TabsList className="inline-flex h-9 items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">
-                                <TabsTrigger
-                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
-                                    value="market"
-                                >
-                                    Market
-                                </TabsTrigger>
-                                <TabsTrigger
-                                    className="inline-flex items-center justify-center whitespace-nowrap py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
-                                    value="limit"
-                                >
-                                    Limit
-                                </TabsTrigger>
-                            </TabsList>
-                        </Tabs>
-                        <div className="space-y-2">
-                            <Label htmlFor="sell-quantity">Quantity (GPUs)</Label>
-                            <Input id="sell-quantity" type="number" placeholder="8" />
-                        </div>
-                        {orderType === "limit" && (
-                            <div className="space-y-2">
-                                <Label htmlFor="sell-price">Min price ($/GPU/hour)</Label>
-                                <Input id="sell-price" type="number" step="0.01" placeholder="0.80" />
-                            </div>
-                        )}
-                        <div className="space-y-2">
-                            <Label htmlFor="sell-duration">Duration (hours)</Label>
-                            <Input id="sell-duration" type="number" placeholder="24" />
-                        </div>
-                        <Button className="w-full bg-red-700 hover:bg-red-600">
-                            Place {orderType === "market" ? "Market" : "Limit"} Sell Order
-                        </Button>
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                        Orders will be filled when matching offers are available
-                    </div>
+                    <OrderForm isBuy={false} />
                 </TabsContent>
             </Tabs>
         </div>
