@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
+type TradeType = "buy" | "sell";
 type OrderType = "market" | "limit";
 
 type OrderFormData = {
@@ -207,11 +208,12 @@ const OrderForm = ({
 };
 
 export default function TradingForm() {
+    const [tradeType, setTradeType] = useState<TradeType>("buy");
     const [orderType, setOrderType] = useState<OrderType>("market");
 
     return (
         <div>
-            <Tabs defaultValue="buy">
+            <Tabs value={tradeType} onValueChange={(value) => setTradeType(value as TradeType)}>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="buy">Buy</TabsTrigger>
                     <TabsTrigger value="sell">Sell</TabsTrigger>
