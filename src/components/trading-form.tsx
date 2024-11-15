@@ -98,9 +98,15 @@ export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivE
     );
 }
 
-const OrderForm = ({ isBuy }: { isBuy: boolean }) => {
-    const [orderType, setOrderType] = useState<OrderType>("market");
-
+const OrderForm = ({
+    orderType,
+    setOrderType,
+    isBuy,
+}: {
+    orderType: OrderType;
+    setOrderType: (type: OrderType) => void;
+    isBuy: boolean;
+}) => {
     return (
         <div className="space-y-4">
             <OrderTypeTabs orderType={orderType} setOrderType={setOrderType} />
@@ -127,6 +133,8 @@ const OrderForm = ({ isBuy }: { isBuy: boolean }) => {
 };
 
 export default function TradingForm() {
+    const [orderType, setOrderType] = useState<OrderType>("market");
+
     return (
         <div>
             <Tabs defaultValue="buy">
@@ -135,10 +143,10 @@ export default function TradingForm() {
                     <TabsTrigger value="sell">Sell</TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
-                    <OrderForm isBuy={true} />
+                    <OrderForm orderType={orderType} setOrderType={setOrderType} isBuy={true} />
                 </TabsContent>
                 <TabsContent value="sell">
-                    <OrderForm isBuy={false} />
+                    <OrderForm orderType={orderType} setOrderType={setOrderType} isBuy={false} />
                 </TabsContent>
             </Tabs>
         </div>
