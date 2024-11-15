@@ -6,10 +6,17 @@ import { Separator } from "@/components/ui/separator";
 export default function Home() {
     return (
         <div className="w-full max-w-6xl p-8 flex flex-col">
+            <h1>Trade</h1>
             <div className="w-full grid grid-cols-[1fr_auto_2fr]">
-                <div className="p-4 flex flex-col gap-4">
-                    <h1>Trade</h1>
-                    <TradingForm />
+                <div>
+                    <div className="p-4">
+                        <div>Inventory</div>
+                        <div>You have $245,073 and 512 GPUs</div>
+                    </div>
+                    <Separator />
+                    <div className="p-4">
+                        <TradingForm />
+                    </div>
                 </div>
                 <div>
                     <Separator orientation="vertical" />
