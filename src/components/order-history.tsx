@@ -1,4 +1,5 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "./ui/button";
 
 const orders = [
     {
@@ -73,7 +74,8 @@ export default function OrderHistory() {
                         <TableHead>Total Price</TableHead>
                         <TableHead>Start Date</TableHead>
                         <TableHead>End Date</TableHead>
-                        <TableHead className="text-right">Status</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">{/* Empty cell for the action buttons below */}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -87,7 +89,14 @@ export default function OrderHistory() {
                             <TableCell>{order.totalPrice}</TableCell>
                             <TableCell>{order.startDate}</TableCell>
                             <TableCell>{order.endDate}</TableCell>
-                            <TableCell className="text-right">{order.status}</TableCell>
+                            <TableCell>{order.status}</TableCell>
+                            <TableCell className="text-right">
+                                {order.status === "Pending" && (
+                                    <Button size="sm" className="p-2 h-6 bg-red-700 hover:bg-red-600">
+                                        Cancel
+                                    </Button>
+                                )}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
