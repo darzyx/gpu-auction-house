@@ -121,10 +121,11 @@ const DatePickerWithRange = ({
                     <Calendar
                         initialFocus
                         mode="range"
-                        defaultMonth={date?.from}
+                        defaultMonth={new Date()}
                         selected={date}
                         onSelect={setDate}
                         numberOfMonths={2}
+                        fromDate={new Date()}
                     />
                 </PopoverContent>
             </Popover>
@@ -159,8 +160,8 @@ const OrderForm = ({
         quantity: "",
         price: "",
         dateRange: {
-            from: new Date(2022, 0, 20),
-            to: addDays(new Date(2022, 0, 20), 20),
+            from: new Date(),
+            to: addDays(new Date(), 20),
         },
     });
 
