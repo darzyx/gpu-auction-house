@@ -15,6 +15,12 @@ import { cn } from "@/lib/utils";
 
 type OrderType = "market" | "limit";
 
+type OrderFormData = {
+    quantity: string;
+    price: string;
+    dateRange: DateRange | undefined;
+};
+
 const OrderTypeTabs = ({
     orderType,
     setOrderType,
@@ -40,26 +46,54 @@ const OrderTypeTabs = ({
     </Tabs>
 );
 
-const QuantityInput = ({ id = "quantity", label = "Quantity (GPUs)" }) => (
+const QuantityInput = ({
+    id = "quantity",
+    label = "Quantity (GPUs)",
+    value,
+    onChange,
+}: {
+    id?: string;
+    label?: string;
+    value: string;
+    onChange: (value: string) => void;
+}) => (
     <div className="space-y-2">
         <Label htmlFor={id}>{label}</Label>
-        <Input id={id} type="number" placeholder="8" />
+        <Input id={id} type="number" placeholder="8" value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
 );
 
-const PriceInput = ({ isBuy }: { isBuy: boolean }) => (
+const PriceInput = ({
+    isBuy,
+    value,
+    onChange,
+}: {
+    isBuy: boolean;
+    value: string;
+    onChange: (value: string) => void;
+}) => (
     <div className="space-y-2">
         <Label htmlFor={isBuy ? "price" : "sell-price"}>{isBuy ? "Max" : "Min"} price ($/GPU/hour)</Label>
-        <Input id={isBuy ? "price" : "sell-price"} type="number" step="0.01" placeholder={isBuy ? "1.20" : "0.80"} />
+        <Input
+            id={isBuy ? "price" : "sell-price"}
+            type="number"
+            step="0.01"
+            placeholder={isBuy ? "1.20" : "0.80"}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+        />
     </div>
 );
 
-export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivElement>) {
-    const [date, setDate] = useState<DateRange | undefined>({
-        from: new Date(2022, 0, 20),
-        to: addDays(new Date(2022, 0, 20), 20),
-    });
-
+const DatePickerWithRange = ({
+    date,
+    setDate,
+    className,
+}: {
+    date: DateRange | undefined;
+    setDate: (date: DateRange | undefined) => void;
+    className?: string;
+}) => {
     return (
         <div className={cn("w-full grid gap-2", className)}>
             <Popover>
@@ -96,7 +130,21 @@ export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivE
             </Popover>
         </div>
     );
-}
+};
+
+const validateFormData = (data: OrderFormData, orderType: OrderType): boolean => {
+    const quantity = parseFloat(data.quantity);
+    if (!quantity || quantity <= 0) return false;
+
+    if (orderType === "limit") {
+        const price = parseFloat(data.price);
+        if (!price || price <= 0) return false;
+    }
+
+    if (!data.dateRange?.from || !data.dateRange?.to) return false;
+
+    return true;
+};
 
 const OrderForm = ({
     orderType,
@@ -107,18 +155,43 @@ const OrderForm = ({
     setOrderType: (type: OrderType) => void;
     isBuy: boolean;
 }) => {
+    const [formData, setFormData] = useState<OrderFormData>({
+        quantity: "",
+        price: "",
+        dateRange: {
+            from: new Date(2022, 0, 20),
+            to: addDays(new Date(2022, 0, 20), 20),
+        },
+    });
+
+    const isValid = validateFormData(formData, orderType);
+
     return (
         <div className="space-y-4">
             <OrderTypeTabs orderType={orderType} setOrderType={setOrderType} />
             <div className={cn(orderType === "limit" ? "grid grid-cols-2 gap-4" : "")}>
-                <QuantityInput id={isBuy ? "quantity" : "sell-quantity"} />
-                {orderType === "limit" && <PriceInput isBuy={isBuy} />}
+                <QuantityInput
+                    id={isBuy ? "quantity" : "sell-quantity"}
+                    value={formData.quantity}
+                    onChange={(value) => setFormData((prev) => ({ ...prev, quantity: value }))}
+                />
+                {orderType === "limit" && (
+                    <PriceInput
+                        isBuy={isBuy}
+                        value={formData.price}
+                        onChange={(value) => setFormData((prev) => ({ ...prev, price: value }))}
+                    />
+                )}
             </div>
             <div>
                 <Label htmlFor="date-range">Date Range</Label>
-                <DatePickerWithRange />
+                <DatePickerWithRange
+                    date={formData.dateRange}
+                    setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
+                />
             </div>
             <Button
+                disabled={!isValid}
                 className={cn("w-full", isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600")}
             >
                 Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
