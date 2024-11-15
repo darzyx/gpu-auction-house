@@ -1,8 +1,9 @@
 "use client";
 
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
+import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,24 +13,47 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
-function DatePicker() {
-    const [date, setDate] = useState<Date>();
+export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivElement>) {
+    const [date, setDate] = useState<DateRange | undefined>({
+        from: new Date(2022, 0, 20),
+        to: addDays(new Date(2022, 0, 20), 20),
+    });
 
     return (
-        <Popover>
-            <PopoverTrigger asChild>
-                <Button
-                    variant={"outline"}
-                    className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
-                >
-                    <CalendarIcon />
-                    {date ? format(date, "PPP") : <span>Pick a start date</span>}
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-                <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-            </PopoverContent>
-        </Popover>
+        <div className={cn("w-full grid gap-2", className)}>
+            <Popover>
+                <PopoverTrigger asChild>
+                    <Button
+                        id="date"
+                        variant={"outline"}
+                        className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                    >
+                        <CalendarIcon />
+                        {date?.from ? (
+                            date.to ? (
+                                <>
+                                    {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+                                </>
+                            ) : (
+                                format(date.from, "LLL dd, y")
+                            )
+                        ) : (
+                            <span>Pick a date</span>
+                        )}
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                        initialFocus
+                        mode="range"
+                        defaultMonth={date?.from}
+                        selected={date}
+                        onSelect={setDate}
+                        numberOfMonths={2}
+                    />
+                </PopoverContent>
+            </Popover>
+        </div>
     );
 }
 
@@ -74,19 +98,9 @@ export default function TradingForm() {
                                 <Input id="price" type="number" step="0.01" placeholder="1.20" />
                             </div>
                         )}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="duration">Days</Label>
-                                <Input id="duration" type="number" placeholder="24" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="duration">Hours</Label>
-                                <Input id="duration" type="number" placeholder="24" />
-                            </div>
-                        </div>
                         <div>
                             <Label htmlFor="start-date">Start Date</Label>
-                            <DatePicker />
+                            <DatePickerWithRange />
                         </div>
                         <Button className="w-full bg-green-700 hover:bg-green-600">
                             Place {buyOrderType === "market" ? "Market" : "Limit"} Buy Order
