@@ -1,11 +1,37 @@
 "use client";
 
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+
+function DatePicker() {
+    const [date, setDate] = useState<Date>();
+
+    return (
+        <Popover>
+            <PopoverTrigger asChild>
+                <Button
+                    variant={"outline"}
+                    className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                >
+                    <CalendarIcon />
+                    {date ? format(date, "PPP") : <span>Pick a start date</span>}
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+                <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+            </PopoverContent>
+        </Popover>
+    );
+}
 
 export default function TradingForm() {
     const [buyOrderType, setBuyOrderType] = useState("market");
@@ -57,6 +83,10 @@ export default function TradingForm() {
                                 <Label htmlFor="duration">Hours</Label>
                                 <Input id="duration" type="number" placeholder="24" />
                             </div>
+                        </div>
+                        <div>
+                            <Label htmlFor="start-date">Start Date</Label>
+                            <DatePicker />
                         </div>
                         <Button className="w-full bg-green-700 hover:bg-green-600">
                             Place {buyOrderType === "market" ? "Market" : "Limit"} Buy Order
