@@ -6,9 +6,9 @@ import { Separator } from "@/components/ui/separator";
 export default function Home() {
     return (
         <div className="p-8 flex flex-col">
-            <h1>Trade GPUs</h1>
             <div className="w-full grid grid-cols-[2fr_auto_3fr]">
-                <div className="p-4">
+                <div className="p-4 flex flex-col gap-4">
+                    <h1>Trade GPUs</h1>
                     <TradingForm />
                 </div>
                 <div>
