@@ -104,8 +104,10 @@ const OrderForm = ({ isBuy }: { isBuy: boolean }) => {
     return (
         <div className="space-y-4">
             <OrderTypeTabs orderType={orderType} setOrderType={setOrderType} />
-            <QuantityInput id={isBuy ? "quantity" : "sell-quantity"} />
-            {orderType === "limit" && <PriceInput isBuy={isBuy} />}
+            <div className={cn(orderType === "limit" ? "grid grid-cols-2 gap-4" : "")}>
+                <QuantityInput id={isBuy ? "quantity" : "sell-quantity"} />
+                {orderType === "limit" && <PriceInput isBuy={isBuy} />}
+            </div>
             <div>
                 <Label htmlFor="date-range">Date Range</Label>
                 <DatePickerWithRange />
