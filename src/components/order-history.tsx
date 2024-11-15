@@ -92,7 +92,11 @@ export default function OrderHistory() {
                             <TableCell>{order.status}</TableCell>
                             <TableCell className="text-right">
                                 {order.status === "Pending" && (
-                                    <Button size="sm" className="p-2 h-6 bg-red-700 hover:bg-red-600">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="p-2 h-6 bg-zinc-100 hover:bg-red-600 hover:border-red-700 hover:text-white"
+                                    >
                                         Cancel
                                     </Button>
                                 )}

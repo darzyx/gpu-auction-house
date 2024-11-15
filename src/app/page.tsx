@@ -7,15 +7,15 @@ export default function Home() {
     return (
         <div className="p-8 flex flex-col">
             <h1>Trade GPUs</h1>
-            <div className="w-full grid grid-cols-[1fr_auto_1fr]">
+            <div className="w-full grid grid-cols-[2fr_auto_3fr]">
                 <div className="p-4">
-                    <PriceHistory />
+                    <TradingForm />
                 </div>
                 <div>
                     <Separator orientation="vertical" />
                 </div>
                 <div className="p-4">
-                    <TradingForm />
+                    <PriceHistory />
                 </div>
             </div>
             <Separator />
