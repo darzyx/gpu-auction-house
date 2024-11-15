@@ -95,7 +95,7 @@ const DatePickerWithRange = ({
     className?: string;
 }) => {
     return (
-        <div className={cn("w-full grid gap-2", className)}>
+        <div className={cn("w-full grid gap-2 mt-2", className)}>
             <Popover>
                 <PopoverTrigger asChild>
                     <Button
