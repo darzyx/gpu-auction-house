@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 
 import "./globals.css";
+
+const geistSans = localFont({
+    src: "./fonts/GeistVF.woff",
+    variable: "--font-geist-sans",
+    weight: "100 900",
+});
 
 export const metadata: Metadata = {
     title: "GPU Auction House",
@@ -14,7 +21,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="min-h-screen">
-            <body className="flex min-h-screen w-full justify-center">{children}</body>
+            <body className={geistSans.variable + " antialiased flex min-h-screen w-full justify-center"}>
+                {children}
+            </body>
         </html>
     );
 }
