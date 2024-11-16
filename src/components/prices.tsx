@@ -7,10 +7,10 @@ import { Separator } from "./ui/separator";
 
 const chartData = [
     { day: "Sunday", high: 1.8, average: 1.32, low: 0.87 },
-    { day: "Monday", high: 1.43, average: 0.86, low: 0.42 },
-    { day: "Tuesday", high: 2.07, average: 1.42, low: 0.82 },
+    { day: "Monday", high: 1.33, average: 0.76, low: 0.32 },
+    { day: "Tuesday", high: 2.05, average: 1.42, low: 0.82 },
     { day: "Wednesday", high: 1.97, average: 1.22, low: 0.52 },
-    { day: "Thursday", high: 2.07, average: 1.62, low: 1.02 },
+    { day: "Thursday", high: 2.06, average: 1.62, low: 1.02 },
     { day: "Friday", high: 1.67, average: 1.22, low: 0.61 },
     { day: "Saturday", high: 1.94, average: 1.37, low: 0.87 },
 ];
@@ -38,7 +38,7 @@ export default function Prices() {
                 </div>
                 <div className="flex flex-col text-xs">
                     <div className="text-muted-foreground leading-none uppercase">Availability</div>
-                    <h2 className="font-berkeley-mono">3258 GPUs</h2>
+                    <h2 className="font-berkeley-mono">12,958 GPUs</h2>
                 </div>
             </div>
             <div>
