@@ -10,7 +10,7 @@ export default function Home() {
                 <div>
                     <div className="p-4">
                         <h2 className="text-lg font-georgia px-2">
-                            You have $245,073 in your account, and you're using 512 GPUs.
+                            You have $245,073 in your account, and you&apos;re using 512 GPUs.
                         </h2>
                     </div>
                     <Separator />
