@@ -23,12 +23,9 @@ const chartConfig = {
 export default function PriceHistory() {
     return (
         <div>
+            <h2 className="text-lg font-georgia">Average Prices</h2>
             <div>
-                <div>Average Prices</div>
-                <div>Dec 12 - Dec 18, 2024</div>
-            </div>
-            <div>
-                <ChartContainer config={chartConfig}>
+                <ChartContainer config={chartConfig} className="font-berkeley-mono">
                     <LineChart
                         accessibilityLayer
                         data={chartData}
@@ -49,7 +46,7 @@ export default function PriceHistory() {
                             tickMargin={8}
                             tickFormatter={(v: number) => `$${v.toFixed(2)}`}
                         />
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent dollarAmount />} />
+                        <ChartTooltip cursor={true} content={<ChartTooltipContent dollarAmount />} />
                         <Line
                             dataKey="high"
                             type="monotone"
@@ -101,16 +98,10 @@ export default function PriceHistory() {
                     </LineChart>
                 </ChartContainer>
             </div>
-            <div>
-                <div className="flex w-full items-start gap-2 text-sm">
-                    <div className="grid gap-2">
-                        <div className="flex items-center gap-2 font-medium leading-none">
-                            Average price up $0.15 from Sunday <TrendingUp className="h-4 w-4" />
-                        </div>
-                        <div className="flex items-center gap-2 leading-none text-muted-foreground">
-                            Showing cost/GPU/hour for the past week
-                        </div>
-                    </div>
+            <div className="flex justify-between items-center text-muted-foreground font-medium text-sm leading-none">
+                <div>Dec 12 - Dec 18, 2024</div>
+                <div className="flex items-center gap-2">
+                    Today's price up $0.15 from Sunday <TrendingUp className="h-4 w-4" />
                 </div>
             </div>
         </div>
