@@ -35,21 +35,18 @@
         @apply border-border;
     }
     body {
-        @apply bg-background text-foreground font-[family-name:var(--font-geist-sans)];
-        /* @apply font-berkeley-mono; */
+        @apply bg-background text-foreground font-geist-sans;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        @apply text-4xl font-bold;
+    .font-georgia {
         font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     }
 
     .font-berkeley-mono {
         font-family: "Berkeley Mono", monospace;
+    }
+
+    .font-geist-sans {
+        font-family: "Geist Sans", sans-serif;
     }
 }
