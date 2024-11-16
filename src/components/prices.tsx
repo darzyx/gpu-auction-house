@@ -7,9 +7,9 @@ import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "rechart
 const chartData = [
     { day: "Sunday", high: 1.8, average: 1.32, low: 0.87 },
     { day: "Monday", high: 1.33, average: 0.76, low: 0.32 },
-    { day: "Tuesday", high: 2.05, average: 1.42, low: 0.82 },
+    { day: "Tuesday", high: 2.04, average: 1.42, low: 0.82 },
     { day: "Wednesday", high: 1.97, average: 1.22, low: 0.52 },
-    { day: "Thursday", high: 2.06, average: 1.62, low: 1.02 },
+    { day: "Thursday", high: 2.05, average: 1.52, low: 1.02 },
     { day: "Friday", high: 1.67, average: 1.22, low: 0.61 },
     { day: "Saturday", high: 1.94, average: 1.37, low: 0.87 },
 ];
@@ -23,7 +23,7 @@ const chartConfig = {
 export default function Prices() {
     return (
         <div className="flex flex-col justify-between gap-4">
-            <div className="grid grid-cols-[auto_1fr_auto_auto] items-end gap-8">
+            <div className="grid grid-cols-[auto_1fr_auto_auto] items-end gap-4">
                 <div className="flex flex-col">
                     <h2 className="text-lg font-georgia">Average Prices</h2>
                     <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
@@ -31,11 +31,11 @@ export default function Prices() {
                     </div>
                 </div>
                 <div />
-                <div className="flex flex-col text-xs">
+                <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
                     <div className="text-muted-foreground leading-none uppercase">Last Price</div>
                     <h2 className="font-berkeley-mono">$1.37/GPU/hour</h2>
                 </div>
-                <div className="flex flex-col text-xs">
+                <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
                     <div className="text-muted-foreground leading-none uppercase">Availability</div>
                     <h2 className="font-berkeley-mono">12,958 GPUs</h2>
                 </div>
