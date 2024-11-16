@@ -21,6 +21,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="min-h-screen">
+            <head>
+                <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>" />
+            </head>
             <body className={geistSans.variable + " antialiased flex min-h-screen w-full justify-center"}>
                 {children}
             </body>
