@@ -59,10 +59,10 @@ const orders = [
     },
 ];
 
-export default function OrderHistory() {
+export default function Orders() {
     return (
         <div>
-            <h2 className="text-lg font-georgia px-2">Order History</h2>
+            <h2 className="text-lg font-georgia px-2">Orders</h2>
             <Table>
                 <TableHeader>
                     <TableRow>

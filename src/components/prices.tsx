@@ -20,7 +20,7 @@ const chartConfig = {
     low: { label: "Low", color: "hsl(var(--chart-3))" },
 } satisfies ChartConfig;
 
-export default function PriceHistory() {
+export default function Prices() {
     return (
         <div>
             <h2 className="text-lg font-georgia">Average Prices</h2>

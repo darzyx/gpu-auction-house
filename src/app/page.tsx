@@ -1,5 +1,5 @@
-import OrderHistory from "@/components/order-history";
-import PriceHistory from "@/components/price-history";
+import Orders from "@/components/orders";
+import Prices from "@/components/prices";
 import TradingForm from "@/components/trading-form";
 import { Separator } from "@/components/ui/separator";
 
@@ -22,12 +22,12 @@ export default function Home() {
                     <Separator orientation="vertical" />
                 </div>
                 <div className="p-4">
-                    <PriceHistory />
+                    <Prices />
                 </div>
             </div>
             <Separator />
             <div className="py-4 px-2">
-                <OrderHistory />
+                <Orders />
             </div>
         </div>
     );
