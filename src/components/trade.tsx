@@ -215,7 +215,7 @@ const OrderForm = ({
     );
 };
 
-export default function TradingForm() {
+export default function Trade() {
     const [tradeType, setTradeType] = useState<TradeType>("buy");
     const [orderType, setOrderType] = useState<OrderType>("market");
 

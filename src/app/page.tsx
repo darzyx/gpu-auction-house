@@ -1,6 +1,6 @@
 import Orders from "@/components/orders";
 import Prices from "@/components/prices";
-import TradingForm from "@/components/trading-form";
+import Trade from "@/components/trade";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
                     </div>
                     <Separator />
                     <div className="p-4">
-                        <TradingForm />
+                        <Trade />
                     </div>
                 </div>
                 <div>
