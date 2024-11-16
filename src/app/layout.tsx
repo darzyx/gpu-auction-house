@@ -10,7 +10,7 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "GPU Auction House",
+    title: "SF Compute / Trade",
     description: "Buy and sell GPUs",
 };
 
