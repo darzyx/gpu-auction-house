@@ -5,13 +5,13 @@ import { TrendingUp } from "lucide-react";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts";
 
 const chartData = [
-    { day: "Sunday", high: 1.3, average: 0.8, low: 0.4 },
-    { day: "Monday", high: 1.85, average: 1.2, low: 0.6 },
-    { day: "Tuesday", high: 1.75, average: 1.0, low: 0.3 },
-    { day: "Wednesday", high: 1.85, average: 1.4, low: 0.8 },
-    { day: "Thursday", high: 1.6, average: 0.9, low: 0.4 },
-    { day: "Friday", high: 1.9, average: 1.3, low: 0.7 },
-    { day: "Saturday", high: 1.5, average: 0.95, low: 0.6 },
+    { day: "Sunday", high: 1.68, average: 1.2, low: 0.75 },
+    { day: "Monday", high: 1.41, average: 0.84, low: 0.4 },
+    { day: "Tuesday", high: 1.85, average: 1.2, low: 0.6 },
+    { day: "Wednesday", high: 1.75, average: 1.0, low: 0.3 },
+    { day: "Thursday", high: 1.85, average: 1.4, low: 0.8 },
+    { day: "Friday", high: 1.45, average: 1, low: 0.39 },
+    { day: "Saturday", high: 1.72, average: 1.15, low: 0.65 },
 ];
 
 const chartConfig = {
@@ -101,7 +101,7 @@ export default function PriceHistory() {
             <div className="flex justify-between items-center text-muted-foreground font-medium text-sm leading-none">
                 <div>Dec 12 - Dec 18, 2024</div>
                 <div className="flex items-center gap-2">
-                    Today's price up $0.15 from Sunday <TrendingUp className="h-4 w-4" />
+                    Average up $0.15 from yesterday <TrendingUp className="h-4 w-4" />
                 </div>
             </div>
         </div>
