@@ -3,9 +3,9 @@ import { Button } from "./ui/button";
 
 const orders = [
     {
-        orderDate: "2024-12-18 14:32",
-        startDate: "2024-12-19 00:00",
-        endDate: "2024-12-26 00:00",
+        orderDate: "12/18/24 14:07:36",
+        startDate: "12/19/24 00:07:36",
+        endDate: "12/26/24 00:07:36",
         side: "Buy",
         type: "Market",
         gpus: 256,
@@ -14,9 +14,9 @@ const orders = [
         status: "Filled",
     },
     {
-        orderDate: "2024-12-18 11:15",
-        startDate: "2024-12-20 09:00",
-        endDate: "2024-12-27 09:00",
+        orderDate: "12/18/24 11:07:36",
+        startDate: "12/20/24 09:07:36",
+        endDate: "12/27/24 09:07:36",
         side: "Sell",
         type: "Limit",
         gpus: 512,
@@ -25,9 +25,9 @@ const orders = [
         status: "Pending",
     },
     {
-        orderDate: "2024-12-17 23:45",
-        startDate: "2024-12-18 12:00",
-        endDate: "2024-12-25 12:00",
+        orderDate: "12/17/24 23:07:36",
+        startDate: "12/18/24 12:07:36",
+        endDate: "12/25/24 12:07:36",
         side: "Buy",
         type: "Limit",
         gpus: 1024,
@@ -36,9 +36,9 @@ const orders = [
         status: "Filled",
     },
     {
-        orderDate: "2024-12-17 16:20",
-        startDate: "2024-12-18 00:00",
-        endDate: "2024-12-28 00:00",
+        orderDate: "12/17/24 16:07:36",
+        startDate: "12/18/24 00:07:36",
+        endDate: "12/28/24 00:07:36",
         side: "Sell",
         type: "Market",
         gpus: 768,
@@ -47,9 +47,9 @@ const orders = [
         status: "Filled",
     },
     {
-        orderDate: "2024-12-17 09:05",
-        startDate: "2024-12-19 09:00",
-        endDate: "2024-12-29 09:00",
+        orderDate: "12/17/24 09:07:36",
+        startDate: "12/19/24 09:07:36",
+        endDate: "12/29/24 09:07:36",
         side: "Buy",
         type: "Limit",
         gpus: 1024,
@@ -69,9 +69,9 @@ export default function OrderHistory() {
                         <TableHead className="font-berkeley-mono">Order Date</TableHead>
                         <TableHead className="font-berkeley-mono">Side</TableHead>
                         <TableHead className="font-berkeley-mono">Type</TableHead>
-                        <TableHead className="font-berkeley-mono">GPUs</TableHead>
+                        <TableHead className="font-berkeley-mono">Amount</TableHead>
                         <TableHead className="font-berkeley-mono">$/GPU/hr</TableHead>
-                        <TableHead className="font-berkeley-mono">Total Price</TableHead>
+                        <TableHead className="font-berkeley-mono">Total</TableHead>
                         <TableHead className="font-berkeley-mono">Start Date</TableHead>
                         <TableHead className="font-berkeley-mono">End Date</TableHead>
                         <TableHead className="font-berkeley-mono">Status</TableHead>
