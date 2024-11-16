@@ -89,7 +89,17 @@ export default function OrderHistory() {
                             <TableCell>{order.totalPrice}</TableCell>
                             <TableCell>{order.startDate}</TableCell>
                             <TableCell>{order.endDate}</TableCell>
-                            <TableCell>{order.status}</TableCell>
+                            <TableCell
+                                className={
+                                    order.status === "Filled"
+                                        ? "text-green-600"
+                                        : order.status === "Pending"
+                                        ? "text-yellow-600"
+                                        : "text-red-600"
+                                }
+                            >
+                                {order.status}
+                            </TableCell>
                             <TableCell className="text-right">
                                 {order.status === "Pending" && (
                                     <Button
