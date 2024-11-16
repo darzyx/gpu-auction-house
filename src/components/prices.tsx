@@ -1,9 +1,10 @@
 "use client";
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts";
+
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartData = [
     { day: "Sunday", high: 1.8, average: 1.32, low: 0.87 },
