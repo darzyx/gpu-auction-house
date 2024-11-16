@@ -1,7 +1,7 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 
 type TOrdersProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
@@ -9,7 +9,12 @@ type TOrdersProps<TData, TValue> = {
 };
 
 export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TData, TValue>) {
-    const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() });
+    const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+    });
 
     return (
         <div>
