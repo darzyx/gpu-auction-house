@@ -2,6 +2,7 @@
 
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ArrowRight, TrendingUp } from "lucide-react";
+import Link from "next/link";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts";
 
 const chartData = [
@@ -118,9 +119,10 @@ export default function Prices() {
                 <div className="flex items-center gap-2">
                     Average up $0.15 from yesterday <TrendingUp className="h-4 w-4" />
                 </div>
-                <div className="flex items-center gap-2">
-                    Learn how the market works <ArrowRight className="h-4 w-4" />
-                </div>
+                <Link href="/" className="group flex items-center gap-1 hover:underline">
+                    Learn how the market works{" "}
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
             </div>
         </div>
     );
