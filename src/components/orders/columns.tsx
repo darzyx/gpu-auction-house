@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 
 export type TOrder = {
     id: number;
@@ -56,7 +56,11 @@ const ordersColumns: ColumnDef<TOrder>[] = [
                     className="p-0 hover:bg-transparent"
                 >
                     Total
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                    {column.getIsSorted() === "asc" ? (
+                        <ArrowUp className="ml-2 h-4 w-4" />
+                    ) : (
+                        <ArrowDown className="ml-2 h-4 w-4" />
+                    )}
                 </Button>
             );
         },
