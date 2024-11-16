@@ -151,10 +151,10 @@ const validateFormData = (data: OrderFormData, orderType: OrderType): boolean =>
 const InfoBox = ({ orderType, isBuy }: { orderType: OrderType; isBuy: boolean }) => (
     <div className="bg-gray-100 p-4 rounded-md mb-4 text-sm text-gray-600 text-center">
         {orderType === "limit" ? (
-            "Orders will be filled when matching offers are available"
+            "Your order will be filled when a matching offer becomes available."
         ) : (
             <>
-                Current market {isBuy ? "ask" : "bid"}: ${isBuy ? "1.15" : "0.95"}/GPU/hour
+                You {isBuy ? "pay" : "get"}: ${isBuy ? "1.15" : "0.95"}/GPU/hour
             </>
         )}
     </div>

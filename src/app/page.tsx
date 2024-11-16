@@ -8,7 +8,11 @@ export default function Home() {
         <div className="w-full max-w-6xl p-8 flex flex-col">
             <div className="w-full grid grid-cols-[1fr_auto_2fr]">
                 <div>
-                    <div className="p-4">You have $245,073 and 512 GPUs</div>
+                    <div className="p-4">
+                        <h2 className="text-lg font-georgia px-2">
+                            You have $245,073 in your account, and you're using 512 GPUs.
+                        </h2>
+                    </div>
                     <Separator />
                     <div className="p-4">
                         <TradingForm />

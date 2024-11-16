@@ -62,19 +62,19 @@ const orders = [
 export default function OrderHistory() {
     return (
         <div>
-            <div className="px-2">Order History</div>
+            <h2 className="text-lg font-georgia px-2">Order History</h2>
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Order Date</TableHead>
-                        <TableHead>Side</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>GPUs</TableHead>
-                        <TableHead>$/GPU/hr</TableHead>
-                        <TableHead>Total Price</TableHead>
-                        <TableHead>Start Date</TableHead>
-                        <TableHead>End Date</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead className="font-berkeley-mono">Order Date</TableHead>
+                        <TableHead className="font-berkeley-mono">Side</TableHead>
+                        <TableHead className="font-berkeley-mono">Type</TableHead>
+                        <TableHead className="font-berkeley-mono">GPUs</TableHead>
+                        <TableHead className="font-berkeley-mono">$/GPU/hr</TableHead>
+                        <TableHead className="font-berkeley-mono">Total Price</TableHead>
+                        <TableHead className="font-berkeley-mono">Start Date</TableHead>
+                        <TableHead className="font-berkeley-mono">End Date</TableHead>
+                        <TableHead className="font-berkeley-mono">Status</TableHead>
                         <TableHead className="text-right">{/* Empty cell for the action buttons below */}</TableHead>
                     </TableRow>
                 </TableHeader>
