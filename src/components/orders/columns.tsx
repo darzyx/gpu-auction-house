@@ -51,24 +51,26 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: () => <div className="text-right">Status</div>,
         cell: ({ row }) => {
             const v = row.getValue("status") as string;
             const color = v === "Filled" ? "text-green-600" : v === "Pending" ? "text-yellow-600" : "text-red-600";
-            return <div className={color}>{v}</div>;
+            return <div className={color + " text-right"}>{v}</div>;
         },
     },
     {
         id: "actions",
         cell: ({ row: { original } }) => {
             return original.status === "Pending" ? (
-                <Button
-                    variant="outline"
-                    size="sm"
-                    className="p-2 h-6 bg-zinc-100 hover:bg-red-500 hover:border-red-600 hover:text-white"
-                >
-                    Cancel
-                </Button>
+                <div className="flex justify-end">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="p-2 h-6 bg-zinc-100 hover:bg-red-500 hover:border-red-600 hover:text-white"
+                    >
+                        Cancel
+                    </Button>
+                </div>
             ) : null;
         },
     },
