@@ -32,7 +32,7 @@ export default function PriceHistory() {
                     <LineChart
                         accessibilityLayer
                         data={chartData}
-                        margin={{ left: 40, right: 12, top: 20, bottom: 12 }}
+                        margin={{ left: -10, right: 20, top: 20, bottom: 20 }}
                         height={300}
                     >
                         <CartesianGrid vertical={false} />
