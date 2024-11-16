@@ -95,7 +95,7 @@ export default function OrderHistory() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="p-2 h-6 bg-zinc-100 hover:bg-red-600 hover:border-red-700 hover:text-white"
+                                        className="p-2 h-6 bg-zinc-100 hover:bg-red-500 hover:border-red-600 hover:text-white"
                                     >
                                         Cancel
                                     </Button>
