@@ -3,7 +3,6 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts";
-import { Separator } from "./ui/separator";
 
 const chartData = [
     { day: "Sunday", high: 1.8, average: 1.32, low: 0.87 },
@@ -33,7 +32,7 @@ export default function Prices() {
                 </div>
                 <div />
                 <div className="flex flex-col text-xs">
-                    <div className="text-muted-foreground leading-none uppercase">Last Average</div>
+                    <div className="text-muted-foreground leading-none uppercase">Last Price</div>
                     <h2 className="font-berkeley-mono">$1.37/GPU/hour</h2>
                 </div>
                 <div className="flex flex-col text-xs">
