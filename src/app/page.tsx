@@ -1,4 +1,6 @@
 import Orders from "@/components/orders";
+import ordersColumns from "@/components/orders/columns";
+import ordersData from "@/components/orders/data";
 import Prices from "@/components/prices";
 import Trade from "@/components/trade";
 import { Separator } from "@/components/ui/separator";
@@ -27,7 +29,7 @@ export default function Home() {
             </div>
             <Separator />
             <div className="py-4 px-2">
-                <Orders />
+                <Orders data={ordersData} columns={ordersColumns} />
             </div>
         </div>
     );
