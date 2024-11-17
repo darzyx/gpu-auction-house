@@ -18,7 +18,7 @@ type TOrdersProps<TData, TValue> = {
 };
 
 export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TData, TValue>) {
-    const [sorting, setSorting] = useState<SortingState>([{ id: "orderDate", desc: false }]);
+    const [sorting, setSorting] = useState<SortingState>([{ id: "orderDate", desc: true }]);
     console.log({ sorting });
 
     const table = useReactTable({
