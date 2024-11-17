@@ -62,9 +62,9 @@ export default function DateRangePicker({
                         />
                         <div className="flex justify-center">
                             <PopoverClose>
-                                <Button variant="outline" className="h-8 -mt-2 mb-2 min-w-36">
+                                <div className="h-8 border rounded-md p-2 text-xs -mt-2 mb-2 min-w-36 hover:bg-muted">
                                     Done
-                                </Button>
+                                </div>
                             </PopoverClose>
                         </div>
                     </PopoverContent>
