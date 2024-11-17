@@ -156,6 +156,33 @@ const DatePickerWithRange = ({
     );
 };
 
+const DatesFlexibility = ({
+    id = "dates_flexibility",
+    label = "DATES FLEXIBILITY (days)",
+    placeholder = "0",
+    value,
+    onChange,
+}: {
+    id?: string;
+    label?: string;
+    placeholder?: string;
+    value: string;
+    onChange: (value: string) => void;
+}) => (
+    <div className="space-y-1">
+        <Label htmlFor={id} className="text-xs">
+            {label}
+        </Label>
+        <Input
+            id={id}
+            type="number"
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+        />
+    </div>
+);
+
 const TotalInfo = () => {
     return (
         <div className="flex justify-between text-sm">
@@ -227,6 +254,11 @@ const OrderForm = ({
             <DatePickerWithRange
                 date={formData.dateRange}
                 setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
+            />
+            <DatesFlexibility
+                id={isBuy ? "dates_flexibility" : "sell-dates_flexibility"}
+                value="0"
+                onChange={(value) => console.log(value)}
             />
             <TotalInfo />
             {orderType === "limit" && <LimitOrderInfoBox />}
