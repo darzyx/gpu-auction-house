@@ -40,6 +40,10 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     {
         accessorKey: "orderDate",
         header: ({ column }) => <SortableHeader column={column}>Order Date</SortableHeader>,
+        cell: ({ row }) => {
+            const v = row.getValue("orderDate") as string;
+            return <div className="text-muted-foreground">{v}</div>;
+        },
     },
     {
         accessorKey: "side",
