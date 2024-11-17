@@ -8,27 +8,33 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
     return (
-        <div className="w-full h-full max-w-7xl p-8 grid grid-rows-[auto_auto_1fr]">
-            <div className="w-full grid grid-cols-[400px_auto_3fr]">
-                <div>
-                    <div className="p-4">
-                        <AvailableToTrade />
+        <div className="w-full h-screen max-w-7xl p-8 grid grid-cols-[auto_auto_1fr]">
+            <div>lol</div>
+            <Separator orientation="vertical" />
+            <div className="grid grid-rows-[auto_auto_1fr] h-full">
+                <div className="w-full grid grid-cols-[400px_auto_3fr]">
+                    <div>
+                        <div className="p-4">
+                            <AvailableToTrade />
+                        </div>
+                        <Separator />
+                        <div className="p-4">
+                            <Trade />
+                        </div>
                     </div>
-                    <Separator />
+                    <div>
+                        <Separator orientation="vertical" />
+                    </div>
                     <div className="p-4">
-                        <Trade />
+                        <Prices />
                     </div>
                 </div>
-                <div>
-                    <Separator orientation="vertical" />
+                <Separator />
+                <div className="relative h-full">
+                    <div className="absolute inset-0 py-4 px-2 overflow-auto">
+                        <Orders data={ordersData} columns={ordersColumns} />
+                    </div>
                 </div>
-                <div className="p-4">
-                    <Prices />
-                </div>
-            </div>
-            <Separator />
-            <div className="py-4 px-2 overflow-y-scroll">
-                <Orders data={ordersData} columns={ordersColumns} />
             </div>
         </div>
     );
