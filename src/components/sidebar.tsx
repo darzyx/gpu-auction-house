@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const navigationItems = [
     { id: "home", label: "Home", href: "/" },
@@ -26,6 +27,9 @@ const Item = ({ id, href, children }: { id: string; href: string; children: Reac
 export default function Sidebar() {
     return (
         <nav className="flex flex-col gap-4">
+            <div className="flex justify-end p-2">
+                <Image src="/icon.svg" width={25} height={25} alt="SF Compute Logo" />
+            </div>
             {navigationItems.map((item) => (
                 <Item key={item.id} id={item.id} href={item.href}>
                     {item.label}
