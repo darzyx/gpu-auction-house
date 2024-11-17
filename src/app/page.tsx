@@ -3,13 +3,16 @@ import Orders from "@/components/orders";
 import ordersColumns from "@/components/orders/columns";
 import ordersData from "@/components/orders/data";
 import Prices from "@/components/prices";
+import Sidebar from "@/components/sidebar";
 import Trade from "@/components/trade";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
     return (
         <div className="w-full h-screen max-w-7xl p-8 grid grid-cols-[auto_auto_1fr]">
-            <div>lol</div>
+            <div className="h-full p-4">
+                <Sidebar />
+            </div>
             <Separator orientation="vertical" />
             <div className="grid grid-rows-[auto_auto_1fr] h-full">
                 <div className="w-full grid grid-cols-[400px_auto_3fr]">
