@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 
 import Confirm from "./confirm";
 import DateRangePicker from "./date-range-picker";
-import DatesFlexibility from "./dates-flexibility";
+import DaysInput from "./days-input";
 import MarketInfo from "./market-info";
 import OrderTypeTabs from "./order-types-tabs";
 import PriceInput from "./price-input";
@@ -29,7 +29,7 @@ const OrderForm = ({
         quantity: "",
         price: "",
         dateRange: undefined,
-        datesFlexibility: "0",
+        days: "",
     });
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
@@ -55,7 +55,7 @@ const OrderForm = ({
             quantity: "",
             price: "",
             dateRange: undefined,
-            datesFlexibility: "0",
+            days: "0",
         });
     };
 
@@ -63,28 +63,28 @@ const OrderForm = ({
         <div className="space-y-4">
             <OrderTypeTabs orderType={orderType} setOrderType={setOrderType} />
             <MarketInfo />
-            <div className={cn(orderType === "limit" ? "grid grid-cols-2 gap-4" : "")}>
+            <div className="grid grid-cols-2 gap-4">
                 <QuantityInput
                     id={isBuy ? "quantity" : "sell-quantity"}
                     value={formData.quantity}
                     onChange={(value) => setFormData((prev) => ({ ...prev, quantity: value }))}
                 />
-                {orderType === "limit" && (
-                    <PriceInput
-                        isBuy={isBuy}
-                        value={formData.price}
-                        onChange={(value) => setFormData((prev) => ({ ...prev, price: value }))}
-                    />
-                )}
+                <DaysInput
+                    id={isBuy ? "days" : "sell-days"}
+                    value={formData.days}
+                    onChange={(value) => setFormData((prev) => ({ ...prev, days: value }))}
+                />
             </div>
+            {orderType === "limit" && (
+                <PriceInput
+                    isBuy={isBuy}
+                    value={formData.price}
+                    onChange={(value) => setFormData((prev) => ({ ...prev, price: value }))}
+                />
+            )}
             <DateRangePicker
                 date={formData.dateRange}
                 setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
-            />
-            <DatesFlexibility
-                id={isBuy ? "dates_flexibility" : "sell-dates_flexibility"}
-                value={formData.datesFlexibility}
-                onChange={(value) => setFormData((prev) => ({ ...prev, datesFlexibility: value }))}
             />
             <TotalInfo total={total} />
             <Button
@@ -104,7 +104,7 @@ const OrderForm = ({
                     quantity: formData.quantity,
                     price: formData.price,
                     dateRange: formData.dateRange,
-                    datesFlexibility: formData.datesFlexibility,
+                    days: formData.days,
                     total: formatCurrency(total),
                 }}
             />

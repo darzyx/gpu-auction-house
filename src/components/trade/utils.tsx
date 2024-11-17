@@ -26,11 +26,11 @@ export const validateFormData = (data: OrderFormData, orderType: OrderType): boo
 
     if (!data.dateRange?.from || !data.dateRange?.to) return false;
 
-    const days = Math.ceil((data.dateRange.to.getTime() - data.dateRange.from.getTime()) / (1000 * 60 * 60 * 24));
-    if (days < 1) return false;
+    const rangeDays = Math.ceil((data.dateRange.to.getTime() - data.dateRange.from.getTime()) / (1000 * 60 * 60 * 24));
+    if (rangeDays < 1) return false;
 
-    const flexibility = parseInt(data.datesFlexibility);
-    if (isNaN(flexibility) || flexibility < 0) return false;
+    const days = parseInt(data.days);
+    if (isNaN(days) || days < 0) return false;
 
     return true;
 };

@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function DatesFlexibility({
-    id = "dates_flexibility",
-    label = "DATES FLEXIBILITY (days)",
+export default function DaysInput({
+    id = "days",
+    label = "DAYS",
     placeholder = "0",
     value,
     onChange,

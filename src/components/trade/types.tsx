@@ -7,7 +7,7 @@ export type OrderFormData = {
     quantity: string;
     price: string;
     dateRange: DateRange | undefined;
-    datesFlexibility: string;
+    days: string;
 };
 
 export type OrderData = {
@@ -16,6 +16,6 @@ export type OrderData = {
     quantity: string;
     price?: string;
     dateRange: DateRange | undefined;
-    datesFlexibility: string;
+    days: string;
     total: string;
 };

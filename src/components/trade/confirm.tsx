@@ -21,7 +21,7 @@ type OrderData = {
     quantity: string;
     price?: string;
     dateRange: DateRange | undefined;
-    datesFlexibility: string;
+    days: string;
     total: string;
 };
 
@@ -33,7 +33,7 @@ type ConfirmProps = {
 };
 
 export default function Confirm({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
-    const { tradeType, orderType, quantity, price, dateRange, datesFlexibility, total } = orderData;
+    const { tradeType, orderType, quantity, price, dateRange, days, total } = orderData;
 
     const isBuy = tradeType === "buy";
     const isMarket = orderType === "market";
@@ -66,11 +66,9 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         <DetailRow label="Order Type:" value={orderType.toUpperCase()} />
                         <DetailRow label="Quantity:" value={`${quantity} GPUs`} />
                         <DetailRow label="Duration:" value={`${durationDays} days`} />
-
                         {!isMarket && (
                             <DetailRow label={`${isBuy ? "Maximum" : "Minimum"} Price:`} value={`$${price}/GPU/day`} />
                         )}
-
                         <DetailRow
                             label="Date Range:"
                             value={
@@ -83,11 +81,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                                 )
                             }
                         />
-
-                        {parseInt(datesFlexibility) > 0 && (
-                            <DetailRow label="Date Flexibility:" value={`±${datesFlexibility} days`} />
-                        )}
-
+                        {parseInt(days) > 0 && <DetailRow label="Days:" value={`±${days} days`} />}
                         <div className="col-span-2 pt-3 border-t">
                             <DetailRow label="Total Value:" value={total} />
                         </div>
