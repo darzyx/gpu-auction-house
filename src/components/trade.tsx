@@ -245,7 +245,7 @@ export default function Trade() {
     const [orderType, setOrderType] = useState<OrderType>("market");
 
     return (
-        <div>
+        <div className="space-y-1">
             <Tabs value={tradeType} onValueChange={(value) => setTradeType(value as TradeType)}>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="buy">

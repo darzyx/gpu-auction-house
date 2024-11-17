@@ -34,12 +34,12 @@ export default function Prices() {
                 </div>
                 <div />
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
-                    <div className="text-muted-foreground leading-none uppercase">Last Price</div>
-                    <h2 className="font-berkeley-mono">$32.98/GPU/day</h2>
+                    <h3 className="text-muted-foreground leading-none uppercase">Last Price</h3>
+                    <div className="font-berkeley-mono">$32.98/GPU/day</div>
                 </div>
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
-                    <div className="text-muted-foreground leading-none uppercase">Availability</div>
-                    <h2 className="font-berkeley-mono">12,958/15,000 GPUs</h2>
+                    <h3 className="text-muted-foreground leading-none uppercase">Availability</h3>
+                    <div className="font-berkeley-mono">12,958/15,000 GPUs</div>
                 </div>
             </div>
             <div>

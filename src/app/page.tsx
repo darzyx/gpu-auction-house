@@ -1,3 +1,4 @@
+import AvailableToTrade from "@/components/available-to-trade";
 import Orders from "@/components/orders";
 import ordersColumns from "@/components/orders/columns";
 import ordersData from "@/components/orders/data";
@@ -11,9 +12,7 @@ export default function Home() {
             <div className="w-full grid grid-cols-[1fr_auto_2fr]">
                 <div>
                     <div className="p-4">
-                        <h2 className="text-lg font-georgia px-2">
-                            You have $245,073 in your account, and you&apos;re using 512 GPUs.
-                        </h2>
+                        <AvailableToTrade />
                     </div>
                     <Separator />
                     <div className="p-4">
