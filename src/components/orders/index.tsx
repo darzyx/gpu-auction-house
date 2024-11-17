@@ -53,7 +53,7 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                            <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="h-12">
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

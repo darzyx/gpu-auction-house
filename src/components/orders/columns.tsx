@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 
 export type TOrder = {
     id: number;
@@ -17,10 +17,27 @@ export type TOrder = {
     status: "Filled" | "Pending" | "Canceled";
 };
 
+const SortableHeader = ({ column, children }: { column: any; children: React.ReactNode }) => {
+    return (
+        <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="p-0 hover:bg-transparent"
+        >
+            {children}
+            {column.getIsSorted() === "asc" ? (
+                <ChevronUp className="ml-2 h-4 w-4" />
+            ) : (
+                <ChevronDown className="ml-2 h-4 w-4" />
+            )}
+        </Button>
+    );
+};
+
 const ordersColumns: ColumnDef<TOrder>[] = [
     {
         accessorKey: "orderDate",
-        header: "Order Date",
+        header: ({ column }) => <SortableHeader column={column}>Order Date</SortableHeader>,
     },
     {
         accessorKey: "side",
@@ -32,38 +49,23 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     },
     {
         accessorKey: "startDate",
-        header: "Start Date",
+        header: ({ column }) => <SortableHeader column={column}>Start Date</SortableHeader>,
     },
     {
         accessorKey: "endDate",
-        header: "End Date",
+        header: ({ column }) => <SortableHeader column={column}>End Date</SortableHeader>,
     },
     {
         accessorKey: "gpus",
-        header: "GPUs",
+        header: ({ column }) => <SortableHeader column={column}>GPUs</SortableHeader>,
     },
     {
         accessorKey: "pricePerGpu",
-        header: "$/GPU/hr",
+        header: ({ column }) => <SortableHeader column={column}>$/GPU/hr</SortableHeader>,
     },
     {
         accessorKey: "totalPrice",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    className="p-0 hover:bg-transparent"
-                >
-                    Total
-                    {column.getIsSorted() === "asc" ? (
-                        <ArrowUp className="ml-2 h-4 w-4" />
-                    ) : (
-                        <ArrowDown className="ml-2 h-4 w-4" />
-                    )}
-                </Button>
-            );
-        },
+        header: ({ column }) => <SortableHeader column={column}>Total</SortableHeader>,
     },
     {
         accessorKey: "status",
