@@ -70,7 +70,7 @@ const OrderForm = ({
                     />
                 )}
             </div>
-            <DaysInput date={formData.days} setDate={(days) => setFormData((prev) => ({ ...prev, days }))} />
+            <DaysInput formData={formData} setDate={(days) => setFormData((prev) => ({ ...prev, days }))} />
             <TotalInfo total={total} />
             <Button
                 disabled={!isValid}

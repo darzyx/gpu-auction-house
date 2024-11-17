@@ -8,10 +8,18 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-    dayAmounts?: Record<string, number>;
+    dayAmounts: Record<string, number>;
+    hasPickedQuantity: boolean;
 };
 
-function Calendar({ className, classNames, showOutsideDays = true, dayAmounts = {}, ...props }: CalendarProps) {
+function Calendar({
+    className,
+    classNames,
+    showOutsideDays = true,
+    dayAmounts = {},
+    hasPickedQuantity,
+    ...props
+}: CalendarProps) {
     return (
         <DayPicker
             showOutsideDays={showOutsideDays}
@@ -63,16 +71,11 @@ function Calendar({ className, classNames, showOutsideDays = true, dayAmounts = 
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     const isNotPastDate = props.date >= today;
-
+                    const showDate = amount !== undefined && isNotPastDate && hasPickedQuantity;
                     return (
                         <>
                             <span>{props.date.getDate()}</span>
-                            <span
-                                className={cn(
-                                    "text-xs -mt-1.5",
-                                    amount !== undefined && isNotPastDate ? "text-green-600" : "invisible"
-                                )}
-                            >
+                            <span className={cn("text-xs -mt-1.5", showDate ? "text-green-600" : "invisible")}>
                                 ${(amount || 100).toLocaleString()}
                             </span>
                         </>
