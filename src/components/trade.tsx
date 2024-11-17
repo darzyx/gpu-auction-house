@@ -74,12 +74,12 @@ const PriceInput = ({
     onChange: (value: string) => void;
 }) => (
     <div className="space-y-2">
-        <Label htmlFor={isBuy ? "price" : "sell-price"}>{isBuy ? "Max" : "Min"} price ($/GPU/hour)</Label>
+        <Label htmlFor={isBuy ? "price" : "sell-price"}>{isBuy ? "Max" : "Min"} price ($/GPU/day)</Label>
         <Input
             id={isBuy ? "price" : "sell-price"}
             type="number"
             step="0.01"
-            placeholder={isBuy ? "1.20" : "0.80"}
+            placeholder={isBuy ? "28.80" : "19.20"}
             value={value}
             onChange={(e) => onChange(e.target.value)}
         />
@@ -154,7 +154,7 @@ const InfoBox = ({ orderType, isBuy }: { orderType: OrderType; isBuy: boolean })
             "Your order will be filled when a matching offer becomes available."
         ) : (
             <>
-                You {isBuy ? "pay" : "get"}: ${isBuy ? "1.15" : "0.95"}/GPU/hour
+                You {isBuy ? "pay" : "get"}: ${isBuy ? "27.60" : "22.80"}/GPU/day
             </>
         )}
     </div>

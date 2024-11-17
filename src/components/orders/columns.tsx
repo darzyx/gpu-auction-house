@@ -67,7 +67,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     },
     {
         accessorKey: "pricePerGpu",
-        header: ({ column }) => <SortableHeader column={column}>$/GPU/hr</SortableHeader>,
+        header: ({ column }) => <SortableHeader column={column}>$/GPU/day</SortableHeader>,
     },
     {
         accessorKey: "totalPrice",

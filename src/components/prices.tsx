@@ -7,13 +7,13 @@ import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "rechart
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartData = [
-    { day: "Sunday", high: 1.8, average: 1.32, low: 0.87 },
-    { day: "Monday", high: 1.33, average: 0.76, low: 0.32 },
-    { day: "Tuesday", high: 2.04, average: 1.42, low: 0.82 },
-    { day: "Wednesday", high: 1.97, average: 1.22, low: 0.52 },
-    { day: "Thursday", high: 2.05, average: 1.52, low: 1.02 },
-    { day: "Friday", high: 1.67, average: 1.22, low: 0.61 },
-    { day: "Saturday", high: 1.94, average: 1.37, low: 0.87 },
+    { day: "Sunday", high: 46.2, average: 31.68, low: 20.88 },
+    { day: "Monday", high: 31.92, average: 18.24, low: 7.68 },
+    { day: "Tuesday", high: 48.96, average: 34.08, low: 19.68 },
+    { day: "Wednesday", high: 47.28, average: 29.28, low: 12.48 },
+    { day: "Thursday", high: 49.2, average: 36.48, low: 24.48 },
+    { day: "Friday", high: 40.08, average: 29.28, low: 14.64 },
+    { day: "Saturday", high: 46.56, average: 32.98, low: 20.88 },
 ];
 
 const chartConfig = {
@@ -35,7 +35,7 @@ export default function Prices() {
                 <div />
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
                     <div className="text-muted-foreground leading-none uppercase">Last Price</div>
-                    <h2 className="font-berkeley-mono">$1.37/GPU/hour</h2>
+                    <h2 className="font-berkeley-mono">$32.98/GPU/day</h2>
                 </div>
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
                     <div className="text-muted-foreground leading-none uppercase">Availability</div>
@@ -47,7 +47,7 @@ export default function Prices() {
                     <LineChart
                         accessibilityLayer
                         data={chartData}
-                        margin={{ left: -10, right: 20, top: 0, bottom: 0 }}
+                        margin={{ left: -10, right: 25, top: 0, bottom: 0 }}
                         height={300}
                     >
                         <CartesianGrid vertical={false} />
