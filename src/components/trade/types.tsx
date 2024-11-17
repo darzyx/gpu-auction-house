@@ -6,8 +6,7 @@ export type OrderType = "market" | "limit";
 export type OrderFormData = {
     quantity: string;
     price: string;
-    dateRange: DateRange | undefined;
-    days: string;
+    days: DateRange | undefined;
 };
 
 export type OrderData = {
@@ -15,7 +14,6 @@ export type OrderData = {
     orderType: OrderType;
     quantity: string;
     price?: string;
-    dateRange: DateRange | undefined;
-    days: string;
+    days: DateRange | undefined;
     total: string;
 };

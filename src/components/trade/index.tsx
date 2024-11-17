@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
 import Confirm from "./confirm";
-import DateRangePicker from "./date-range-picker";
 import DaysInput from "./days-input";
 import MarketInfo from "./market-info";
 import OrderTypeTabs from "./order-types-tabs";
@@ -28,8 +27,7 @@ const OrderForm = ({
     const [formData, setFormData] = useState<OrderFormData>({
         quantity: "",
         price: "",
-        dateRange: undefined,
-        days: "",
+        days: undefined,
     });
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
@@ -51,41 +49,28 @@ const OrderForm = ({
         console.log("Order submitted:", orderDetails);
         setIsConfirmationOpen(false);
 
-        setFormData({
-            quantity: "",
-            price: "",
-            dateRange: undefined,
-            days: "0",
-        });
+        setFormData({ quantity: "", price: "", days: undefined });
     };
 
     return (
         <div className="space-y-4">
             <OrderTypeTabs orderType={orderType} setOrderType={setOrderType} />
             <MarketInfo />
-            <div className="grid grid-cols-2 gap-4">
+            <div className={orderType === "limit" ? "grid grid-cols-2 gap-4" : ""}>
                 <QuantityInput
                     id={isBuy ? "quantity" : "sell-quantity"}
                     value={formData.quantity}
                     onChange={(value) => setFormData((prev) => ({ ...prev, quantity: value }))}
                 />
-                <DaysInput
-                    id={isBuy ? "days" : "sell-days"}
-                    value={formData.days}
-                    onChange={(value) => setFormData((prev) => ({ ...prev, days: value }))}
-                />
+                {orderType === "limit" && (
+                    <PriceInput
+                        isBuy={isBuy}
+                        value={formData.price}
+                        onChange={(value) => setFormData((prev) => ({ ...prev, price: value }))}
+                    />
+                )}
             </div>
-            {orderType === "limit" && (
-                <PriceInput
-                    isBuy={isBuy}
-                    value={formData.price}
-                    onChange={(value) => setFormData((prev) => ({ ...prev, price: value }))}
-                />
-            )}
-            <DateRangePicker
-                date={formData.dateRange}
-                setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
-            />
+            <DaysInput date={formData.days} setDate={(days) => setFormData((prev) => ({ ...prev, days }))} />
             <TotalInfo total={total} />
             <Button
                 disabled={!isValid}
@@ -103,7 +88,6 @@ const OrderForm = ({
                     orderType,
                     quantity: formData.quantity,
                     price: formData.price,
-                    dateRange: formData.dateRange,
                     days: formData.days,
                     total: formatCurrency(total),
                 }}

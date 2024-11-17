@@ -8,10 +8,9 @@ export const calculateTotal = (data: OrderFormData, orderType: OrderType): numbe
     const quantity = parseFloat(data.quantity) || 0;
     const price = orderType === "market" ? CURRENT_MARKET_PRICE : parseFloat(data.price) || 0;
     const days =
-        data.dateRange?.from && data.dateRange?.to
-            ? Math.ceil((data.dateRange.to.getTime() - data.dateRange.from.getTime()) / (1000 * 60 * 60 * 24))
+        data.days?.from && data.days?.to
+            ? Math.ceil((data.days.to.getTime() - data.days.from.getTime()) / (1000 * 60 * 60 * 24))
             : 0;
-
     return quantity * price * days;
 };
 
@@ -24,13 +23,10 @@ export const validateFormData = (data: OrderFormData, orderType: OrderType): boo
         if (!price || price <= 0) return false;
     }
 
-    if (!data.dateRange?.from || !data.dateRange?.to) return false;
+    if (!data.days?.from || !data.days?.to) return false;
 
-    const rangeDays = Math.ceil((data.dateRange.to.getTime() - data.dateRange.from.getTime()) / (1000 * 60 * 60 * 24));
-    if (rangeDays < 1) return false;
-
-    const days = parseInt(data.days);
-    if (isNaN(days) || days < 0) return false;
+    const days = Math.ceil((data.days.to.getTime() - data.days.from.getTime()) / (1000 * 60 * 60 * 24));
+    if (days < 1) return false;
 
     return true;
 };
