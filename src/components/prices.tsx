@@ -34,7 +34,7 @@ export default function Prices() {
                 </div>
                 <div />
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
-                    <h3 className="text-muted-foreground leading-none uppercase">Last Price</h3>
+                    <h3 className="text-muted-foreground leading-none uppercase">Average</h3>
                     <div className="font-berkeley-mono">$32.98/GPU/day</div>
                 </div>
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
