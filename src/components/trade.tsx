@@ -135,7 +135,7 @@ const DatePickerWithRange = ({
                                     format(date.from, "LLL dd, y")
                                 )
                             ) : (
-                                <span>Pick a date</span>
+                                <span>Select dates</span>
                             )}
                         </Button>
                     </PopoverTrigger>
@@ -156,6 +156,23 @@ const DatePickerWithRange = ({
     );
 };
 
+const TotalInfo = () => {
+    return (
+        <div className="flex justify-between text-sm">
+            <div className="font-semibold uppercase">Total</div>
+            <div>$92,578.37</div>
+        </div>
+    );
+};
+
+const LimitOrderInfoBox = () => {
+    return (
+        <div className="bg-gray-100 p-4 rounded-md mb-4 text-sm text-gray-600 text-center">
+            Your order will be filled when a matching offer becomes available.
+        </div>
+    );
+};
+
 const validateFormData = (data: OrderFormData, orderType: OrderType): boolean => {
     const quantity = parseFloat(data.quantity);
     if (!quantity || quantity <= 0) return false;
@@ -170,18 +187,6 @@ const validateFormData = (data: OrderFormData, orderType: OrderType): boolean =>
     return true;
 };
 
-const InfoBox = ({ orderType, isBuy }: { orderType: OrderType; isBuy: boolean }) => (
-    <div className="bg-gray-100 p-4 rounded-md mb-4 text-sm text-gray-600 text-center">
-        {orderType === "limit" ? (
-            "Your order will be filled when a matching offer becomes available."
-        ) : (
-            <>
-                You {isBuy ? "pay" : "receive"} ${isBuy ? "27.60" : "22.80"} total
-            </>
-        )}
-    </div>
-);
-
 const OrderForm = ({
     orderType,
     setOrderType,
@@ -195,8 +200,8 @@ const OrderForm = ({
         quantity: "",
         price: "",
         dateRange: {
-            from: new Date(),
-            to: addDays(new Date(), 20),
+            from: undefined,
+            to: undefined,
         },
     });
 
@@ -223,13 +228,14 @@ const OrderForm = ({
                 date={formData.dateRange}
                 setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
             />
-            <InfoBox orderType={orderType} isBuy={isBuy} />
+            <TotalInfo />
             <Button
                 disabled={!isValid}
                 className={cn("w-full", isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600")}
             >
                 Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
             </Button>
+            {orderType === "limit" && <LimitOrderInfoBox />}
         </div>
     );
 };
