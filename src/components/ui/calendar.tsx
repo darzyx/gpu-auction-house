@@ -11,13 +11,7 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
     dayAmounts?: Record<string, number>;
 };
 
-function Calendar({
-    className,
-    classNames,
-    showOutsideDays = true,
-    dayAmounts = {}, // Default to empty object
-    ...props
-}: CalendarProps) {
+function Calendar({ className, classNames, showOutsideDays = true, dayAmounts = {}, ...props }: CalendarProps) {
     return (
         <DayPicker
             showOutsideDays={showOutsideDays}
@@ -66,12 +60,21 @@ function Calendar({
                 DayContent: (props: DayContentProps) => {
                     const dateKey = props.date.toISOString().split("T")[0];
                     const amount = dayAmounts[dateKey];
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const isNotPastDate = props.date >= today;
+
                     return (
                         <>
                             <span>{props.date.getDate()}</span>
-                            {amount !== undefined && (
-                                <span className="text-xs text-green-600 -mt-1.5">${amount.toLocaleString()}</span>
-                            )}
+                            <span
+                                className={cn(
+                                    "text-xs -mt-1.5",
+                                    amount !== undefined && isNotPastDate ? "text-green-600" : "invisible"
+                                )}
+                            >
+                                ${(amount || 100).toLocaleString()}
+                            </span>
                         </>
                     );
                 },

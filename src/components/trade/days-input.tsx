@@ -60,6 +60,7 @@ export default function DaysInput({
                             numberOfMonths={2}
                             fromDate={new Date()}
                             dayAmounts={{
+                                "2024-11-16": 100,
                                 "2024-11-17": 100,
                                 "2024-11-18": 250,
                                 "2024-11-19": 175,
