@@ -38,7 +38,7 @@ function Calendar({
                 nav_button_next: "absolute right-1",
                 table: "w-full border-collapse space-y-1",
                 head_row: "flex",
-                head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+                head_cell: "text-muted-foreground rounded-md w-14 font-normal text-[0.8rem]",
                 row: "flex w-full mt-2",
                 cell: cn(
                     "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
@@ -75,7 +75,12 @@ function Calendar({
                     return (
                         <>
                             <span>{props.date.getDate()}</span>
-                            <span className={cn("text-xs -mt-1.5", showDate ? "text-green-600" : "invisible")}>
+                            <span
+                                className={cn(
+                                    "text-xs -mt-1.5 font-berkeley-mono",
+                                    showDate ? "text-green-600" : "invisible"
+                                )}
+                            >
                                 ${(amount || 100).toLocaleString()}
                             </span>
                         </>
