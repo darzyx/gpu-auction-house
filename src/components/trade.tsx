@@ -229,13 +229,13 @@ const OrderForm = ({
                 setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
             />
             <TotalInfo />
+            {orderType === "limit" && <LimitOrderInfoBox />}
             <Button
                 disabled={!isValid}
                 className={cn("w-full", isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600")}
             >
                 Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
             </Button>
-            {orderType === "limit" && <LimitOrderInfoBox />}
         </div>
     );
 };
