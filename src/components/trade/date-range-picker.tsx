@@ -9,6 +9,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 export default function DateRangePicker({
     date,
@@ -59,6 +60,13 @@ export default function DateRangePicker({
                             numberOfMonths={2}
                             fromDate={new Date()}
                         />
+                        <div className="flex justify-center">
+                            <PopoverClose>
+                                <Button variant="outline" className="h-8 -mt-2 mb-2 min-w-36">
+                                    Done
+                                </Button>
+                            </PopoverClose>
+                        </div>
                     </PopoverContent>
                 </Popover>
             </div>
