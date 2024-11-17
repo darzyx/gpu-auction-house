@@ -25,19 +25,19 @@ const chartConfig = {
 export default function Prices() {
     return (
         <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
-            <div className="grid grid-cols-[auto_1fr_auto_auto] items-end gap-4">
-                <div className="flex flex-col">
-                    <h2 className="text-lg font-georgia">Average Prices</h2>
+            <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4">
+                <div className="space-y-2">
+                    <h2 className="text-lg font-georgia leading-none">Average Prices</h2>
                     <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
                         Dec 15, 2024 - Dec 21, 2024
                     </div>
                 </div>
                 <div />
-                <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
+                <div className="flex flex-col text-xs bg-muted rounded-md p-2">
                     <h3 className="text-muted-foreground leading-none uppercase">Average</h3>
                     <div className="font-berkeley-mono">$32.98/GPU/day</div>
                 </div>
-                <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
+                <div className="flex flex-col text-xs bg-muted rounded-md p-2">
                     <h3 className="text-muted-foreground leading-none uppercase">Availability</h3>
                     <div className="font-berkeley-mono">12,958/15,000 GPUs</div>
                 </div>

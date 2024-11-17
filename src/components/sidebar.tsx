@@ -11,7 +11,7 @@ const navigationItems = [
 ];
 
 const Item = ({ id, href, children }: { id: string; href: string; children: React.ReactNode }) => {
-    let className = "flex justify-end p-2 text-sm hover:underline underline-offset-2 ";
+    let className = "flex justify-end text-sm hover:underline underline-offset-2 leading-none py-4 ";
     if (id === "trade") {
         className += "underline";
     } else {
@@ -26,8 +26,8 @@ const Item = ({ id, href, children }: { id: string; href: string; children: Reac
 
 export default function Sidebar() {
     return (
-        <nav className="flex flex-col gap-4">
-            <div className="flex justify-end p-2">
+        <nav className="flex flex-col gap-2">
+            <div className="flex justify-end pb-4">
                 <Image src="/icon.svg" width={25} height={25} alt="SF Compute Logo" />
             </div>
             {navigationItems.map((item) => (

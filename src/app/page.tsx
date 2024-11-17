@@ -34,7 +34,7 @@ export default function Home() {
                 </div>
                 <Separator />
                 <div className="relative h-full">
-                    <div className="absolute inset-0 py-4 px-2 overflow-auto">
+                    <div className="p-4 absolute inset-0 overflow-auto">
                         <Orders data={ordersData} columns={ordersColumns} />
                     </div>
                 </div>

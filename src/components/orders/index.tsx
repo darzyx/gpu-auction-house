@@ -32,15 +32,15 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
     });
 
     return (
-        <div>
-            <h2 className="text-lg font-georgia px-2">Orders</h2>
+        <div className="space-y-1">
+            <h2 className="text-lg font-georgia leading-none">Orders</h2>
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} className="font-berkeley-mono">
+                                    <TableHead key={header.id} className="font-berkeley-mono px-0">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -53,9 +53,9 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="h-12">
+                            <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell key={cell.id} className="px-0 h-12">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
