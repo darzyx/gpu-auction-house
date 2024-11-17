@@ -49,18 +49,28 @@ const OrderTypeTabs = ({
 
 const QuantityInput = ({
     id = "quantity",
-    label = "Quantity (GPUs)",
+    label = "QUANTITY (GPUs)",
+    placeholder = "0",
     value,
     onChange,
 }: {
     id?: string;
     label?: string;
+    placeholder?: string;
     value: string;
     onChange: (value: string) => void;
 }) => (
-    <div className="space-y-2">
-        <Label htmlFor={id}>{label}</Label>
-        <Input id={id} type="number" placeholder="8" value={value} onChange={(e) => onChange(e.target.value)} />
+    <div className="space-y-1">
+        <Label htmlFor={id} className="text-xs">
+            {label}
+        </Label>
+        <Input
+            id={id}
+            type="number"
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+        />
     </div>
 );
 
@@ -68,18 +78,22 @@ const PriceInput = ({
     isBuy,
     value,
     onChange,
+    placeholder = "0",
 }: {
     isBuy: boolean;
     value: string;
     onChange: (value: string) => void;
+    placeholder?: string;
 }) => (
-    <div className="space-y-2">
-        <Label htmlFor={isBuy ? "price" : "sell-price"}>{isBuy ? "Max" : "Min"} price ($/GPU/day)</Label>
+    <div className="space-y-1">
+        <Label htmlFor={isBuy ? "price" : "sell-price"} className="text-xs">
+            {isBuy ? "MAX" : "MIN"} PRICE ($/GPU/day)
+        </Label>
         <Input
             id={isBuy ? "price" : "sell-price"}
             type="number"
-            step="0.01"
-            placeholder={isBuy ? "28.80" : "19.20"}
+            step="1"
+            placeholder={placeholder}
             value={value}
             onChange={(e) => onChange(e.target.value)}
         />
@@ -96,40 +110,48 @@ const DatePickerWithRange = ({
     className?: string;
 }) => {
     return (
-        <div className={cn("w-full grid gap-2 mt-2", className)}>
-            <Popover>
-                <PopoverTrigger asChild>
-                    <Button
-                        id="date"
-                        variant={"outline"}
-                        className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
-                    >
-                        <CalendarIcon />
-                        {date?.from ? (
-                            date.to ? (
-                                <>
-                                    {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
-                                </>
+        <div className="space-y-1">
+            <Label htmlFor="date-range" className="text-xs">
+                DATE RANGE
+            </Label>
+            <div className={cn("w-full grid gap-2", className)}>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            id="date"
+                            variant={"outline"}
+                            className={cn(
+                                "w-full justify-start text-left font-normal",
+                                !date && "text-muted-foreground"
+                            )}
+                        >
+                            <CalendarIcon />
+                            {date?.from ? (
+                                date.to ? (
+                                    <>
+                                        {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+                                    </>
+                                ) : (
+                                    format(date.from, "LLL dd, y")
+                                )
                             ) : (
-                                format(date.from, "LLL dd, y")
-                            )
-                        ) : (
-                            <span>Pick a date</span>
-                        )}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                        initialFocus
-                        mode="range"
-                        defaultMonth={new Date()}
-                        selected={date}
-                        onSelect={setDate}
-                        numberOfMonths={2}
-                        fromDate={new Date()}
-                    />
-                </PopoverContent>
-            </Popover>
+                                <span>Pick a date</span>
+                            )}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                            initialFocus
+                            mode="range"
+                            defaultMonth={new Date()}
+                            selected={date}
+                            onSelect={setDate}
+                            numberOfMonths={2}
+                            fromDate={new Date()}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
         </div>
     );
 };
@@ -197,13 +219,10 @@ const OrderForm = ({
                     />
                 )}
             </div>
-            <div>
-                <Label htmlFor="date-range">Date Range</Label>
-                <DatePickerWithRange
-                    date={formData.dateRange}
-                    setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
-                />
-            </div>
+            <DatePickerWithRange
+                date={formData.dateRange}
+                setDate={(dateRange) => setFormData((prev) => ({ ...prev, dateRange }))}
+            />
             <InfoBox orderType={orderType} isBuy={isBuy} />
             <Button
                 disabled={!isValid}
