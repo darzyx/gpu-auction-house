@@ -24,7 +24,7 @@ const chartConfig = {
 
 export default function Prices() {
     return (
-        <div className="grid grid-rows-[auto_1fr_auto] gap-4">
+        <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
             <div className="grid grid-cols-[auto_1fr_auto_auto] items-end gap-4">
                 <div className="flex flex-col">
                     <h2 className="text-lg font-georgia">Average Prices</h2>
@@ -42,13 +42,8 @@ export default function Prices() {
                     <div className="font-berkeley-mono">12,958/15,000 GPUs</div>
                 </div>
             </div>
-            <ChartContainer config={chartConfig} className="font-berkeley-mono">
-                <LineChart
-                    accessibilityLayer
-                    data={chartData}
-                    margin={{ left: -10, right: 25, top: 0, bottom: 0 }}
-                    height={300}
-                >
+            <ChartContainer config={chartConfig} className="font-berkeley-mono min-w-full w-full h-full">
+                <LineChart accessibilityLayer data={chartData} margin={{ left: -10, right: 25, top: 0, bottom: 0 }}>
                     <CartesianGrid vertical={false} />
                     <XAxis
                         dataKey="day"

@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 export default function Home() {
     return (
         <div className="w-full h-full max-w-7xl p-8 grid grid-rows-[auto_auto_1fr]">
-            <div className="w-full grid grid-cols-[1fr_auto_2fr]">
+            <div className="w-full grid grid-cols-[400px_auto_3fr]">
                 <div>
                     <div className="p-4">
                         <AvailableToTrade />
