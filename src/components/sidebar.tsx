@@ -1,6 +1,15 @@
 import Link from "next/link";
 
-const Item = ({ id, children }: { id: string; children: React.ReactNode }) => {
+const navigationItems = [
+    { id: "home", label: "Home", href: "/" },
+    { id: "trade", label: "Trade", href: "/" },
+    { id: "orders", label: "Orders", href: "/" },
+    { id: "metrics", label: "Metrics", href: "/" },
+    { id: "settings", label: "Settings", href: "/" },
+    { id: "logout", label: "Logout", href: "/" },
+];
+
+const Item = ({ id, href, children }: { id: string; href: string; children: React.ReactNode }) => {
     let className = "flex justify-end p-2 text-sm hover:underline underline-offset-2 ";
     if (id === "trade") {
         className += "underline";
@@ -8,7 +17,7 @@ const Item = ({ id, children }: { id: string; children: React.ReactNode }) => {
         className += "text-muted-foreground";
     }
     return (
-        <Link className={className} href="/">
+        <Link className={className} href={href}>
             {children}
         </Link>
     );
@@ -16,13 +25,12 @@ const Item = ({ id, children }: { id: string; children: React.ReactNode }) => {
 
 export default function Sidebar() {
     return (
-        <div className="flex flex-col gap-4">
-            <Item id="home">Home</Item>
-            <Item id="trade">Trade</Item>
-            <Item id="orders">Orders</Item>
-            <Item id="metrics">Metrics</Item>
-            <Item id="settings">Settings</Item>
-            <Item id="logout">Logout</Item>
-        </div>
+        <nav className="flex flex-col gap-4">
+            {navigationItems.map((item) => (
+                <Item key={item.id} id={item.id} href={item.href}>
+                    {item.label}
+                </Item>
+            ))}
+        </nav>
     );
 }
