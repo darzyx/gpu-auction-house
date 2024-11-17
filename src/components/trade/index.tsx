@@ -8,7 +8,6 @@ import { useMemo, useState } from "react";
 import Confirm from "./confirm";
 import DateRangePicker from "./date-range-picker";
 import DatesFlexibility from "./dates-flexibility";
-import LimitInfoBox from "./limit-info-box";
 import MarketInfo from "./market-info";
 import OrderTypeTabs from "./order-types-tabs";
 import PriceInput from "./price-input";
@@ -88,7 +87,6 @@ const OrderForm = ({
                 onChange={(value) => setFormData((prev) => ({ ...prev, datesFlexibility: value }))}
             />
             <TotalInfo total={total} />
-            {orderType === "limit" && <LimitInfoBox />}
             <Button
                 disabled={!isValid}
                 className={cn("w-full", isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600")}
