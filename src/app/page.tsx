@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
     return (
-        <div className="w-full max-w-6xl p-8 flex flex-col">
+        <div className="w-full h-full max-w-7xl p-8 grid grid-rows-[auto_auto_1fr]">
             <div className="w-full grid grid-cols-[1fr_auto_2fr]">
                 <div>
                     <div className="p-4">
@@ -27,7 +27,7 @@ export default function Home() {
                 </div>
             </div>
             <Separator />
-            <div className="py-4 px-2">
+            <div className="py-4 px-2 overflow-y-scroll">
                 <Orders data={ordersData} columns={ordersColumns} />
             </div>
         </div>
