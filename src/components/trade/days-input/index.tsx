@@ -24,7 +24,7 @@ export default function DaysInput({
     return (
         <div className="space-y-1">
             <Label htmlFor="days" className="text-xs">
-                DATE RANGE
+                DAYS
             </Label>
             <div className={cn("w-full grid gap-2", className)}>
                 <Popover>
