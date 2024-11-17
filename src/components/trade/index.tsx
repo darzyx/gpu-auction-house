@@ -120,7 +120,6 @@ export default function Trade() {
 
     return (
         <div className="space-y-1">
-            <h2 className="text-lg font-georgia">Trade</h2>
             <Tabs value={tradeType} onValueChange={(value) => setTradeType(value as TradeType)}>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="buy">
