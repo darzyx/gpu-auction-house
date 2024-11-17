@@ -154,7 +154,7 @@ const InfoBox = ({ orderType, isBuy }: { orderType: OrderType; isBuy: boolean })
             "Your order will be filled when a matching offer becomes available."
         ) : (
             <>
-                You {isBuy ? "pay" : "get"}: ${isBuy ? "27.60" : "22.80"}/GPU/day
+                You {isBuy ? "pay" : "receive"} ${isBuy ? "27.60" : "22.80"} total
             </>
         )}
     </div>

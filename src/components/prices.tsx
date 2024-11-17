@@ -39,7 +39,7 @@ export default function Prices() {
                 </div>
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2 -mb-2">
                     <div className="text-muted-foreground leading-none uppercase">Availability</div>
-                    <h2 className="font-berkeley-mono">12,958 GPUs</h2>
+                    <h2 className="font-berkeley-mono">12,958/15,000 GPUs</h2>
                 </div>
             </div>
             <div>
