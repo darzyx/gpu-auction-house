@@ -1,14 +1,5 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
@@ -33,63 +24,61 @@ type ConfirmProps = {
 
 export default function Confirm({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
     const { tradeType, orderType, quantity, price, days, total } = orderData;
-
     const isBuy = tradeType === "buy";
     const isMarket = orderType === "market";
-    const accentColor = isBuy ? "text-green-600" : "text-red-600";
+
+    const getTotalLabel = () => {
+        if (isMarket) {
+            return "Total amount";
+        }
+        return isBuy ? "Price ceiling" : "Price floor";
+    };
 
     const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
-        <>
-            <div className="text-muted-foreground">{label}</div>
-            <div className="font-medium">{value}</div>
-        </>
+        <div className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
+            <span className="text-sm text-gray-500">{label}</span>
+            <span className="text-sm font-medium">{value}</span>
+        </div>
     );
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle className={accentColor}>
-                        Confirm {orderType.charAt(0).toUpperCase() + orderType.slice(1)}{" "}
-                        {tradeType.charAt(0).toUpperCase() + tradeType.slice(1)} Order
+            <DialogContent className="sm:max-w-[400px] p-0">
+                <DialogHeader className="p-6 pb-2">
+                    <DialogTitle className={`text-lg font-semibold ${isBuy ? "text-green-600" : "text-red-600"}`}>
+                        Confirm {tradeType === "buy" ? "Purchase" : "Sale"}
                     </DialogTitle>
-                    <DialogDescription>Please review your order details before confirming</DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-2 gap-y-3 text-sm">
-                        <DetailRow label="Order Type:" value={orderType.toUpperCase()} />
-                        <DetailRow label="Quantity:" value={`${quantity} GPUs`} />
-                        {!isMarket && (
-                            <DetailRow label={`${isBuy ? "Maximum" : "Minimum"} Price:`} value={`$${price}/GPU/day`} />
-                        )}
+                <div className="px-6 py-4">
+                    <DetailRow
+                        label="Type"
+                        value={`${orderType.charAt(0).toUpperCase() + orderType.slice(1)} order`}
+                    />
+                    <DetailRow label="Quantity" value={`${quantity} GPUs`} />
+                    {!isMarket && (
+                        <DetailRow label={`${isBuy ? "Ceiling" : "Floor"} price`} value={`$${price}/GPU/day`} />
+                    )}
+                    {days?.from && days?.to && (
                         <DetailRow
-                            label="Days:"
-                            value={
-                                days?.from && days?.to ? (
-                                    <>
-                                        {format(days.from, "MMM d, yyyy")} - {format(days.to, "MMM d, yyyy")}
-                                    </>
-                                ) : (
-                                    "Not specified"
-                                )
-                            }
+                            label="Period"
+                            value={`${format(days.from, "MMM d")} - ${format(days.to, "MMM d, yyyy")}`}
                         />
-                        <div className="col-span-2 pt-3 border-t">
-                            <DetailRow label="Total Value:" value={total} />
-                        </div>
-                    </div>
+                    )}
+                    <DetailRow label={getTotalLabel()} value={total} />
                 </div>
-                <DialogFooter className="flex gap-2 sm:gap-0">
-                    <Button variant="outline" onClick={onClose}>
+                <div className="flex border-t p-4 gap-2">
+                    <Button variant="outline" onClick={onClose} className="flex-1">
                         Cancel
                     </Button>
                     <Button
                         onClick={onConfirm}
-                        className={isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600"}
+                        className={`flex-1 ${
+                            isBuy ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"
+                        }`}
                     >
-                        Confirm {tradeType.toUpperCase()}
+                        Confirm
                     </Button>
-                </DialogFooter>
+                </div>
             </DialogContent>
         </Dialog>
     );
