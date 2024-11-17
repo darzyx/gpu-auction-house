@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
+import dayAmountsData from "./data";
 
 export default function DaysInput({
     date,
@@ -59,12 +60,7 @@ export default function DaysInput({
                             onSelect={setDate}
                             numberOfMonths={2}
                             fromDate={new Date()}
-                            dayAmounts={{
-                                "2024-11-16": 100,
-                                "2024-11-17": 100,
-                                "2024-11-18": 250,
-                                "2024-11-19": 175,
-                            }}
+                            dayAmounts={dayAmountsData}
                         />
                         <div className="flex justify-center">
                             <PopoverClose>
