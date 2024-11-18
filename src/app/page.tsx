@@ -4,7 +4,7 @@ import ordersColumns from "@/components/orders/columns";
 import ordersData from "@/components/orders/data";
 import Prices from "@/components/prices";
 import Navigation from "@/components/navigation";
-import Trade from "@/components/trade";
+import Exchange from "@/components/exchange";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
                         </div>
                         <Separator />
                         <div className="p-4">
-                            <Trade />
+                            <Exchange />
                         </div>
                     </div>
                     <Separator className="md:hidden" />
