@@ -68,7 +68,7 @@ export default function DaysInput({
                             isMarketOrder={orderType === "market"}
                         />
                         <div className="flex justify-end items-center gap-1">
-                            <div className="h-8 p-2 text-xs -mt-2 mr-3 mb-3 font-berkeley-mono">
+                            <div className="h-8 p-2 text-xs -mt-2 mb-3 font-berkeley-mono">
                                 {orderType === "market" && !!quantity
                                     ? "Add quantity to see price"
                                     : orderType === "market"
