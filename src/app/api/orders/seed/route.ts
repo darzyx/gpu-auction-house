@@ -1,5 +1,4 @@
-import { db } from "@/db";
-import { orders } from "@/db/schema";
+import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
 const seedData = [
@@ -67,17 +66,48 @@ const seedData = [
 
 export async function POST() {
     try {
+        // First verify/create table
+        await sql`
+        CREATE TABLE IF NOT EXISTS orders (
+          id INTEGER PRIMARY KEY,
+          order_date TEXT NOT NULL,
+          side TEXT NOT NULL,
+          type TEXT NOT NULL,
+          start_date TEXT NOT NULL,
+          end_date TEXT NOT NULL,
+          gpus INTEGER NOT NULL,
+          price_per_gpu TEXT NOT NULL,
+          total_price TEXT NOT NULL,
+          status TEXT NOT NULL
+        );
+      `;
+
         // Clear existing data
-        await db.delete(orders);
+        await sql`TRUNCATE TABLE orders;`;
 
         // Insert seed data
         for (const order of seedData) {
-            await db.insert(orders).values(order);
+            await sql`
+          INSERT INTO orders (
+            id, order_date, side, type, start_date, end_date, 
+            gpus, price_per_gpu, total_price, status
+          ) VALUES (
+            ${order.id}, ${order.orderDate}, ${order.side}, ${order.type},
+            ${order.startDate}, ${order.endDate}, ${order.gpus},
+            ${order.pricePerGpu}, ${order.totalPrice}, ${order.status}
+          );
+        `;
         }
 
-        return NextResponse.json({ message: "Database seeded successfully" });
+        // Verify insertion
+        const count = await sql`SELECT COUNT(*) FROM orders;`;
+
+        return NextResponse.json({
+            message: "Database seeded successfully",
+            insertedCount: count.rows[0].count,
+        });
     } catch (error) {
         console.error("Seed error:", error);
-        return NextResponse.json({ error: "Failed to seed database" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to seed database", details: error }, { status: 500 });
     }
 }

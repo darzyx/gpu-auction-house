@@ -10,6 +10,8 @@ import { Separator } from "@/components/ui/separator";
 export default async function Home() {
     const ordersData = await getOrders();
 
+    console.log({ ordersData });
+
     return (
         <div className="w-full h-full max-w-7xl p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
             <div className="lg:h-full p-4">
