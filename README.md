@@ -1,6 +1,6 @@
 # GPU Auction House
 
-Live at [gpu-auction-house.vercel.app](https://gpu-auction-house.vercel.app)!
+Live at [darzyx-gpu-auction-house.vercel.app](https://darzyx-gpu-auction-house.vercel.app/)!
 
 A single-page frontend demo of a GPU compute trading platform. Focused on desktop UI/UX with mock data. I could've implemented more of the backend and made mobile UI/UX optimizations, but kept scope small to not go overboard.
 
