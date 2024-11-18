@@ -3,8 +3,9 @@
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
-import { Calendar } from "@/components/trade/exchange/days-input/calendar";
+import { Calendar } from "./calendar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -27,6 +28,8 @@ export default function DaysInput({
     className?: string;
     total: number;
 }) {
+    const isDesktop = useMediaQuery("(min-width: 768px)");
+
     return (
         <div className="space-y-1">
             <Label htmlFor="days" className="text-xs">
@@ -64,7 +67,7 @@ export default function DaysInput({
                             defaultMonth={new Date()}
                             selected={date}
                             onSelect={setDate}
-                            numberOfMonths={2}
+                            numberOfMonths={isDesktop ? 2 : 1}
                             fromDate={new Date()}
                             dayAmounts={dayAmountsData}
                             hasPickedQuantity={!!quantity}
