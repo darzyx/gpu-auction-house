@@ -10,7 +10,9 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                berkeley: ["Berkeley Mono", "monospace"],
+                georgia: ["Georgia", "serif"],
+                "geist-sans": ["var(--font-geist-sans)", "sans-serif"],
+                "berkeley-mono": ["Berkeley Mono", "monospace"],
             },
             colors: {
                 background: "hsl(var(--background))",

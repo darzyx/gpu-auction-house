@@ -37,16 +37,4 @@
     body {
         @apply bg-background text-foreground font-geist-sans;
     }
-
-    .font-georgia {
-        font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    }
-
-    .font-berkeley-mono {
-        font-family: "Berkeley Mono", monospace;
-    }
-
-    .font-geist-sans {
-        font-family: "Geist Sans", sans-serif;
-    }
 }
