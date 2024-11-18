@@ -4,7 +4,7 @@ import Orders from "@/components/trade/orders";
 import ordersColumns from "@/components/trade/orders/columns";
 import ordersData from "@/components/trade/orders/data";
 import Prices from "@/components/trade/prices";
-import YourPortfolio from "@/components/trade/your-portfolio";
+import Portfolio from "@/components/trade/portfolio";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
                 <div className="w-full grid grid-cols-1 md:grid-cols-[325px_auto_1fr] lg:grid-cols-[375px_auto_1fr]">
                     <div>
                         <div className="p-4">
-                            <YourPortfolio />
+                            <Portfolio />
                         </div>
                         <Separator />
                         <div className="p-4">

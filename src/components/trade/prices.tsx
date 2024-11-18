@@ -27,7 +27,7 @@ export default function Prices() {
         <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
             <div className="grid grid-cols-[auto_1fr_auto_auto]">
                 <div className="space-y-2">
-                    <h2 className="text-lg font-georgia leading-none">Average Prices</h2>
+                    <h2 className="text-lg font-georgia leading-none">Prices</h2>
                     <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
                         Dec 15 - Dec 21, 2024
                     </div>
