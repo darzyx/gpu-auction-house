@@ -1,57 +1,31 @@
 # GPU Auction House
 
-Live at [gpu-auction-house.vercel.app](https://gpu-auction-house.vercel.app).
+Live at [gpu-auction-house.vercel.app](https://gpu-auction-house.vercel.app)!
 
-This is just the frontend for one page with some mock data. I focused on the desktop UI/UX. There's so much more I am capable of doing (full Next.js backend, Vercel Postgres + Drizzle ORM, making the UI beautiful on mobile, etc), but I don't want to go overboard.
-
-## Overview
-
--   Place buy/sell market/limit GPU orders (inspired by financial trading platforms)
--   GPUs x days price data in calendar to solve "tetris" pricing problem (inspired by Google Flights)
--   View historical pricing data
--   Monitor order status and history
+A single-page frontend demo of a GPU compute trading platform. Focused on desktop UI/UX with mock data. Could extend to full-stack (Next.js backend, Vercel Postgres + Drizzle ORM) and mobile UI/UX optimization, but kept scope controlled.
 
 ## Stack
 
-Next.js, TypeScript, Tailwind CSS, shadcn/ui, and Vercel.
+My favorite: Next.js, TypeScript, Tailwind, shadcn/ui, and Vercel.
 
 ## Local Dev
 
-Clone, run `pnpm install`, then `pnpm run dev`.
+-   `git clone https://github.com/darzyx/gpu-auction-house.git`
+-   `pnpm install`
+-   `pnpm run dev`.
 
-## Project Structure
+### Key Design Decisions
 
-The application consists of one page with four major sections:
+-   Exchange: Buy/sell market/limit orders with planned Google Flights-style calendar for optimal "tetris" pricing. Select GPU count, then open calendar to see available prices. Didn't get to finish the calendar pricing feature, but it's a promising design decision.
+-   Price History: Helps users evaluate current market rates before executing trades
+-   Order History: Sortable table design, detailed information, limit order cancellation
+-   Sidebar (instead of top nav) preserves precious vertical space for other sections
+-   Portfolio positioned above Exchange for quick trading decisions
+-   Confirmation modal makes sure trades are intentional
 
-### Portfolio Section
+## Current Limitations
 
--   Displays current GPU inventory
--   Shows account balance (from sales and/or deposits)
-
-### Exchange Section
-
--   Buy/sell market/limit GPU orders
--   Select GPU quantity
--   Set max/min pricing for limit orders
--   Date range calendar for compute time and optimal pricing
-
-### Prices Section
-
--   Visual price chart showing trend over last 7 days
--   Multiple price tiers displayed simultaneously
--   Highlight current average price and GPU availability
--   Total GPU availability indicator
-
-### Orders Section
-
--   List recent orders by the user with detailed information
--   Order status tracking (Pending, Filled, Canceled)
--   Cancel pending orders
-
-## Note
-
-This is a demonstration project with limited functionality:
-
--   Navigation links are non-functional
--   Only the Trade page UI is implemented
--   Data is completely static/simulated
+-   Static data only. No backend or DB. Yet? :)
+-   Desktop-focused UI
+-   Just one page UI implementation, the Trade page
+-   Non-functional navigation
