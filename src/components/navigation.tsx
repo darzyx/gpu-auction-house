@@ -24,7 +24,7 @@ const Item = ({ id, href, children }: { id: string; href: string; children: Reac
     );
 };
 
-export default function Sidebar() {
+export default function Navigation() {
     return (
         <nav className="flex lg:flex-col gap-2">
             <div className="flex justify-end pb-4">

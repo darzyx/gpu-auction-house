@@ -3,7 +3,7 @@ import Orders from "@/components/orders";
 import ordersColumns from "@/components/orders/columns";
 import ordersData from "@/components/orders/data";
 import Prices from "@/components/prices";
-import Sidebar from "@/components/sidebar";
+import Navigation from "@/components/navigation";
 import Trade from "@/components/trade";
 import { Separator } from "@/components/ui/separator";
 
@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <div className="w-full h-screen max-w-7xl p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
             <div className="lg:h-full p-4">
-                <Sidebar />
+                <Navigation />
             </div>
             <Separator orientation="vertical" className="hidden lg:block" />
             <Separator orientation="horizontal" className="lg:hidden" />
