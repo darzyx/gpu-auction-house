@@ -40,7 +40,7 @@ export default function Navigation() {
                             <Menu className="h-5 w-5" />
                         </Button>
                     </SheetTrigger>
-                    <SheetContent className="w-[150px]">
+                    <SheetContent className="w-[200px]">
                         <SheetHeader>
                             <SheetTitle>Menu</SheetTitle>
                         </SheetHeader>
