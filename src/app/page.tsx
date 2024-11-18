@@ -33,8 +33,8 @@ export default function Home() {
                     </div>
                 </div>
                 <Separator />
-                <div className="relative h-full">
-                    <div className="p-4 absolute inset-0 md:overflow-auto">
+                <div className="relative">
+                    <div className="pb-10 md:pb-4 p-4 w-full absolute md:inset-0 md:overflow-auto">
                         <Orders data={ordersData} columns={ordersColumns} />
                     </div>
                 </div>
