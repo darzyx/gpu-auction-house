@@ -18,9 +18,10 @@ type TOrdersProps<TData, TValue> = {
 };
 
 export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TData, TValue>) {
+    const slicedData = data.slice(0, 5);
     const [sorting, setSorting] = useState<SortingState>([{ id: "orderDate", desc: true }]);
     const table = useReactTable({
-        data,
+        data: slicedData,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
