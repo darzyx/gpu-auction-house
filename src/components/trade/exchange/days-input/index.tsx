@@ -77,7 +77,7 @@ export default function DaysInput({
                             <div className="flex items-center h-10 p-2 text-sm md:text-base -mt-2 mb-3">
                                 {orderType === "market" && !quantity ? (
                                     <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
-                                        <span>Add Quantity (GPUs)</span>
+                                        <span>Add quantity (GPUs)</span>
                                         <span>to see prices</span>
                                     </span>
                                 ) : orderType === "market" ? (
