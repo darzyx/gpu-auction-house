@@ -115,7 +115,7 @@ export default function Prices() {
                 <div className="hidden lg:flex items-center gap-2">
                     Average up $3.70 from yesterday <TrendingUp className="h-4 w-4" />
                 </div>
-                <Link href="/trade" className="group flex items-center gap-1 hover:underline">
+                <Link href="/trade" className="group flex items-center gap-1 hover:underline underline-offset-2">
                     Learn how the market works{" "}
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
     ColumnDef,
     flexRender,
@@ -10,6 +10,7 @@ import {
     SortingState,
     useReactTable,
 } from "@tanstack/react-table";
+import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 type TOrdersProps<TData, TValue> = {
@@ -34,6 +35,10 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
         <div className="space-y-1">
             <h2 className="text-lg font-georgia leading-none">Orders</h2>
             <Table>
+                <TableCaption className="group flex items-center gap-1 text-sm text-muted-foreground font-medium hover:underline underline-offset-2">
+                    See all orders
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </TableCaption>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
