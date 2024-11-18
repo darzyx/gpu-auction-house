@@ -27,25 +27,22 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
     const isBuy = tradeType === "buy";
     const isMarket = orderType === "market";
 
-    const getTotalLabel = () => {
-        if (isMarket) {
-            return "Total amount";
-        }
-        return isBuy ? "Price ceiling" : "Price floor";
-    };
-
     const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
-        <div className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
-            <span className="text-sm text-gray-500">{label}</span>
+        <div className="flex justify-between items-center py-3 border-b last:border-0">
+            <span className="text-sm text-muted-foreground uppercase">{label}</span>
             <span className="text-sm font-medium">{value}</span>
         </div>
     );
+
+    const confirmButtonClasses = isBuy
+        ? "flex-1 bg-green-600 hover:bg-green-700"
+        : "flex-1 bg-red-600 hover:bg-red-700";
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[400px] p-0">
                 <DialogHeader className="p-6 pb-2">
-                    <DialogTitle className={`text-lg font-semibold ${isBuy ? "text-green-600" : "text-red-600"}`}>
+                    <DialogTitle className="font-georgia text-lg font-normal">
                         Confirm {tradeType === "buy" ? "Purchase" : "Sale"}
                     </DialogTitle>
                 </DialogHeader>
@@ -60,22 +57,17 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                     )}
                     {days?.from && days?.to && (
                         <DetailRow
-                            label="Period"
+                            label="Days"
                             value={`${format(days.from, "MMM d")} - ${format(days.to, "MMM d, yyyy")}`}
                         />
                     )}
-                    <DetailRow label={getTotalLabel()} value={total} />
+                    <DetailRow label="Total" value={total} />
                 </div>
                 <div className="flex border-t p-4 gap-2">
                     <Button variant="outline" onClick={onClose} className="flex-1">
                         Cancel
                     </Button>
-                    <Button
-                        onClick={onConfirm}
-                        className={`flex-1 ${
-                            isBuy ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"
-                        }`}
-                    >
+                    <Button onClick={onConfirm} className={confirmButtonClasses}>
                         Confirm
                     </Button>
                 </div>
