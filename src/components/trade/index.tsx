@@ -7,7 +7,6 @@ import { useMemo, useState } from "react";
 
 import Confirm from "./confirm";
 import DaysInput from "./days-input";
-import MarketInfo from "./market-info";
 import OrderTypeTabs from "./order-types-tabs";
 import PriceInput from "./price-input";
 import QuantityInput from "./quantity-input";
@@ -55,7 +54,6 @@ const OrderForm = ({
     return (
         <div className="space-y-4">
             <OrderTypeTabs orderType={orderType} setOrderType={setOrderType} />
-            <MarketInfo />
             <div className={orderType === "limit" ? "grid grid-cols-2 gap-4" : ""}>
                 <QuantityInput
                     id={isBuy ? "quantity" : "sell-quantity"}
