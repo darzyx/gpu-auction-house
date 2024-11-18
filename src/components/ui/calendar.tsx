@@ -73,7 +73,6 @@ function Calendar({
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     const isNotPastDate = props.date >= today;
-
                     const renderPrice = isMarketOrder && hasPickedQuantity;
                     const makePriceVisible = amount !== undefined && isNotPastDate;
                     return (
