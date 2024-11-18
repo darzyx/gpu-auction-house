@@ -9,11 +9,12 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
     return (
-        <div className="w-full h-screen max-w-7xl p-8 grid grid-cols-[auto_auto_1fr]">
-            <div className="h-full p-4">
+        <div className="w-full h-screen max-w-7xl p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
+            <div className="lg:h-full p-4">
                 <Sidebar />
             </div>
-            <Separator orientation="vertical" />
+            <Separator orientation="vertical" className="hidden lg:block" />
+            <Separator orientation="horizontal" className="lg:hidden" />
             <div className="grid grid-rows-[auto_auto_1fr] h-full">
                 <div className="w-full grid grid-cols-[375px_auto_3fr]">
                     <div>

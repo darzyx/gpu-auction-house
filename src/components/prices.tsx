@@ -29,7 +29,7 @@ export default function Prices() {
                 <div className="space-y-2">
                     <h2 className="text-lg font-georgia leading-none">Average Prices</h2>
                     <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
-                        Dec 15, 2024 - Dec 21, 2024
+                        Dec 15 - Dec 21, 2024
                     </div>
                 </div>
                 <div />
@@ -39,7 +39,7 @@ export default function Prices() {
                 </div>
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2">
                     <h3 className="text-muted-foreground leading-none uppercase">Availability</h3>
-                    <div className="font-berkeley-mono">12,958/15,000 GPUs</div>
+                    <div className="font-berkeley-mono">1,295/1,500 GPUs</div>
                 </div>
             </div>
             <ChartContainer config={chartConfig} className="font-berkeley-mono min-w-full w-full h-full">
