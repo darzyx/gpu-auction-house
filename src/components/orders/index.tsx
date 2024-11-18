@@ -38,9 +38,12 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => {
+                            {headerGroup.headers.map((header, idx) => {
+                                let className = "font-berkeley-mono";
+                                if (idx === 0) className += " pl-0";
+                                if (idx === headerGroup.headers.length - 1) className += " pr-0";
                                 return (
-                                    <TableHead key={header.id} className="font-berkeley-mono px-0">
+                                    <TableHead key={header.id} className={className}>
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -54,11 +57,16 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id} className="px-0 h-12">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </TableCell>
-                                ))}
+                                {row.getVisibleCells().map((cell, idx) => {
+                                    let className = "h-12";
+                                    if (idx === 0) className += " pl-0";
+                                    if (idx === row.getVisibleCells().length - 1) className += " pr-0";
+                                    return (
+                                        <TableCell key={cell.id} className={className}>
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                    );
+                                })}
                             </TableRow>
                         ))
                     ) : (
