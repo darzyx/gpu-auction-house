@@ -69,7 +69,7 @@ export default function DaysInput({
                         />
                         <div className="flex justify-end items-center gap-1">
                             <div className="h-8 p-2 text-xs -mt-2 mb-3 font-berkeley-mono">
-                                {orderType === "market" && !!quantity
+                                {orderType === "market" && !quantity
                                     ? "Add quantity to see price"
                                     : orderType === "market"
                                     ? "$35.91/GPU/day"
