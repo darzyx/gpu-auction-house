@@ -82,8 +82,11 @@ export default function DaysInput({
                                     </span>
                                 ) : orderType === "market" ? (
                                     <span className="flex flex-col justify-center items-end">
-                                        <span className="font-berkeley-mono">{formatCurrency(total)}</span>
-                                        <span className="text-xs text-muted-foreground">Total Price</span>
+                                        <span className="flex justify-start items-center gap-1">
+                                            <span className="text-xs text-muted-foreground">from</span>
+                                            <span className="font-berkeley-mono">{formatCurrency(total)}</span>
+                                        </span>
+                                        <span className="text-xs text-muted-foreground">total price</span>
                                     </span>
                                 ) : (
                                     ""
