@@ -71,15 +71,23 @@ export default function DaysInput({
                             isMarketOrder={orderType === "market"}
                         />
                         <div className="flex justify-end items-center gap-1">
-                            <div className="h-8 p-2 text-xs -mt-2 mb-3 font-berkeley-mono">
-                                {orderType === "market" && !quantity
-                                    ? "Add GPUs to see total"
-                                    : orderType === "market"
-                                    ? `${formatCurrency(total)} total`
-                                    : ""}
+                            <div className="flex items-center h-10 p-2 text-sm md:text-base -mt-2 mb-3">
+                                {orderType === "market" && !quantity ? (
+                                    <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
+                                        <span>Add Quantity (GPUs)</span>
+                                        <span>to see prices</span>
+                                    </span>
+                                ) : orderType === "market" ? (
+                                    <span className="flex flex-col justify-center items-end">
+                                        <span className="font-berkeley-mono">{formatCurrency(total)}</span>
+                                        <span className="text-xs text-muted-foreground">Total Price</span>
+                                    </span>
+                                ) : (
+                                    ""
+                                )}
                             </div>
                             <PopoverClose>
-                                <div className="h-8 border rounded-md p-2 text-xs -mt-2 mr-3 mb-3 min-w-28 bg-foreground text-white hover:opacity-90">
+                                <div className="flex justify-center items-center h-10 border rounded-md p-2 text-sm -mt-2 mr-3 mb-3 min-w-28 bg-foreground text-white hover:opacity-90">
                                     Done
                                 </div>
                             </PopoverClose>
