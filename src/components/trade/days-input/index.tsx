@@ -64,9 +64,9 @@ export default function DaysInput({
                             dayAmounts={dayAmountsData}
                             hasPickedQuantity={!!quantity}
                         />
-                        <div className="flex justify-center">
+                        <div className="flex justify-end">
                             <PopoverClose>
-                                <div className="h-8 border rounded-md p-2 text-xs -mt-2 mb-2 min-w-36 hover:bg-muted">
+                                <div className="h-8 border rounded-md p-2 text-xs -mt-2 mr-3 mb-3 min-w-28 bg-foreground text-white hover:opacity-90">
                                     Done
                                 </div>
                             </PopoverClose>
