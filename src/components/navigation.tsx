@@ -30,7 +30,10 @@ const Item = ({ id, href, children }: { id: string; href: string; children: Reac
 export default function Navigation() {
     return (
         <>
-            <div className="md:hidden">
+            <div className="flex justify-between items-center md:hidden">
+                <div>
+                    <Image src="/icon.svg" width={25} height={25} alt="SF Compute Logo" />
+                </div>
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button variant="secondary" size="icon" className="h-8 w-8">
