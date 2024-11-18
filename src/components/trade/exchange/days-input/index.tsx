@@ -68,8 +68,10 @@ export default function DaysInput({
                             isMarketOrder={orderType === "market"}
                         />
                         <div className="flex justify-end items-center gap-1">
-                            <div className="h-full font-berkeley-mono text-sm align-middle leading-none">
-                                $35.91/GPU/day
+                            <div className="h-8 flex items-center">
+                                <span className="font-berkeley-mono text-sm align-middle leading-none">
+                                    $35.91/GPU/day
+                                </span>
                             </div>
                             <PopoverClose>
                                 <div className="h-8 border rounded-md p-2 text-xs -mt-2 mr-3 mb-3 min-w-28 bg-foreground text-white hover:opacity-90">
