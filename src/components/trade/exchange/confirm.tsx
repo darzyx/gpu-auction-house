@@ -22,17 +22,17 @@ type ConfirmProps = {
     orderData: OrderData;
 };
 
+const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
+    <div className="flex justify-between items-center py-2 border-b last:border-0">
+        <span className="font-georgia leading-none">{label}</span>
+        <span className="text-sm leading-none">{value}</span>
+    </div>
+);
+
 export default function Confirm({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
     const { tradeType, orderType, quantity, price, days, total } = orderData;
     const isBuy = tradeType === "buy";
     const isMarket = orderType === "market";
-
-    const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
-        <div className="flex justify-between items-center py-3 border-b last:border-0">
-            <span className="text-sm text-muted-foreground uppercase">{label}</span>
-            <span className="text-sm font-medium">{value}</span>
-        </div>
-    );
 
     const confirmButtonClasses = isBuy
         ? "flex-1 bg-green-600 hover:bg-green-700"
@@ -40,13 +40,13 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[400px] p-0">
+            <DialogContent className="max-w-[90vw] sm:max-w-[400px]">
                 <DialogHeader className="p-6 pb-2">
                     <DialogTitle className="font-georgia text-lg font-normal">
                         Confirm {tradeType === "buy" ? "Purchase" : "Sale"}
                     </DialogTitle>
                 </DialogHeader>
-                <div className="px-6 py-4">
+                <div className="space-y-2">
                     <DetailRow
                         label="Type"
                         value={`${orderType.charAt(0).toUpperCase() + orderType.slice(1)} order`}
