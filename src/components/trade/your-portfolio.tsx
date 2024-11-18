@@ -1,4 +1,4 @@
-export default function AvailableToTrade() {
+export default function YourPortfolio() {
     return (
         <div className="space-y-2">
             <h2 className="text-lg font-georgia leading-none">Your Portfolio</h2>
