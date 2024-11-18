@@ -67,7 +67,8 @@ export default function DaysInput({
                             hasPickedQuantity={!!quantity}
                             isMarketOrder={orderType === "market"}
                         />
-                        <div className="flex justify-end">
+                        <div className="flex justify-end items-center">
+                            <div className="font-berkeley-mono text-sm">$35.91/GPU/day</div>
                             <PopoverClose>
                                 <div className="h-8 border rounded-md p-2 text-xs -mt-2 mr-3 mb-3 min-w-28 bg-foreground text-white hover:opacity-90">
                                     Done
