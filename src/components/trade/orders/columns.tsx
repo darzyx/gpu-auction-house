@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
+import { Column, ColumnDef } from "@tanstack/react-table";
+import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
 export type TOrder = {
     id: number;
@@ -17,7 +17,7 @@ export type TOrder = {
     status: "Filled" | "Pending" | "Canceled";
 };
 
-const SortableHeader = ({ column, children }: { column: any; children: React.ReactNode }) => {
+const SortableHeader = ({ column, children }: { column: Column<TOrder, unknown>; children: React.ReactNode }) => {
     return (
         <Button
             variant="ghost"
