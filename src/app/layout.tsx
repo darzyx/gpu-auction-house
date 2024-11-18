@@ -20,11 +20,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="h-screen">
+        <html lang="en" className="md:h-screen">
             <head>
                 <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>" />
             </head>
-            <body className={geistSans.variable + " antialiased flex h-full w-full justify-center"}>{children}</body>
+            <body className={geistSans.variable + " antialiased flex w-full h-full justify-center"}>{children}</body>
         </html>
     );
 }

@@ -111,8 +111,8 @@ export default function Prices() {
                     </Line>
                 </LineChart>
             </ChartContainer>
-            <div className="flex justify-between items-center text-muted-foreground font-medium text-sm leading-none">
-                <div className="flex items-center gap-2">
+            <div className="flex justify-end lg:justify-between items-center text-muted-foreground font-medium text-sm leading-none">
+                <div className="hidden lg:flex items-center gap-2">
                     Average up $3.70 from yesterday <TrendingUp className="h-4 w-4" />
                 </div>
                 <Link href="/" className="group flex items-center gap-1 hover:underline">
