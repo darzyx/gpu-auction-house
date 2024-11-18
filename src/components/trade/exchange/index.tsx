@@ -45,9 +45,7 @@ const OrderForm = ({
             marketPrice: CURRENT_MARKET_PRICE,
             timestamp: new Date().toISOString(),
         };
-        console.log("Order submitted:", orderDetails);
         setIsConfirmationOpen(false);
-
         setFormData({ quantity: "", price: "", days: undefined });
     };
 

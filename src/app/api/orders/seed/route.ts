@@ -66,7 +66,6 @@ const seedData = [
 
 export async function POST() {
     try {
-        // First verify/create table
         await sql`
         CREATE TABLE IF NOT EXISTS orders (
           id INTEGER PRIMARY KEY,
@@ -82,10 +81,8 @@ export async function POST() {
         );
       `;
 
-        // Clear existing data
         await sql`TRUNCATE TABLE orders;`;
 
-        // Insert seed data
         for (const order of seedData) {
             await sql`
           INSERT INTO orders (
@@ -99,15 +96,8 @@ export async function POST() {
         `;
         }
 
-        // Verify insertion
-        const count = await sql`SELECT COUNT(*) FROM orders;`;
-
-        return NextResponse.json({
-            message: "Database seeded successfully",
-            insertedCount: count.rows[0].count,
-        });
+        return NextResponse.json({ message: "Database seeded successfully" });
     } catch (error) {
-        console.error("Seed error:", error);
-        return NextResponse.json({ error: "Failed to seed database", details: error }, { status: 500 });
+        return NextResponse.json({ error: "Failed to seed database" }, { status: 500 });
     }
 }
