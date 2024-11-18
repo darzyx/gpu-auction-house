@@ -18,11 +18,13 @@ export default function DaysInput({
     orderType,
     setDate,
     className,
+    total,
 }: {
     formData: OrderFormData;
     orderType: OrderType;
     setDate: (date: DateRange | undefined) => void;
     className?: string;
+    total: number;
 }) {
     return (
         <div className="space-y-1">
@@ -70,9 +72,9 @@ export default function DaysInput({
                         <div className="flex justify-end items-center gap-1">
                             <div className="h-8 p-2 text-xs -mt-2 mb-3 font-berkeley-mono">
                                 {orderType === "market" && !quantity
-                                    ? "Add quantity to see price"
+                                    ? "Add GPUs to see total"
                                     : orderType === "market"
-                                    ? "$35.91/GPU/day"
+                                    ? `$${total.toFixed(2)} total`
                                     : ""}
                             </div>
                             <PopoverClose>

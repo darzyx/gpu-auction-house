@@ -63,6 +63,7 @@ const OrderForm = ({
                 formData={formData}
                 orderType={orderType}
                 setDate={(days) => setFormData((prev) => ({ ...prev, days }))}
+                total={total}
             />
             <TotalInfo total={total} />
             <Button
