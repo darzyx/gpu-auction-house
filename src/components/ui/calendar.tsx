@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
     dayAmounts: Record<string, number>;
+    isMarketOrder: boolean;
     hasPickedQuantity: boolean;
 };
 
@@ -17,6 +18,7 @@ function Calendar({
     classNames,
     showOutsideDays = true,
     dayAmounts = {},
+    isMarketOrder,
     hasPickedQuantity,
     ...props
 }: CalendarProps) {
@@ -71,14 +73,14 @@ function Calendar({
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     const isNotPastDate = props.date >= today;
-                    const showDate = amount !== undefined && isNotPastDate && hasPickedQuantity;
+                    const showPrice = amount !== undefined && isNotPastDate && isMarketOrder && hasPickedQuantity;
                     return (
                         <>
                             <span>{props.date.getDate()}</span>
                             <span
                                 className={cn(
                                     "text-xs -mt-1.5 font-berkeley-mono",
-                                    showDate ? "text-green-600" : "invisible"
+                                    showPrice ? "text-green-600" : "invisible"
                                 )}
                             >
                                 ${(amount || 100).toLocaleString()}

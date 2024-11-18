@@ -10,15 +10,17 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { OrderFormData } from "../types";
+import { OrderFormData, OrderType } from "../types";
 import dayAmountsData from "./data";
 
 export default function DaysInput({
     formData: { days: date, quantity },
+    orderType,
     setDate,
     className,
 }: {
     formData: OrderFormData;
+    orderType: OrderType;
     setDate: (date: DateRange | undefined) => void;
     className?: string;
 }) {
@@ -63,6 +65,7 @@ export default function DaysInput({
                             fromDate={new Date()}
                             dayAmounts={dayAmountsData}
                             hasPickedQuantity={!!quantity}
+                            isMarketOrder={orderType === "market"}
                         />
                         <div className="flex justify-end">
                             <PopoverClose>
