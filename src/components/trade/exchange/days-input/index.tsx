@@ -11,6 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { OrderFormData, OrderType } from "../types";
+import { formatCurrency } from "../utils";
 import dayAmountsData from "./data";
 
 export default function DaysInput({
@@ -74,7 +75,7 @@ export default function DaysInput({
                                 {orderType === "market" && !quantity
                                     ? "Add GPUs to see total"
                                     : orderType === "market"
-                                    ? `$${total.toFixed(2)} total`
+                                    ? `${formatCurrency(total)} total`
                                     : ""}
                             </div>
                             <PopoverClose>
