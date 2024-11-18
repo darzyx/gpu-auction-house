@@ -26,8 +26,8 @@ const Item = ({ id, href, children }: { id: string; href: string; children: Reac
 
 export default function Navigation() {
     return (
-        <nav className="flex lg:flex-col gap-2">
-            <div className="flex justify-end pb-4">
+        <nav className="flex lg:flex-col gap-4 lg:gap-2">
+            <div className="flex justify-end lg:pb-4">
                 <Image src="/icon.svg" width={25} height={25} alt="SF Compute Logo" />
             </div>
             {navigationItems.map((item) => (
