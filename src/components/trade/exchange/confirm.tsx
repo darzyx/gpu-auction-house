@@ -23,7 +23,7 @@ type ConfirmProps = {
 };
 
 const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
-    <div className="flex justify-between items-center py-2 border-b last:border-0">
+    <div className="flex justify-between items-center">
         <span className="font-georgia leading-none">{label}</span>
         <span className="text-sm leading-none">{value}</span>
     </div>
@@ -40,16 +40,16 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-[90vw] sm:max-w-[400px]">
-                <DialogHeader className="p-6 pb-2">
+            <DialogContent className="max-w-[90vw] sm:max-w-[400px] rounded-md space-y-4">
+                <DialogHeader>
                     <DialogTitle className="font-georgia text-lg font-normal">
                         Confirm {tradeType === "buy" ? "Purchase" : "Sale"}
                     </DialogTitle>
                 </DialogHeader>
-                <div className="space-y-2">
+                <div className="space-y-4">
                     <DetailRow
                         label="Type"
-                        value={`${orderType.charAt(0).toUpperCase() + orderType.slice(1)} order`}
+                        value={`${orderType.charAt(0).toUpperCase() + orderType.slice(1)} Order`}
                     />
                     <DetailRow label="Quantity" value={`${quantity} GPUs`} />
                     {!isMarket && (
@@ -63,7 +63,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                     )}
                     <DetailRow label="Total" value={total} />
                 </div>
-                <div className="flex border-t p-4 gap-2">
+                <div className="flex gap-4">
                     <Button variant="outline" onClick={onClose} className="flex-1">
                         Cancel
                     </Button>
