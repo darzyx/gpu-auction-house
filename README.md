@@ -2,11 +2,11 @@
 
 Live at [gpu-auction-house.vercel.app](https://gpu-auction-house.vercel.app)!
 
-A single-page frontend demo of a GPU compute trading platform. Focused on desktop UI/UX with mock data. Could extend to full-stack (Next.js backend, Vercel Postgres + Drizzle ORM) and mobile UI/UX optimization, but kept scope controlled
+A single-page frontend demo of a GPU compute trading platform. Focused on desktop UI/UX with mock data. I could've implemented more of the backend and made mobile UI/UX optimizations, but kept scope small to not go overboard.
 
 ## Stack
 
-My favorite: Next.js, TypeScript, Tailwind, shadcn/ui, and Vercel
+My favorite: Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 
 ## Local Dev
 
@@ -22,6 +22,7 @@ My favorite: Next.js, TypeScript, Tailwind, shadcn/ui, and Vercel
 -   Sidebar (instead of top nav) preserves precious vertical space for other sections
 -   Portfolio positioned above Exchange for quick trading decisions
 -   Confirmation modal makes sure trades are intentional
+-   Grabbing Orders data from Vercel Postgres DB (just to show I can)
 
 ## Current Limitations
 
