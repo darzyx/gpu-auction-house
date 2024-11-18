@@ -15,7 +15,7 @@ export default function Home() {
             </div>
             <Separator orientation="vertical" />
             <div className="grid grid-rows-[auto_auto_1fr] h-full">
-                <div className="w-full grid grid-cols-[400px_auto_3fr]">
+                <div className="w-full grid grid-cols-[375px_auto_3fr]">
                     <div>
                         <div className="p-4">
                             <AvailableToTrade />
