@@ -25,7 +25,7 @@ const chartConfig = {
 export default function Prices() {
     return (
         <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
-            <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4">
+            <div className="grid grid-cols-[auto_1fr_auto_auto]">
                 <div className="space-y-2">
                     <h2 className="text-lg font-georgia leading-none">Average Prices</h2>
                     <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
@@ -33,13 +33,15 @@ export default function Prices() {
                     </div>
                 </div>
                 <div />
-                <div className="flex flex-col text-xs bg-muted rounded-md p-2">
-                    <h3 className="text-muted-foreground leading-none uppercase">Average</h3>
-                    <div className="font-berkeley-mono">$32.98/GPU/day</div>
-                </div>
-                <div className="flex flex-col text-xs bg-muted rounded-md p-2">
-                    <h3 className="text-muted-foreground leading-none uppercase">Availability</h3>
-                    <div className="font-berkeley-mono">1,295/1,500 GPUs</div>
+                <div className="flex gap-4">
+                    <div className="flex flex-col text-xs bg-muted rounded-md p-2">
+                        <h3 className="text-muted-foreground leading-none uppercase">Average</h3>
+                        <div className="font-berkeley-mono">$32.98/GPU/day</div>
+                    </div>
+                    <div className="flex flex-col text-xs bg-muted rounded-md p-2">
+                        <h3 className="text-muted-foreground leading-none uppercase">Availability</h3>
+                        <div className="font-berkeley-mono">1,295/1,500 GPUs</div>
+                    </div>
                 </div>
             </div>
             <ChartContainer config={chartConfig} className="font-berkeley-mono min-w-full w-full h-full">

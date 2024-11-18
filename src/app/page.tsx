@@ -16,7 +16,7 @@ export default function Home() {
             <Separator orientation="vertical" className="hidden lg:block" />
             <Separator orientation="horizontal" className="lg:hidden" />
             <div className="grid grid-rows-[auto_auto_1fr] h-full">
-                <div className="w-full grid grid-cols-[375px_auto_3fr]">
+                <div className="w-full grid grid-cols-[350px_auto_3fr] lg:grid-cols-[375px_auto_3fr]">
                     <div>
                         <div className="p-4">
                             <AvailableToTrade />
