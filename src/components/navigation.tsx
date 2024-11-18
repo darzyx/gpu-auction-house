@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 const navigationItems = [
-    { id: "home", label: "Home", href: "/" },
-    { id: "trade", label: "Trade", href: "/" },
-    { id: "orders", label: "Orders", href: "/" },
-    { id: "metrics", label: "Metrics", href: "/" },
-    { id: "settings", label: "Settings", href: "/" },
-    { id: "logout", label: "Logout", href: "/" },
+    { id: "home", label: "Home", href: "/trade" },
+    { id: "trade", label: "Trade", href: "/trade" },
+    { id: "orders", label: "Orders", href: "/trade" },
+    { id: "metrics", label: "Metrics", href: "/trade" },
+    { id: "settings", label: "Settings", href: "/trade" },
+    { id: "logout", label: "Logout", href: "/trade" },
 ];
 
 const Item = ({ id, href, children }: { id: string; href: string; children: React.ReactNode }) => {
