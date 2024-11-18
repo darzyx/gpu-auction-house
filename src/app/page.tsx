@@ -2,12 +2,14 @@ import Navigation from "@/components/navigation";
 import Exchange from "@/components/trade/exchange";
 import Orders from "@/components/trade/orders";
 import ordersColumns from "@/components/trade/orders/columns";
-import ordersData from "@/components/trade/orders/data";
-import Prices from "@/components/trade/prices";
+import { getOrders } from "@/components/trade/orders/order-data";
 import Portfolio from "@/components/trade/portfolio";
+import Prices from "@/components/trade/prices";
 import { Separator } from "@/components/ui/separator";
 
-export default function Home() {
+export default async function Home() {
+    const ordersData = await getOrders();
+
     return (
         <div className="w-full h-full max-w-7xl p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
             <div className="lg:h-full p-4">
