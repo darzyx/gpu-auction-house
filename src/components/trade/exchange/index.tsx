@@ -12,7 +12,7 @@ import PriceInput from "./price-input";
 import QuantityInput from "./quantity-input";
 import TotalInfo from "./total-info";
 import { OrderFormData, OrderType, TradeType } from "./types";
-import { calculateTotal, CURRENT_MARKET_PRICE, formatCurrency, validateFormData } from "./utils";
+import { calculateTotal, formatCurrency, validateFormData } from "./utils";
 
 const OrderForm = ({
     orderType,
@@ -38,13 +38,6 @@ const OrderForm = ({
     };
 
     const handleConfirm = () => {
-        const orderDetails = {
-            ...formData,
-            orderType,
-            total,
-            marketPrice: CURRENT_MARKET_PRICE,
-            timestamp: new Date().toISOString(),
-        };
         setIsConfirmationOpen(false);
         setFormData({ quantity: "", price: "", days: undefined });
     };

@@ -27,6 +27,7 @@ export default async function Home() {
             status: order.status as "Pending" | "Filled" | "Canceled",
         }));
     } catch (error) {
+        console.error("Failed to fetch orders:", error);
         ordersData = [];
     }
 
