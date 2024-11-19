@@ -1,32 +1,34 @@
 # GPU Auction House
 
-Live at [darzyx-gpu-auction-house.vercel.app](https://darzyx-gpu-auction-house.vercel.app/)!
+Live at [darzyx-gpu-auction-house.vercel.app/trade](https://darzyx-gpu-auction-house.vercel.app/trade)!
 
-A single-page frontend demo of a GPU compute trading platform. Focused on desktop UI/UX with mock data. I could've implemented more of the backend and made mobile UI/UX optimizations, but kept scope small to not go overboard.
+A simple auction house for a GPU cluster that allows customers to book reservations of 1 to N GPUs, for 1 minimum of 1 day. It's just one polished page, the Trade page.
+
+Focused on UI/UX, but I threw in a very tiny Next backend and Postgres DB to show I can. Most of the data is created on the fly using some clever functions as to not have a large DB just for this demo. I really wanted to do even more but kept scope small to not go overboard!
 
 ## Stack
 
-My favorite: Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
+Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 
 ## Local Dev
 
+-   Get ENV secrets from me
 -   `git clone https://github.com/darzyx/gpu-auction-house.git`
 -   `pnpm install`
 -   `pnpm run dev`
 
-### Key Design Decisions
+### Key Areas and Design Decisions
 
--   Exchange: Buy/sell market/limit orders with planned Google Flights-style calendar for optimal "tetris" pricing. Select GPU count, then open calendar to see available prices. Didn't get to finish the calendar pricing feature, but it's a promising design decision
--   Price History: Helps users evaluate current market rates before executing trades
--   Order History: Sortable table design, detailed information, limit order cancellation
--   Sidebar (instead of top nav) preserves precious vertical space for other sections
--   Portfolio positioned above Exchange for quick trading decisions
+-   Aesthetics - I put a lot of thought into making this both beautiful and usable
+-   Exchange Section: Most important section. This lets the user buy/sell market/limit orders with planned Google Flights-style calendar for optimizing block pricing. It's a fun tetris-like problem and I think this solves it well. Select GPU quantity, then open calendar to see best prices. Select time to see final price.
+-   Price Section: Helps users evaluate current market rates before executing trades
+-   Orders Section: Sortable table design, detailed information, limit order cancellation (UI only)
+-   Portfolio Section positioned above Exchange Section for quick trading decisions
 -   Confirmation modal makes sure trades are intentional
 -   Grabbing Orders data from Vercel Postgres DB (just to show I can)
+-   Responsive design for mobile and desktop
 
 ## Current Limitations
 
--   Static data only. No backend or DB. Yet? :)
--   Desktop-focused UI
 -   Just one page UI implementation, the Trade page
 -   Non-functional navigation
