@@ -25,7 +25,6 @@ export function StartTimeInput({
     isBuy,
 }: StartTimeInputProps) {
     const selectedDate = days?.from;
-    const hasRequirements = Boolean(days?.from && quantity);
 
     const getPriceForHour = (hour: number) => {
         return getPriceInfoForHour(hour, days?.from, days?.to, quantity);
