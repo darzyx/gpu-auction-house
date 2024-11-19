@@ -9,15 +9,20 @@ import {
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
 import { BEST_PRICE_HOURS, getBestPrice, getHigherPrice } from "../price-helpers";
-import { OrderFormData } from "../types";
+import { OrderFormData, OrderType } from "../types";
 import { formatCurrency, formatTime } from "../utils";
 
 type StartTimeInputProps = {
     formData: OrderFormData;
     onChange: (value: string) => void;
+    orderType: OrderType;
 };
 
-export function StartTimeInput({ formData: { days, quantity, start_time }, onChange }: StartTimeInputProps) {
+export function StartTimeInput({
+    formData: { days, quantity, start_time },
+    onChange,
+    orderType,
+}: StartTimeInputProps) {
     const selectedDate = days?.from;
 
     const getPriceForHour = (hour: number): { price: number; isBest: boolean } => {
@@ -41,6 +46,8 @@ export function StartTimeInput({ formData: { days, quantity, start_time }, onCha
         };
     };
 
+    const showLabel = orderType === "market" && (!selectedDate || !quantity);
+
     return (
         <div>
             <Label htmlFor="start-time" className="text-xs">
@@ -52,7 +59,7 @@ export function StartTimeInput({ formData: { days, quantity, start_time }, onCha
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
-                        {(!selectedDate || !quantity) && (
+                        {showLabel && (
                             <SelectLabel>
                                 {!selectedDate && !quantity
                                     ? "Select dates and quantity to see prices."

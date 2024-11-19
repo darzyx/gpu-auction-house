@@ -114,12 +114,14 @@ export default function DaysInput({
                         />
                         <div className="flex justify-end items-center gap-1">
                             <div className="flex items-center h-10 p-2 text-sm md:text-base -mt-2 mb-3">
-                                {orderType === "market" && !quantity ? (
+                                {orderType === "limit" ? (
+                                    ""
+                                ) : !quantity ? (
                                     <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
                                         <span>Add quantity (GPUs)</span>
                                         <span>to see prices</span>
                                     </span>
-                                ) : orderType === "market" && date?.from && date?.to ? (
+                                ) : date?.from && date?.to ? (
                                     <span className="flex flex-col justify-center items-end">
                                         <span className="flex justify-start items-center gap-1">
                                             <span className="text-xs text-muted-foreground">from</span>

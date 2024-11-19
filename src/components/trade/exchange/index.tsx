@@ -84,10 +84,12 @@ const OrderForm = ({
                 <StartTimeInput
                     formData={formData}
                     onChange={(value) => setFormData((prev) => ({ ...prev, start_time: value }))}
+                    orderType={orderType}
                 />
                 <EndTimeInput
                     formData={formData}
                     onChange={(value) => setFormData((prev) => ({ ...prev, end_time: value }))}
+                    orderType={orderType}
                 />
             </div>
             <TotalInfo total={total} />

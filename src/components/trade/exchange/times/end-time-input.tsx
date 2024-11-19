@@ -9,15 +9,20 @@ import {
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
 import { BEST_PRICE_HOURS, getBestPrice, getHigherPrice } from "../price-helpers";
-import { OrderFormData } from "../types";
+import { OrderFormData, OrderType } from "../types";
 import { formatCurrency, formatTime } from "../utils";
 
 type EndTimeInputProps = {
     formData: OrderFormData;
     onChange: (value: string) => void;
+    orderType: OrderType;
 };
 
-export function EndTimeInput({ formData: { days, quantity, start_time, end_time }, onChange }: EndTimeInputProps) {
+export function EndTimeInput({
+    formData: { days, quantity, start_time, end_time },
+    onChange,
+    orderType,
+}: EndTimeInputProps) {
     const selectedDate = days?.to;
     const isSameDay = Boolean(selectedDate && days?.from && selectedDate.toDateString() === days.from.toDateString());
 
@@ -42,6 +47,8 @@ export function EndTimeInput({ formData: { days, quantity, start_time, end_time 
         };
     };
 
+    const showLabel = orderType === "market" && (!selectedDate || !quantity);
+
     return (
         <div>
             <Label htmlFor="end-time" className="text-xs">
@@ -53,7 +60,7 @@ export function EndTimeInput({ formData: { days, quantity, start_time, end_time 
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
-                        {(!selectedDate || !quantity) && (
+                        {showLabel && (
                             <SelectLabel>
                                 {!selectedDate && !quantity
                                     ? "Select dates and quantity to see prices."
