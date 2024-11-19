@@ -9,7 +9,8 @@ import { OrderFormData, OrderType } from "./types";
 
 export const AVAILABLE_GPUS = 15000;
 export const USED_GPUS = 2042;
-export const BEST_PRICE_HOURS = [2, 3, 16, 17, 23];
+export const LOWEST_PRICE_HOURS = [2, 3, 16, 17, 23];
+export const HIGHEST_PRICE_HOURS = [4, 5, 18, 19];
 
 const generateDeterministicCents = (date1: Date, date2: Date, quantity: number): number => {
     const seed = (date1.getDate() * date2.getMonth() + date2.getDate() * date1.getMonth()) * quantity;
@@ -25,7 +26,7 @@ const generatePriceForRange = (from: Date, to: Date, quantity: number): number =
     return Number(`${dollars}.${cents.toString().padStart(2, "0")}`);
 };
 
-const generateHigherPrice = (from: Date, to: Date, quantity: number): number => {
+const generateMediumPrice = (from: Date, to: Date, quantity: number): number => {
     const basePrice = generatePriceForRange(from, to, quantity);
 
     const increaseSeed = (from.getHours() * to.getDate() + to.getHours() * from.getDate() + quantity) % 2000;
@@ -49,6 +50,22 @@ const generateHigherPrice = (from: Date, to: Date, quantity: number): number => 
     // If we're in a higher dollar amount, we can use any cents
     const newCents = generateDeterministicCents(from, newCentsSeed, quantity);
     return Number(`${increasedDollars}.${newCents.toString().padStart(2, "0")}`);
+};
+
+const generateHighestPrice = (from: Date, to: Date, quantity: number): number => {
+    // Start with the base price
+    const basePrice = generatePriceForRange(from, to, quantity);
+
+    // Fixed 65% increase
+    const increasedPrice = basePrice * 1.65;
+
+    // Generate deterministic cents
+    const newCentsSeed = new Date(from.getTime() + to.getTime());
+    const newCents = generateDeterministicCents(from, newCentsSeed, quantity);
+
+    // Combine dollars with deterministic cents
+    const dollars = Math.floor(increasedPrice);
+    return Number(`${dollars}.${newCents.toString().padStart(2, "0")}`);
 };
 
 export const getPricesWithStartDate = (startDate: Date, quantity: number | undefined): Record<string, number> => {
@@ -94,14 +111,19 @@ export const getPricesWithDateRange = (range: DateRange, quantity: number | unde
     return prices;
 };
 
-export const getBestPrice = (startDate: Date, endDate: Date, quantity: number | undefined): number => {
+export const getLowestPrice = (startDate: Date, endDate: Date, quantity: number | undefined): number => {
     if (quantity === undefined) return 0;
     return generatePriceForRange(startDate, endDate, quantity);
 };
 
-export const getHigherPrice = (startDate: Date, endDate: Date, quantity: number | undefined): number => {
+export const getMediumPrice = (startDate: Date, endDate: Date, quantity: number | undefined): number => {
     if (quantity === undefined) return 0;
-    return generateHigherPrice(startDate, endDate, quantity);
+    return generateMediumPrice(startDate, endDate, quantity);
+};
+
+export const getHighestPrice = (startDate: Date, endDate: Date, quantity: number | undefined): number => {
+    if (quantity === undefined) return 0;
+    return generateHighestPrice(startDate, endDate, quantity);
 };
 
 export const getPriceForHour = (hour: number, fromDate: Date, toDate: Date, quantity: number | undefined): number => {
@@ -111,9 +133,9 @@ export const getPriceForHour = (hour: number, fromDate: Date, toDate: Date, quan
     dateFrom.setHours(hour);
     dateTo.setHours(hour);
 
-    return BEST_PRICE_HOURS.includes(hour)
-        ? getBestPrice(dateFrom, dateTo, quantity)
-        : getHigherPrice(dateFrom, dateTo, quantity);
+    return LOWEST_PRICE_HOURS.includes(hour)
+        ? getLowestPrice(dateFrom, dateTo, quantity)
+        : getMediumPrice(dateFrom, dateTo, quantity);
 };
 
 export const calculateTotal = (data: OrderFormData, orderType: OrderType): number => {

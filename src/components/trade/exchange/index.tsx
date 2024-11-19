@@ -85,11 +85,13 @@ const OrderForm = ({
                     formData={formData}
                     onChange={(value) => setFormData((prev) => ({ ...prev, start_time: value }))}
                     orderType={orderType}
+                    isBuy={isBuy}
                 />
                 <EndTimeInput
                     formData={formData}
                     onChange={(value) => setFormData((prev) => ({ ...prev, end_time: value }))}
                     orderType={orderType}
+                    isBuy={isBuy}
                 />
             </div>
             <TotalInfo total={total} />

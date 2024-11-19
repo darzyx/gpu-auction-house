@@ -9,40 +9,69 @@ import {
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
 import { OrderFormData, OrderType } from "../types";
-import { BEST_PRICE_HOURS, formatCurrency, formatTime, getBestPrice, getHigherPrice } from "../utils";
+import {
+    HIGHEST_PRICE_HOURS,
+    LOWEST_PRICE_HOURS,
+    formatCurrency,
+    formatTime,
+    getLowestPrice,
+    getMediumPrice,
+    getHighestPrice,
+} from "../utils";
 
 type EndTimeInputProps = {
     formData: OrderFormData;
     onChange: (value: string) => void;
     orderType: OrderType;
+    isBuy: boolean;
 };
 
 export function EndTimeInput({
     formData: { days, quantity, start_time, end_time },
     onChange,
     orderType,
+    isBuy,
 }: EndTimeInputProps) {
     const selectedDate = days?.to;
 
-    const getPriceForHour = (hour: number): { price: number; isBest: boolean } => {
-        if (!days?.to || !quantity) return { price: 0, isBest: false };
+    const getPriceForHour = (hour: number): { price: number; priceType: "highest" | "lowest" | "normal" } => {
+        if (!days?.to || !quantity) return { price: 0, priceType: "normal" };
 
         const fromDate = new Date(days.from || days.to);
         fromDate.setHours(parseInt(start_time || "0"));
         const toDate = new Date(days.to);
         toDate.setHours(hour);
 
-        if (BEST_PRICE_HOURS.includes(hour)) {
+        if (HIGHEST_PRICE_HOURS.includes(hour)) {
             return {
-                price: getBestPrice(fromDate, toDate, quantity),
-                isBest: true,
+                price: getHighestPrice(fromDate, toDate, quantity),
+                priceType: "highest",
+            };
+        }
+
+        if (LOWEST_PRICE_HOURS.includes(hour)) {
+            return {
+                price: getLowestPrice(fromDate, toDate, quantity),
+                priceType: "lowest",
             };
         }
 
         return {
-            price: getHigherPrice(fromDate, toDate, quantity),
-            isBest: false,
+            price: getMediumPrice(fromDate, toDate, quantity),
+            priceType: "normal",
         };
+    };
+
+    const getPriceColor = (priceType: "highest" | "lowest" | "normal") => {
+        if (priceType === "normal") return "text-muted-foreground";
+
+        if (isBuy) {
+            // For buys: low is good (green), high is bad (red)
+            return priceType === "lowest" ? "text-green-600" : "text-red-600";
+        } else {
+            // For sells: high is good (green), low is bad (red)
+            return priceType === "highest" ? "text-green-600" : "text-red-600";
+        }
     };
 
     const showLabel = orderType === "market" && (!selectedDate || !quantity);
@@ -69,7 +98,7 @@ export function EndTimeInput({
                         )}
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
-                            const { price, isBest } = getPriceForHour(i);
+                            const { price, priceType } = getPriceForHour(i);
                             const showPrice = orderType === "market" && selectedDate && quantity;
 
                             return (
@@ -77,9 +106,7 @@ export function EndTimeInput({
                                     <div className="w-[200px] flex justify-between items-center">
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
-                                            <span className={isBest ? "text-green-600" : "text-muted-foreground"}>
-                                                {formatCurrency(price)}
-                                            </span>
+                                            <span className={getPriceColor(priceType)}>{formatCurrency(price)}</span>
                                         )}
                                     </div>
                                 </SelectItem>

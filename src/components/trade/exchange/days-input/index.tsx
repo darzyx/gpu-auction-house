@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { OrderFormData, OrderType } from "../types";
-import { formatCurrency, getBestPrice, getPricesWithDateRange, getPricesWithStartDate } from "../utils";
+import { formatCurrency, getLowestPrice, getPricesWithDateRange, getPricesWithStartDate } from "../utils";
 import { Calendar } from "./calendar";
 
 export default function DaysInput({
@@ -65,7 +65,7 @@ export default function DaysInput({
 
     const getSelectedRangePrice = () => {
         if (!date?.from || !date?.to) return 0;
-        return getBestPrice(date.from, date.to, quantity);
+        return getLowestPrice(date.from, date.to, quantity);
     };
 
     return (
