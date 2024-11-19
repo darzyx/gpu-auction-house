@@ -24,7 +24,6 @@ export function EndTimeInput({
     orderType,
 }: EndTimeInputProps) {
     const selectedDate = days?.to;
-    const isSameDay = Boolean(selectedDate && days?.from && selectedDate.toDateString() === days.from.toDateString());
 
     const getPriceForHour = (hour: number): { price: number; isBest: boolean } => {
         if (!days?.to || !quantity) return { price: 0, isBest: false };
@@ -72,14 +71,11 @@ export function EndTimeInput({
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
                             const { price, isBest } = getPriceForHour(i);
-                            const showPrice = selectedDate && quantity && start_time;
-                            const isDisabled = Boolean(
-                                isSameDay && start_time && parseInt(hour) <= parseInt(start_time)
-                            );
+                            const showPrice = orderType === "market" && selectedDate && quantity;
 
                             return (
-                                <SelectItem key={i} value={hour} disabled={isDisabled}>
-                                    <div className="w-[250px] flex justify-between items-center">
+                                <SelectItem key={i} value={hour}>
+                                    <div className="w-[200px] flex justify-between items-center">
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
                                             <span className={isBest ? "text-green-600" : "text-muted-foreground"}>

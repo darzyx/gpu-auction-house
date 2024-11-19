@@ -71,11 +71,11 @@ export function StartTimeInput({
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
                             const { price, isBest } = getPriceForHour(i);
-                            const showPrice = selectedDate && quantity;
+                            const showPrice = orderType === "market" && selectedDate && quantity;
 
                             return (
                                 <SelectItem key={i} value={hour}>
-                                    <div className="w-[250px] flex justify-between items-center">
+                                    <div className="w-[200px] flex justify-between items-center">
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
                                             <span className={isBest ? "text-green-600" : "text-muted-foreground"}>
