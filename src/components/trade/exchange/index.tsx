@@ -10,6 +10,7 @@ import Confirm from "./confirm";
 import DaysInput from "./days-input";
 import OrderTypeTabs from "./order-types-tabs";
 import PriceInput from "./price-input";
+import PricePerGPUPerHrInfo from "./price-per-gpu-per-hr-info";
 import QuantityInput from "./quantity-input";
 import { StartTimeInput } from "./start-time-input";
 import TotalInfo from "./total-info";
@@ -70,6 +71,7 @@ const OrderForm = ({
                     isBuy={isBuy}
                 />
             </div>
+            <PricePerGPUPerHrInfo formData={formData} />
             <TotalInfo total={total} />
             <Button
                 disabled={!isValid}
