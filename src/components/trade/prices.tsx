@@ -28,7 +28,7 @@ export default function Prices() {
             <div className="grid grid-cols-[auto_1fr_auto_auto]">
                 <div className="space-y-2">
                     <h2 className="text-lg font-georgia leading-none">Prices</h2>
-                    <div className="hidden md:flex items-center gap-1 text-muted-foreground text-sm leading-none">
+                    <div className="hidden lg:flex items-center gap-1 text-muted-foreground text-sm leading-none">
                         Dec 15 - Dec 21, 2024
                     </div>
                 </div>
@@ -72,7 +72,7 @@ export default function Prices() {
                         <LabelList
                             position="top"
                             offset={12}
-                            className="fill-foreground hidden md:block"
+                            className="fill-foreground hidden lg:block"
                             fontSize={12}
                             formatter={(v: number) => `$${v.toFixed(2)}`}
                         />
@@ -88,7 +88,7 @@ export default function Prices() {
                         <LabelList
                             position="top"
                             offset={12}
-                            className="fill-foreground hidden md:block"
+                            className="fill-foreground hidden lg:block"
                             fontSize={12}
                             formatter={(v: number) => `$${v.toFixed(2)}`}
                         />
@@ -104,7 +104,7 @@ export default function Prices() {
                         <LabelList
                             position="bottom"
                             offset={12}
-                            className="fill-foreground hidden md:block"
+                            className="fill-foreground hidden lg:block"
                             fontSize={12}
                             formatter={(v: number) => `$${v.toFixed(2)}`}
                         />
