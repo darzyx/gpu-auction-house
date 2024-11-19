@@ -40,7 +40,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
         : "flex-1 bg-red-600 hover:bg-red-600";
 
     const getValueForPricePerGPUPerDay = () => {
-        if (!price || !days?.from || !days?.to || !start_time || !quantity) return "---";
+        if (!days?.from || !days?.to || !start_time || !quantity) return "---";
         return formatCurrency(getPriceForHour(parseInt(start_time), days.from, days.to, quantity));
     };
 
