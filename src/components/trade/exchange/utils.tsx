@@ -76,10 +76,10 @@ export const getPricesWithStartDate = (
 ): Record<string, number> => {
     if (quantity === undefined) return {};
     const prices: Record<string, number> = {};
-    const endOfYear = new Date(2024, 11, 31);
+    const endOfJanuary = new Date(2025, 0, 31); // January is month 0
     let currentDate = startDate;
 
-    while (currentDate <= endOfYear) {
+    while (currentDate <= endOfJanuary) {
         const dateKey = currentDate.toISOString().split("T")[0];
         prices[dateKey] = isBuy
             ? generatePriceForRange(startDate, currentDate, quantity)
@@ -112,8 +112,8 @@ export const getPricesWithDateRange = (
     }
 
     currentDate = new Date(range.from);
-    const endOfYear = new Date(2024, 11, 31);
-    while (currentDate <= endOfYear) {
+    const endOfJanuary = new Date(2025, 0, 31); // January is month 0
+    while (currentDate <= endOfJanuary) {
         const dateKey = currentDate.toISOString().split("T")[0];
         prices[dateKey] = isBuy
             ? generatePriceForRange(range.from, currentDate, quantity)
