@@ -19,6 +19,7 @@ import {
     getPricesWithStartDate,
 } from "../utils";
 import { Calendar } from "./calendar";
+import { CalendarIcon } from "lucide-react";
 
 type DaysInputProps = {
     formData: OrderFormData;
@@ -90,6 +91,7 @@ export default function DaysInput({
                                 !date && "text-muted-foreground"
                             )}
                         >
+                            <CalendarIcon />
                             {date?.from ? (
                                 date.to ? (
                                     <>

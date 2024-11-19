@@ -105,7 +105,7 @@ export function StartTimeInput({
 
                             return (
                                 <SelectItem key={i} value={hour} className="w-full [&>*]:w-full">
-                                    <div className="w-full flex justify-between items-center gap-4">
+                                    <div className="w-full flex justify-between items-center gap-8">
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
                                             <span className={getPriceColor(priceType) + " " + "font-berkeley-mono"}>
