@@ -19,6 +19,8 @@ export default function QuantityInput({
     onChange: (value: number | undefined) => void;
     isBuy: boolean;
 }) {
+    const maxGPUs = isBuy ? AVAILABLE_GPUS : USER_GPUS;
+
     return (
         <div className="relative space-y-1">
             <Label htmlFor={id} className="text-xs">
@@ -28,20 +30,19 @@ export default function QuantityInput({
                 id={id}
                 type="number"
                 min={0}
+                max={maxGPUs}
                 placeholder={placeholder}
                 value={value ?? ""}
                 onChange={(e) => {
                     const num = e.target.valueAsNumber;
-                    onChange(isNaN(num) ? undefined : Math.max(0, num));
+                    onChange(isNaN(num) ? undefined : Math.min(maxGPUs, Math.max(0, num)));
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();
                 }}
             />
             <div className="absolute -bottom-5 flex flex-col justify-center items-end">
-                <span className="text-muted-foreground text-xs">
-                    Max {isBuy ? AVAILABLE_GPUS : USER_GPUS} available
-                </span>
+                <span className="text-muted-foreground text-xs">Max {maxGPUs} available</span>
             </div>
         </div>
     );

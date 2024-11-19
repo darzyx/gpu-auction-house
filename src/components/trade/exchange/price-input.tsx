@@ -12,6 +12,8 @@ export default function PriceInput({
     onChange: (value: number | undefined) => void;
     placeholder?: string;
 }) {
+    const MAX_PRICE = 10000;
+
     return (
         <div className="space-y-1">
             <Label htmlFor={isBuy ? "price" : "sell-price"} className="text-xs">
@@ -22,11 +24,12 @@ export default function PriceInput({
                 type="number"
                 step="1"
                 min={0}
+                max={MAX_PRICE}
                 placeholder={placeholder}
                 value={value ?? ""}
                 onChange={(e) => {
                     const num = e.target.valueAsNumber;
-                    onChange(isNaN(num) ? undefined : Math.max(0, num));
+                    onChange(isNaN(num) ? undefined : Math.min(MAX_PRICE, Math.max(0, num)));
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();
