@@ -30,6 +30,25 @@ export default function DaysInput({
     const isDesktop = useMediaQuery("(min-width: 768px)");
     const [dayAmounts, setDayAmounts] = useState<Record<string, number>>({});
 
+    const handleSelect = (range: DateRange | undefined) => {
+        if (!range) {
+            setDate(undefined);
+            return;
+        }
+
+        if (range.from && range.to) {
+            const fromDate = new Date(range.from);
+            const toDate = new Date(range.to);
+
+            if (fromDate.toDateString() === toDate.toDateString()) {
+                setDate({ from: range.from, to: undefined });
+                return;
+            }
+        }
+
+        setDate(range);
+    };
+
     useEffect(() => {
         if (!date) {
             setDayAmounts({});
@@ -86,7 +105,7 @@ export default function DaysInput({
                             mode="range"
                             defaultMonth={new Date()}
                             selected={date}
-                            onSelect={setDate}
+                            onSelect={handleSelect}
                             numberOfMonths={isDesktop ? 2 : 1}
                             fromDate={new Date()}
                             dayAmounts={dayAmounts}
