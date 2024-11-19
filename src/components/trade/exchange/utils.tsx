@@ -7,8 +7,8 @@ import { DateRange } from "react-day-picker";
 
 import { OrderFormData, OrderType } from "./types";
 
-export const AVAILABLE_GPUS = 15000;
-export const USED_GPUS = 2042;
+export const TOTAL_GPUS = 3200;
+export const AVAILABLE_GPUS = 2295;
 export const LOWEST_PRICE_HOURS = [2, 3, 16, 17, 23];
 export const HIGHEST_PRICE_HOURS = [4, 5, 18, 19];
 export const UNAVAILABLE_HOURS = [7, 21, 22];
@@ -220,7 +220,7 @@ export const calculateTotal = (data: OrderFormData, orderType: OrderType): numbe
 
 export const validateFormData = (data: OrderFormData, orderType: OrderType): boolean => {
     const quantity = data.quantity;
-    if (!quantity || quantity <= 0 || quantity > AVAILABLE_GPUS - USED_GPUS) return false;
+    if (!quantity || quantity <= 0 || quantity > AVAILABLE_GPUS) return false;
 
     if (orderType === "limit") {
         const price = data.price;

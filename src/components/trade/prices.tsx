@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { AVAILABLE_GPUS, TOTAL_GPUS } from "./exchange/utils";
 
 const chartData = [
     { day: "Sunday", high: 46.2, average: 31.68, low: 20.88 },
@@ -40,7 +41,7 @@ export default function Prices() {
                     </div>
                     <div className="flex flex-col text-xs bg-muted rounded-md p-2">
                         <h3 className="text-muted-foreground leading-none uppercase">Availability</h3>
-                        <div className="font-berkeley-mono">1,295/1,500 GPUs</div>
+                        <div className="font-berkeley-mono">{`${AVAILABLE_GPUS}/${TOTAL_GPUS} GPUs`}</div>
                     </div>
                 </div>
             </div>

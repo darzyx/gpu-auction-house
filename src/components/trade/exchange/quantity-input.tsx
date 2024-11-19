@@ -24,11 +24,15 @@ export default function QuantityInput({
             <Input
                 id={id}
                 type="number"
+                min={0}
                 placeholder={placeholder}
                 value={value ?? ""}
                 onChange={(e) => {
                     const num = e.target.valueAsNumber;
-                    onChange(isNaN(num) ? undefined : num);
+                    onChange(isNaN(num) ? undefined : Math.max(0, num));
+                }}
+                onKeyDown={(e) => {
+                    if (e.key === "-") e.preventDefault();
                 }}
             />
         </div>
