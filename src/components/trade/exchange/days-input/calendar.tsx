@@ -76,7 +76,8 @@ function Calendar({
                     const isNotPastDate = props.date >= today;
                     const renderPrice = isMarketOrder && hasPickedQuantity;
                     const makePriceVisible = amount !== undefined && isNotPastDate;
-                    const isRangeExtremity = props.activeModifiers.range_start || props.activeModifiers.range_end;
+                    const isRangeStart = props.activeModifiers.range_start;
+                    const isRangeEnd = props.activeModifiers.range_end;
                     return (
                         <>
                             <span>{props.date.getDate()}</span>
@@ -85,13 +86,15 @@ function Calendar({
                                     className={cn(
                                         "text-[0.6rem] md:text-xs leading-none -mt-1.5 font-berkeley-mono",
                                         makePriceVisible
-                                            ? isRangeExtremity
+                                            ? isRangeStart
+                                                ? "text-white"
+                                                : isRangeEnd
                                                 ? "text-green-400"
                                                 : "text-green-600"
                                             : "invisible"
                                     )}
                                 >
-                                    {makePriceVisible ? formatCurrency(amount) : "$0.00"}
+                                    {isRangeStart ? "start" : makePriceVisible ? formatCurrency(amount) : "$0.00"}
                                 </span>
                             )}
                         </>
