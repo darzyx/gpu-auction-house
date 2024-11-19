@@ -208,3 +208,11 @@ export const formatCurrency = (amount: number): string => {
         currency: "USD",
     }).format(amount);
 };
+
+export const initFormData: OrderFormData = {
+    quantity: undefined,
+    price: undefined,
+    days: undefined,
+    start_time: undefined,
+    end_time: undefined,
+};

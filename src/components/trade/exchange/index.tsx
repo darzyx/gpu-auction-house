@@ -15,7 +15,7 @@ import { EndTimeInput } from "./times/end-time-input";
 import { StartTimeInput } from "./times/start-time-input";
 import TotalInfo from "./total-info";
 import { OrderFormData, OrderType, TradeType } from "./types";
-import { calculateTotal, formatCurrency, validateFormData } from "./utils";
+import { calculateTotal, formatCurrency, initFormData, validateFormData } from "./utils";
 
 const OrderForm = ({
     orderType,
@@ -26,22 +26,11 @@ const OrderForm = ({
     setOrderType: (type: OrderType) => void;
     isBuy: boolean;
 }) => {
-    const [formData, setFormData] = useState<OrderFormData>({
-        quantity: undefined,
-        price: undefined,
-        days: undefined,
-        start_time: undefined,
-        end_time: undefined,
-    });
+    const [formData, setFormData] = useState<OrderFormData>(initFormData);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
     const handleDateChange = (days: DateRange | undefined) => {
-        setFormData((prev) => ({
-            ...prev,
-            days,
-            start_time: undefined,
-            end_time: undefined,
-        }));
+        setFormData((prev) => ({ ...prev, days }));
     };
 
     const isValid = validateFormData(formData, orderType);
@@ -53,13 +42,7 @@ const OrderForm = ({
 
     const handleConfirm = () => {
         setIsConfirmationOpen(false);
-        setFormData({
-            quantity: undefined,
-            price: undefined,
-            days: undefined,
-            start_time: undefined,
-            end_time: undefined,
-        });
+        setFormData(initFormData);
     };
 
     return (
