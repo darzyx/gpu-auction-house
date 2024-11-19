@@ -65,7 +65,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                             value={`${format(days.from, "M/d/yy")} - ${format(days.to, "M/d/yy")}`}
                         />
                     )}
-                    {start_time && <DetailRow label="Start Time" value={formatTime(parseInt(start_time))} />}
+                    {start_time && <DetailRow label="Start/End Time" value={formatTime(parseInt(start_time))} />}
                     <DetailRow label="Total" value={total} />
                 </div>
                 <div className="flex gap-4">

@@ -79,7 +79,7 @@ export function StartTimeInput({
     return (
         <div>
             <Label htmlFor="start-time" className="text-xs">
-                START TIME
+                START/END TIME
             </Label>
             <Select value={start_time} onValueChange={onChange}>
                 <SelectTrigger id="start-time">
