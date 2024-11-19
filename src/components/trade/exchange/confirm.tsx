@@ -4,7 +4,7 @@ import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { OrderType, TradeType } from "./types";
-import { formatCurrency, formatTime, getPriceForHour } from "./utils";
+import { formatCurrency, formatTime, getNumerOfDaysSelected, getPriceForHour } from "./utils";
 
 type OrderData = {
     tradeType: TradeType;
@@ -70,6 +70,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                             value={`${format(days.from, "M/d/yy")} - ${format(days.to, "M/d/yy")}`}
                         />
                     )}
+                    {days && <DetailRow label="Days" value={getNumerOfDaysSelected(days).toString()} />}
                     {start_time && <DetailRow label="Start/End Time" value={formatTime(parseInt(start_time))} />}
                     <DetailRow label="$/GPU/Day" value={getValueForPricePerGPUPerDay()} />
                     <DetailRow label="Total" value={total} />

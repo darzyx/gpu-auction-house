@@ -213,3 +213,8 @@ export const initFormData: OrderFormData = {
     days: undefined,
     start_time: undefined,
 };
+
+export const getNumerOfDaysSelected = (days: DateRange) => {
+    if (!days?.from || !days?.to) return 0;
+    return Math.round((days.to.getTime() - days.from.getTime()) / (1000 * 60 * 60 * 24));
+};

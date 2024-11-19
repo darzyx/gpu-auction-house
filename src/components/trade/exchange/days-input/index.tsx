@@ -16,6 +16,7 @@ import {
     formatCurrency,
     getHighestPrice,
     getLowestPrice,
+    getNumerOfDaysSelected,
     getPricesWithDateRange,
     getPricesWithStartDate,
 } from "../utils";
@@ -30,7 +31,7 @@ type DaysInputProps = {
 };
 
 export default function DaysInput({
-    formData: { days: date, quantity },
+    formData: { days, quantity },
     orderType,
     setDate,
     className,
@@ -59,25 +60,20 @@ export default function DaysInput({
     };
 
     useEffect(() => {
-        if (!date) {
+        if (!days) {
             setDayAmounts({});
             return;
         }
-        if (date.from && !date.to) {
-            setDayAmounts(getPricesWithStartDate(date.from, quantity, isBuy));
-        } else if (date.from && date.to) {
-            setDayAmounts(getPricesWithDateRange(date, quantity, isBuy));
+        if (days.from && !days.to) {
+            setDayAmounts(getPricesWithStartDate(days.from, quantity, isBuy));
+        } else if (days.from && days.to) {
+            setDayAmounts(getPricesWithDateRange(days, quantity, isBuy));
         }
-    }, [date?.from, date?.to, quantity, isBuy]);
+    }, [days?.from, days?.to, quantity, isBuy]);
 
     const getSelectedRangePrice = () => {
-        if (!date?.from || !date?.to) return 0;
-        return isBuy ? getLowestPrice(date.from, date.to, quantity) : getHighestPrice(date.from, date.to, quantity);
-    };
-
-    const getNumerOfDaysSelected = () => {
-        if (!date?.from || !date?.to) return 0;
-        return Math.round((date.to.getTime() - date.from.getTime()) / (1000 * 60 * 60 * 24));
+        if (!days?.from || !days?.to) return 0;
+        return isBuy ? getLowestPrice(days.from, days.to, quantity) : getHighestPrice(days.from, days.to, quantity);
     };
 
     return (
@@ -93,17 +89,17 @@ export default function DaysInput({
                             variant={"outline"}
                             className={cn(
                                 "w-full justify-start text-left font-normal",
-                                !date && "text-muted-foreground"
+                                !days && "text-muted-foreground"
                             )}
                         >
                             <CalendarIcon />
-                            {date?.from ? (
-                                date.to ? (
+                            {days?.from ? (
+                                days.to ? (
                                     <>
-                                        {format(date.from, "M/d/yy")} - {format(date.to, "M/d/yy")}
+                                        {format(days.from, "M/d/yy")} - {format(days.to, "M/d/yy")}
                                     </>
                                 ) : (
-                                    format(date.from, "M/d/yy")
+                                    format(days.from, "M/d/yy")
                                 )
                             ) : (
                                 <span>Select dates</span>
@@ -115,7 +111,7 @@ export default function DaysInput({
                             initialFocus
                             mode="range"
                             defaultMonth={new Date()}
-                            selected={date}
+                            selected={days}
                             onSelect={handleSelect}
                             numberOfMonths={isDesktop ? 2 : 1}
                             fromDate={new Date()}
@@ -132,7 +128,7 @@ export default function DaysInput({
                                         <span>Add quantity (GPUs)</span>
                                         <span>to see prices</span>
                                     </span>
-                                ) : date?.from && date?.to ? (
+                                ) : days?.from && days?.to ? (
                                     <span className="flex flex-col justify-center items-end">
                                         <span className="flex justify-start items-center gap-1">
                                             <span className="text-xs text-muted-foreground">
@@ -161,7 +157,7 @@ export default function DaysInput({
                 </Popover>
                 <div className="absolute -bottom-5 flex flex-col justify-center items-end">
                     <span className="text-muted-foreground text-xs">
-                        You have {getNumerOfDaysSelected()} days selected
+                        You have {days ? getNumerOfDaysSelected(days) : 0} days selected
                     </span>
                 </div>
             </div>
