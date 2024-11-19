@@ -27,6 +27,7 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 -   Confirmation modal makes sure trades are intentional
 -   Grabbing Orders data from Vercel Postgres DB (just to show I can)
 -   Responsive design for mobile and desktop
+-   Fonts: A nice combination of Georgia, Geist, and the gorgeous Berkeley Mono
 
 ## Current Limitations
 
