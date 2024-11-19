@@ -79,7 +79,7 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
                 </TableBody>
             </Table>
             <div className="w-full flex justify-center items-center">
-                <div className="group flex items-center gap-1 text-sm text-muted-foreground font-medium hover:underline underline-offset-2">
+                <div className="group flex items-center gap-1 text-sm text-muted-foreground font-medium hover:underline underline-offset-2 cursor-pointer">
                     See all orders
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </div>
