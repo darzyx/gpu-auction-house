@@ -1,7 +1,7 @@
 import { OrderFormData } from "./types";
 import { formatCurrency, getPriceForHour } from "./utils";
 
-export default function PricePerGPUPerHrInfo({
+export default function PricePerGPUPerDayInfo({
     formData: { quantity, start_time, days },
 }: {
     formData: OrderFormData;
@@ -13,7 +13,7 @@ export default function PricePerGPUPerHrInfo({
 
     return (
         <div className="flex justify-between text-sm">
-            <div className="font-semibold uppercase">$/GPU/Hour</div>
+            <div className="font-semibold uppercase">$/GPU/Day</div>
             <div>{hasAllData ? formatCurrency(getPriceForHour(startTime, fromDate, toDate, quantity)) : "---"}</div>
         </div>
     );
