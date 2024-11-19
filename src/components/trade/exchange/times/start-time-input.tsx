@@ -8,9 +8,8 @@ import {
     SelectValue,
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
-import { BEST_PRICE_HOURS, getBestPrice, getHigherPrice } from "../price-helpers";
 import { OrderFormData, OrderType } from "../types";
-import { formatCurrency, formatTime } from "../utils";
+import { BEST_PRICE_HOURS, formatCurrency, formatTime, getBestPrice, getHigherPrice } from "../utils";
 
 type StartTimeInputProps = {
     formData: OrderFormData;
