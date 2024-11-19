@@ -24,7 +24,7 @@ type ConfirmProps = {
 };
 
 const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center gap-4">
         <span className="font-georgia leading-none">{label}</span>
         <span className="text-sm leading-none">{value}</span>
     </div>
@@ -40,7 +40,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
         : "flex-1 bg-red-600 hover:bg-red-600";
 
     const formatDateWithTime = (date: Date, time: string) => {
-        return `${format(date, "MMM d")} ${formatTime(parseInt(time))}`;
+        return `${format(date, "M/d/yy")} ${formatTime(parseInt(time))}`;
     };
 
     return (
@@ -64,19 +64,13 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         />
                     )}
                     {days?.from && days?.to && (
-                        <DetailRow
-                            label="Period"
-                            value={
-                                start_time ? (
-                                    <span>
-                                        {formatDateWithTime(days.from, start_time)} -
-                                        {formatDateWithTime(days.to, start_time)}`
-                                    </span>
-                                ) : (
-                                    `${format(days.from, "MMM d")} - ${format(days.to, "MMM d, yyyy")}`
-                                )
-                            }
-                        />
+                        <>
+                            <DetailRow
+                                label="Period"
+                                value={`${format(days.from, "M/d/yy")} - ${format(days.to, "M/d/yy")}`}
+                            />
+                            {start_time && <DetailRow label="Start Time" value={formatTime(parseInt(start_time))} />}
+                        </>
                     )}
                     <DetailRow label="Total" value={total} />
                 </div>
