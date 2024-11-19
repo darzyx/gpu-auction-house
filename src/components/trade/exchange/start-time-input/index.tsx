@@ -12,6 +12,7 @@ import { OrderFormData, OrderType } from "../types";
 import {
     HIGHEST_PRICE_HOURS,
     LOWEST_PRICE_HOURS,
+    UNAVAILABLE_HOURS,
     formatCurrency,
     formatTime,
     getHighestPrice,
@@ -34,7 +35,13 @@ export function StartTimeInput({
 }: StartTimeInputProps) {
     const selectedDate = days?.from;
 
-    const getPriceForHour = (hour: number): { price: number; priceType: "highest" | "lowest" | "normal" } => {
+    const getPriceForHour = (
+        hour: number
+    ): { price: number; priceType: "highest" | "lowest" | "normal" | "unavailable" } => {
+        if (UNAVAILABLE_HOURS.includes(hour)) {
+            return { price: 0, priceType: "unavailable" };
+        }
+
         if (!days?.from || !quantity) return { price: 0, priceType: "normal" };
 
         const fromDate = new Date(days.from);
@@ -62,8 +69,10 @@ export function StartTimeInput({
         };
     };
 
-    const getPriceColor = (priceType: "highest" | "lowest" | "normal") => {
-        if (priceType === "normal") return "text-muted-foreground";
+    const getPriceColor = (priceType: "highest" | "lowest" | "normal" | "unavailable") => {
+        if (priceType === "normal" || priceType === "unavailable") {
+            return "text-muted-foreground";
+        }
 
         if (isBuy) {
             // For buys: low is good (green), high is bad (red)
@@ -102,14 +111,20 @@ export function StartTimeInput({
                             const hour = String(i).padStart(2, "0");
                             const { price, priceType } = getPriceForHour(i);
                             const showPrice = orderType === "market" && selectedDate && quantity;
+                            const isUnavailable = priceType === "unavailable";
 
                             return (
-                                <SelectItem key={i} value={hour} className="w-full [&>*]:w-full">
+                                <SelectItem
+                                    key={i}
+                                    value={hour}
+                                    className="w-full [&>*]:w-full"
+                                    disabled={isUnavailable}
+                                >
                                     <div className="w-full flex justify-between items-center gap-8">
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
                                             <span className={getPriceColor(priceType) + " " + "font-berkeley-mono"}>
-                                                {formatCurrency(price)}/GPU/day
+                                                {isUnavailable ? "unavailable" : `${formatCurrency(price)}/GPU/day`}
                                             </span>
                                         )}
                                     </div>

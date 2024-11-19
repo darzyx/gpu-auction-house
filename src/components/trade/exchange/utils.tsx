@@ -11,6 +11,7 @@ export const AVAILABLE_GPUS = 15000;
 export const USED_GPUS = 2042;
 export const LOWEST_PRICE_HOURS = [2, 3, 16, 17, 23];
 export const HIGHEST_PRICE_HOURS = [4, 5, 18, 19];
+export const UNAVAILABLE_HOURS = [21, 22];
 
 const generateDeterministicCents = (date1: Date, date2: Date, quantity: number): number => {
     const seed = (date1.getDate() * date2.getMonth() + date2.getDate() * date1.getMonth()) * quantity;
