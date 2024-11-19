@@ -33,3 +33,4 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 
 -   Just one page UI implementation, the Trade page
 -   Non-functional navigation
+-   Didn't add ability to submit data to focus on UI/UX
