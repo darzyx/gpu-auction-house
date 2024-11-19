@@ -149,6 +149,8 @@ export const getPriceForHour = (hour: number, fromDate: Date, toDate: Date, quan
 
     return LOWEST_PRICE_HOURS.includes(hour)
         ? getLowestPrice(dateFrom, dateTo, quantity)
+        : HIGHEST_PRICE_HOURS.includes(hour)
+        ? getHighestPrice(dateFrom, dateTo, quantity)
         : getMediumPrice(dateFrom, dateTo, quantity);
 };
 
