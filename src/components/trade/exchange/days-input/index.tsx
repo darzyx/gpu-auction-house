@@ -111,7 +111,10 @@ export default function DaysInput({
                                         <span className="text-xs text-muted-foreground">per GPU per day</span>
                                     </span>
                                 ) : (
-                                    ""
+                                    <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
+                                        <span>Select start and end</span>
+                                        <span>dates to see prices</span>
+                                    </span>
                                 )}
                             </div>
                             <PopoverClose>
