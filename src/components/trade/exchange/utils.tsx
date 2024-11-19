@@ -167,14 +167,10 @@ export const calculateTotal = (data: OrderFormData, orderType: OrderType): numbe
         return quantity * (data.price || 0) * days;
     }
 
-    if (!data.start_time || !data.end_time) return 0;
+    if (!data.start_time) return 0;
 
     const startHour = parseInt(data.start_time);
-    const endHour = parseInt(data.end_time);
-
-    const startPrice = getPriceForHour(startHour, data.days.from, data.days.to, quantity);
-    const endPrice = getPriceForHour(endHour, data.days.from, data.days.to, quantity);
-    const effectivePrice = Math.max(startPrice, endPrice);
+    const effectivePrice = getPriceForHour(startHour, data.days.from, data.days.to, quantity);
 
     return quantity * effectivePrice * days;
 };
@@ -193,7 +189,7 @@ export const validateFormData = (data: OrderFormData, orderType: OrderType): boo
     const days = Math.ceil((data.days.to.getTime() - data.days.from.getTime()) / (1000 * 60 * 60 * 24));
     if (days < 1) return false;
 
-    if (!data.start_time || !data.end_time) return false;
+    if (!data.start_time) return false;
 
     return true;
 };
@@ -216,5 +212,4 @@ export const initFormData: OrderFormData = {
     price: undefined,
     days: undefined,
     start_time: undefined,
-    end_time: undefined,
 };

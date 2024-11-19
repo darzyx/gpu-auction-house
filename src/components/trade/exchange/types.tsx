@@ -8,7 +8,6 @@ export type OrderFormData = {
     price: number | undefined;
     days: DateRange | undefined;
     start_time: string | undefined;
-    end_time: string | undefined;
 };
 
 export type OrderData = {

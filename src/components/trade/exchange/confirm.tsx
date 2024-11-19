@@ -13,7 +13,6 @@ type OrderData = {
     price?: number | undefined;
     days: DateRange | undefined;
     start_time?: string;
-    end_time?: string;
     total: string;
 };
 
@@ -32,7 +31,7 @@ const DetailRow = ({ label, value }: { label: string; value: string | JSX.Elemen
 );
 
 export default function Confirm({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
-    const { tradeType, orderType, quantity, price, days, start_time, end_time, total } = orderData;
+    const { tradeType, orderType, quantity, price, days, start_time, total } = orderData;
     const isBuy = tradeType === "buy";
     const isMarket = orderType === "market";
 
@@ -68,10 +67,10 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         <DetailRow
                             label="Period"
                             value={
-                                start_time && end_time ? (
+                                start_time ? (
                                     <span>
-                                        {formatDateWithTime(days.from, start_time)} -{" "}
-                                        {formatDateWithTime(days.to, end_time)}
+                                        {formatDateWithTime(days.from, start_time)} -
+                                        {formatDateWithTime(days.to, start_time)}`
                                     </span>
                                 ) : (
                                     `${format(days.from, "MMM d")} - ${format(days.to, "MMM d, yyyy")}`

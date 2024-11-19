@@ -8,7 +8,6 @@ import {
     SelectValue,
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
 import { OrderFormData, OrderType } from "../types";
 import {
     HIGHEST_PRICE_HOURS,
@@ -84,7 +83,9 @@ export function StartTimeInput({
             </Label>
             <Select value={start_time} onValueChange={onChange}>
                 <SelectTrigger id="start-time">
-                    <SelectValue placeholder="Select" />
+                    <SelectValue placeholder="Select">
+                        {start_time ? formatTime(parseInt(start_time)) : "Select"}
+                    </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
@@ -103,16 +104,13 @@ export function StartTimeInput({
                             const showPrice = orderType === "market" && selectedDate && quantity;
 
                             return (
-                                <SelectItem key={i} value={hour}>
-                                    <div
-                                        className={cn(
-                                            orderType === "market" ? "w-[200px]" : "w-auto",
-                                            "flex justify-between items-center"
-                                        )}
-                                    >
+                                <SelectItem key={i} value={hour} className="w-full [&>*]:w-full">
+                                    <div className="w-full flex justify-between items-center">
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
-                                            <span className={getPriceColor(priceType)}>{formatCurrency(price)}</span>
+                                            <span className={getPriceColor(priceType) + " " + "font-berkeley-mono"}>
+                                                {formatCurrency(price)}/GPU/day
+                                            </span>
                                         )}
                                     </div>
                                 </SelectItem>
