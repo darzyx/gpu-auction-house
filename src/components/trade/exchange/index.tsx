@@ -71,7 +71,7 @@ const OrderForm = ({
                     isBuy={isBuy}
                 />
             </div>
-            {orderType === "limit" && <PricePerGPUPerDayInfo formData={formData} />}
+            {orderType === "market" && <PricePerGPUPerDayInfo formData={formData} />}
             <TotalInfo total={total} />
             <Button
                 disabled={!isValid}
