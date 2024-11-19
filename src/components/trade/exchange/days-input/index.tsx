@@ -103,7 +103,7 @@ export default function DaysInput({
                                 ) : orderType === "market" && date?.from && date?.to ? (
                                     <span className="flex flex-col justify-center items-end">
                                         <span className="flex justify-start items-center gap-1">
-                                            <span className="text-xs text-muted-foreground">best price</span>
+                                            <span className="text-xs text-muted-foreground">from</span>
                                             <span className="font-berkeley-mono">
                                                 {formatCurrency(getSelectedRangePrice())}
                                             </span>
