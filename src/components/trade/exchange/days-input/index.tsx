@@ -76,6 +76,8 @@ export default function DaysInput({
         return isBuy ? getLowestPrice(days.from, days.to, quantity) : getHighestPrice(days.from, days.to, quantity);
     };
 
+    const numSelectedDays = days ? getNumerOfDaysSelected(days) : 0;
+
     return (
         <div className="space-y-1">
             <Label htmlFor="days" className="text-xs">
@@ -157,7 +159,7 @@ export default function DaysInput({
                 </Popover>
                 <div className="absolute -bottom-5 flex flex-col justify-center items-end">
                     <span className="text-muted-foreground text-xs">
-                        You have {days ? getNumerOfDaysSelected(days) : 0} days selected
+                        You have {numSelectedDays} {numSelectedDays === 1 ? "day" : "days"} selected
                     </span>
                 </div>
             </div>
