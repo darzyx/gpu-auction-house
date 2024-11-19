@@ -74,7 +74,7 @@ const OrderForm = ({
             <TotalInfo total={total} />
             <Button
                 disabled={!isValid}
-                className={cn("w-full", isBuy ? "bg-green-700 hover:bg-green-600" : "bg-red-700 hover:bg-red-600")}
+                className={cn("w-full", isBuy ? "bg-green-600 hover:bg-green-600" : "bg-red-600 hover:bg-red-600")}
                 onClick={handleSubmit}
             >
                 Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order

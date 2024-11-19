@@ -1,5 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { formatCurrency } from "./utils";
 
 export function EndTimeInput() {
     const formatTime = (hour: number) => {
@@ -20,10 +21,10 @@ export function EndTimeInput() {
                 <SelectContent>
                     <SelectGroup>
                         {Array.from({ length: 24 }, (_, i) => (
-                            <SelectItem key={i} value={String(i).padStart(2, "0")} className="px-2">
-                                <div className="w-[200px] flex justify-between">
+                            <SelectItem key={i} value={String(i).padStart(2, "0")}>
+                                <div className="w-[250px] flex justify-between">
                                     <span>{formatTime(i)}</span>
-                                    <span>${(456234).toLocaleString()}</span>
+                                    <span className="text-green-600">{formatCurrency(456234.44)}</span>
                                 </div>
                             </SelectItem>
                         ))}

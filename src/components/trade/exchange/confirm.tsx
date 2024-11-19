@@ -35,8 +35,8 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
     const isMarket = orderType === "market";
 
     const confirmButtonClasses = isBuy
-        ? "flex-1 bg-green-600 hover:bg-green-700"
-        : "flex-1 bg-red-600 hover:bg-red-700";
+        ? "flex-1 bg-green-600 hover:bg-green-600"
+        : "flex-1 bg-red-600 hover:bg-red-600";
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
