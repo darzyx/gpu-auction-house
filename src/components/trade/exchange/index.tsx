@@ -7,11 +7,11 @@ import { useMemo, useState } from "react";
 
 import Confirm from "./confirm";
 import DaysInput from "./days-input";
-import { EndTimeInput } from "./end-time-input";
 import OrderTypeTabs from "./order-types-tabs";
 import PriceInput from "./price-input";
 import QuantityInput from "./quantity-input";
-import { StartTimeInput } from "./start-time-input";
+import { EndTimeInput } from "./times/end-time-input";
+import { StartTimeInput } from "./times/start-time-input";
 import TotalInfo from "./total-info";
 import { OrderFormData, OrderType, TradeType } from "./types";
 import { calculateTotal, formatCurrency, validateFormData } from "./utils";

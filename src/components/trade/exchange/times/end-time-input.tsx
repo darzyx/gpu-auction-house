@@ -1,8 +1,15 @@
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { formatCurrency } from "./utils";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/trade/exchange/times/custom-select";
+import { formatCurrency } from "../utils";
 
-export function StartTimeInput() {
+export function EndTimeInput() {
     const formatTime = (hour: number) => {
         const period = hour >= 12 ? "PM" : "AM";
         const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
@@ -11,11 +18,11 @@ export function StartTimeInput() {
 
     return (
         <div>
-            <Label htmlFor="start-time" className="text-xs">
-                Start Time
+            <Label htmlFor="end-time" className="text-xs">
+                End Time
             </Label>
             <Select>
-                <SelectTrigger id="start-time">
+                <SelectTrigger id="end-time">
                     <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
