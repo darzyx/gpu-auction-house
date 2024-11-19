@@ -22,8 +22,11 @@ export default function PriceInput({
                 type="number"
                 step="1"
                 placeholder={placeholder}
-                value={value}
-                onChange={(e) => onChange(+e.target.value)}
+                value={value ?? ""}
+                onChange={(e) => {
+                    const num = e.target.valueAsNumber;
+                    onChange(isNaN(num) ? undefined : num);
+                }}
             />
         </div>
     );
