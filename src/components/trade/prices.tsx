@@ -25,15 +25,15 @@ const chartConfig = {
 export default function Prices() {
     return (
         <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
-            <div className="grid grid-cols-[auto_1fr_auto_auto]">
+            <div className="flex flex-col lg:grid lg:grid-cols-[auto_1fr_auto_auto] gap-1 lg:gap-0">
                 <div className="space-y-2">
                     <h2 className="text-lg font-georgia leading-none">Prices</h2>
-                    <div className="hidden lg:flex items-center gap-1 text-muted-foreground text-sm leading-none">
+                    <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
                         Dec 15 - Dec 21, 2024
                     </div>
                 </div>
                 <div />
-                <div className="flex gap-4">
+                <div className="grid grid-cols-2 lg:flex gap-4">
                     <div className="flex flex-col text-xs bg-muted rounded-md p-2">
                         <h3 className="text-muted-foreground leading-none uppercase">Average</h3>
                         <div className="font-berkeley-mono">$32.98/GPU/day</div>
@@ -111,7 +111,7 @@ export default function Prices() {
                     </Line>
                 </LineChart>
             </ChartContainer>
-            <div className="flex justify-end lg:justify-between items-center text-muted-foreground text-sm leading-none">
+            <div className="flex justify-end lg:justify-between items-center text-muted-foreground text-xs xl:text-sm leading-none gap-4">
                 <div className="hidden lg:flex items-center gap-2">
                     Average up $3.70 from yesterday <TrendingUp className="h-4 w-4" />
                 </div>
