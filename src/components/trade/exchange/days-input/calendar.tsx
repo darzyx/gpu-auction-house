@@ -80,7 +80,7 @@ function Calendar({
                     const isRangeEnd = props.activeModifiers.range_end;
                     return (
                         <>
-                            <span>{props.date.getDate()}</span>
+                            <span className="text-xs md:text-sm">{props.date.getDate()}</span>
                             {renderPrice && (
                                 <span
                                     className={cn(
