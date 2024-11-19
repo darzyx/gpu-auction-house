@@ -14,7 +14,7 @@ const navigationItems = [
 ];
 
 const Item = ({ id, href, children }: { id: string; href: string; children: React.ReactNode }) => {
-    let className = "flex justify-end text-sm hover:underline underline-offset-2 leading-none py-4 ";
+    let className = "flex justify-end items-center text-sm hover:underline underline-offset-2 leading-none lg:py-4 ";
     if (id === "trade") {
         className += "underline";
     } else {
