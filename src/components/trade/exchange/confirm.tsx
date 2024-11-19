@@ -39,10 +39,6 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
         ? "flex-1 bg-green-600 hover:bg-green-600"
         : "flex-1 bg-red-600 hover:bg-red-600";
 
-    const formatDateWithTime = (date: Date, time: string) => {
-        return `${format(date, "M/d/yy")} ${formatTime(parseInt(time))}`;
-    };
-
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="max-w-[90vw] sm:max-w-[400px] rounded-md space-y-4">
@@ -64,14 +60,12 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         />
                     )}
                     {days?.from && days?.to && (
-                        <>
-                            <DetailRow
-                                label="Period"
-                                value={`${format(days.from, "M/d/yy")} - ${format(days.to, "M/d/yy")}`}
-                            />
-                            {start_time && <DetailRow label="Start Time" value={formatTime(parseInt(start_time))} />}
-                        </>
+                        <DetailRow
+                            label="Period"
+                            value={`${format(days.from, "M/d/yy")} - ${format(days.to, "M/d/yy")}`}
+                        />
                     )}
+                    {start_time && <DetailRow label="Start Time" value={formatTime(parseInt(start_time))} />}
                     <DetailRow label="Total" value={total} />
                 </div>
                 <div className="flex gap-4">
