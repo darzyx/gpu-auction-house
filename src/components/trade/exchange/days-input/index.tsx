@@ -1,34 +1,54 @@
 "use client";
 
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useMediaQuery } from "@/hooks/use-media-query";
 
-import { Calendar } from "./calendar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { getBestPrice, getPricesWithDateRange, getPricesWithStartDate } from "../price-helpers";
 import { OrderFormData, OrderType } from "../types";
 import { formatCurrency } from "../utils";
-import dayAmountsData from "./data";
+import { Calendar } from "./calendar";
 
 export default function DaysInput({
     formData: { days: date, quantity },
     orderType,
     setDate,
     className,
-    total,
 }: {
     formData: OrderFormData;
     orderType: OrderType;
     setDate: (date: DateRange | undefined) => void;
     className?: string;
-    total: number;
 }) {
     const isDesktop = useMediaQuery("(min-width: 768px)");
+    const [dayAmounts, setDayAmounts] = useState<Record<string, number>>({});
+
+    useEffect(() => {
+        if (!date) {
+            setDayAmounts({});
+            return;
+        }
+
+        if (date.from && !date.to) {
+            // Only start date selected
+            setDayAmounts(getPricesWithStartDate(date.from, quantity));
+        } else if (date.from && date.to) {
+            // Both dates selected
+            setDayAmounts(getPricesWithDateRange(date, quantity));
+        }
+    }, [date?.from, date?.to, quantity]);
+
+    const getSelectedRangePrice = () => {
+        if (!date?.from || !date?.to) return 0;
+        return getBestPrice(date.from, date.to, quantity);
+    };
 
     return (
         <div className="space-y-1">
@@ -69,7 +89,7 @@ export default function DaysInput({
                             onSelect={setDate}
                             numberOfMonths={isDesktop ? 2 : 1}
                             fromDate={new Date()}
-                            dayAmounts={dayAmountsData}
+                            dayAmounts={dayAmounts}
                             hasPickedQuantity={!!quantity}
                             isMarketOrder={orderType === "market"}
                         />
@@ -80,13 +100,15 @@ export default function DaysInput({
                                         <span>Add quantity (GPUs)</span>
                                         <span>to see prices</span>
                                     </span>
-                                ) : orderType === "market" ? (
+                                ) : orderType === "market" && date?.from && date?.to ? (
                                     <span className="flex flex-col justify-center items-end">
                                         <span className="flex justify-start items-center gap-1">
-                                            <span className="text-xs text-muted-foreground">from</span>
-                                            <span className="font-berkeley-mono">{formatCurrency(total)}</span>
+                                            <span className="text-xs text-muted-foreground">best price</span>
+                                            <span className="font-berkeley-mono">
+                                                {formatCurrency(getSelectedRangePrice())}
+                                            </span>
                                         </span>
-                                        <span className="text-xs text-muted-foreground">total price</span>
+                                        <span className="text-xs text-muted-foreground">per GPU per day</span>
                                     </span>
                                 ) : (
                                     ""

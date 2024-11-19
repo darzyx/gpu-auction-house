@@ -1,10 +1,11 @@
 "use client";
 
+import { useMemo, useState } from "react";
+import { DateRange } from "react-day-picker";
+
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { useMemo, useState } from "react";
-
 import Confirm from "./confirm";
 import DaysInput from "./days-input";
 import OrderTypeTabs from "./order-types-tabs";
@@ -26,13 +27,22 @@ const OrderForm = ({
     isBuy: boolean;
 }) => {
     const [formData, setFormData] = useState<OrderFormData>({
-        quantity: "",
-        price: "",
+        quantity: undefined,
+        price: undefined,
         days: undefined,
         start_time: undefined,
         end_time: undefined,
     });
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+
+    const handleDateChange = (days: DateRange | undefined) => {
+        setFormData((prev) => ({
+            ...prev,
+            days,
+            start_time: undefined,
+            end_time: undefined,
+        }));
+    };
 
     const isValid = validateFormData(formData, orderType);
     const total = useMemo(() => calculateTotal(formData, orderType), [formData, orderType]);
@@ -44,8 +54,8 @@ const OrderForm = ({
     const handleConfirm = () => {
         setIsConfirmationOpen(false);
         setFormData({
-            quantity: "",
-            price: "",
+            quantity: undefined,
+            price: undefined,
             days: undefined,
             start_time: undefined,
             end_time: undefined,
@@ -69,12 +79,7 @@ const OrderForm = ({
                     />
                 )}
             </div>
-            <DaysInput
-                formData={formData}
-                orderType={orderType}
-                setDate={(days) => setFormData((prev) => ({ ...prev, days }))}
-                total={total}
-            />
+            <DaysInput formData={formData} orderType={orderType} setDate={handleDateChange} />
             <div className="grid grid-cols-2 gap-4">
                 <StartTimeInput
                     formData={formData}

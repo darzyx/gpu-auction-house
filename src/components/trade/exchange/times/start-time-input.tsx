@@ -7,27 +7,38 @@ import {
     SelectValue,
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
+import { BEST_PRICE_HOURS, getBestPrice, getHigherPrice } from "../price-helpers";
 import { OrderFormData } from "../types";
-import { CURRENT_MARKET_PRICE, formatCurrency, formatTime, getDayTimePrice } from "../utils";
+import { formatCurrency, formatTime } from "../utils";
 
 type StartTimeInputProps = {
     formData: OrderFormData;
     onChange: (value: string) => void;
 };
 
-export function StartTimeInput({ formData: { days, quantity, start_time, end_time }, onChange }: StartTimeInputProps) {
+export function StartTimeInput({ formData: { days, quantity, start_time }, onChange }: StartTimeInputProps) {
     const selectedDate = days?.from;
     const disabled = !selectedDate;
-    const basePrice = CURRENT_MARKET_PRICE;
 
-    const calculateTotalForTime = (hour: string) => {
-        const parsedQuantity = parseFloat(quantity) || 0;
-        const parsedDays =
-            days?.from && days?.to ? Math.ceil((days.to.getTime() - days.from.getTime()) / (1000 * 60 * 60 * 24)) : 0;
-        const startTimePrice = getDayTimePrice(basePrice, hour);
-        const endTimePrice = end_time ? getDayTimePrice(basePrice, end_time) : startTimePrice;
-        const effectivePrice = Math.max(startTimePrice, endTimePrice);
-        return parsedQuantity * effectivePrice * parsedDays;
+    const getPriceForHour = (hour: number): { price: number; isBest: boolean } => {
+        if (!days?.from || !quantity) return { price: 0, isBest: false };
+
+        const fromDate = new Date(days.from);
+        fromDate.setHours(hour);
+        const toDate = days.to ? new Date(days.to) : new Date(days.from);
+        toDate.setHours(hour);
+
+        if (BEST_PRICE_HOURS.includes(hour)) {
+            return {
+                price: getBestPrice(fromDate, toDate, quantity),
+                isBest: true,
+            };
+        }
+
+        return {
+            price: getHigherPrice(fromDate, toDate, quantity),
+            isBest: false,
+        };
     };
 
     return (
@@ -35,7 +46,7 @@ export function StartTimeInput({ formData: { days, quantity, start_time, end_tim
             <Label htmlFor="start-time" className="text-xs">
                 Start Time
             </Label>
-            <Select value={start_time} onValueChange={onChange} disabled={disabled || !selectedDate}>
+            <Select value={start_time} onValueChange={onChange} disabled={disabled}>
                 <SelectTrigger id="start-time">
                     <SelectValue placeholder="Select" />
                 </SelectTrigger>
@@ -43,19 +54,14 @@ export function StartTimeInput({ formData: { days, quantity, start_time, end_tim
                     <SelectGroup>
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
-                            const totalPrice = calculateTotalForTime(hour);
+                            const { price, isBest } = getPriceForHour(i);
+
                             return (
                                 <SelectItem key={i} value={hour}>
-                                    <div className="w-[250px] flex justify-between">
+                                    <div className="w-[250px] flex justify-between items-center">
                                         <span>{formatTime(i)}</span>
-                                        <span
-                                            className={
-                                                totalPrice < calculateTotalForTime("12")
-                                                    ? "text-green-600"
-                                                    : "text-muted-foreground"
-                                            }
-                                        >
-                                            {formatCurrency(totalPrice)}
+                                        <span className={isBest ? "text-green-600" : "text-muted-foreground"}>
+                                            {formatCurrency(price)}
                                         </span>
                                     </div>
                                 </SelectItem>

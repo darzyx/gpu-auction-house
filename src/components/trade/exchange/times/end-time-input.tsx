@@ -7,8 +7,9 @@ import {
     SelectValue,
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
+import { BEST_PRICE_HOURS, getBestPrice, getHigherPrice } from "../price-helpers";
 import { OrderFormData } from "../types";
-import { CURRENT_MARKET_PRICE, formatCurrency, formatTime, getDayTimePrice } from "../utils";
+import { formatCurrency, formatTime } from "../utils";
 
 type EndTimeInputProps = {
     formData: OrderFormData;
@@ -18,17 +19,28 @@ type EndTimeInputProps = {
 export function EndTimeInput({ formData: { days, quantity, start_time, end_time }, onChange }: EndTimeInputProps) {
     const selectedDate = days?.to;
     const disabled = !selectedDate || !start_time;
-    const basePrice = CURRENT_MARKET_PRICE;
+
     const isSameDay = Boolean(selectedDate && days?.from && selectedDate.toDateString() === days.from.toDateString());
 
-    const calculateTotalForTime = (hour: string) => {
-        const parsedQuantity = parseFloat(quantity) || 0;
-        const parsedDays =
-            days?.from && days?.to ? Math.ceil((days.to.getTime() - days.from.getTime()) / (1000 * 60 * 60 * 24)) : 0;
-        const endTimePrice = getDayTimePrice(basePrice, hour);
-        const startTimePrice = start_time ? getDayTimePrice(basePrice, start_time) : endTimePrice;
-        const effectivePrice = Math.max(startTimePrice, endTimePrice);
-        return parsedQuantity * effectivePrice * parsedDays;
+    const getPriceForHour = (hour: number): { price: number; isBest: boolean } => {
+        if (!days?.to || !quantity) return { price: 0, isBest: false };
+
+        const fromDate = new Date(days.from || days.to);
+        fromDate.setHours(parseInt(start_time || "0"));
+        const toDate = new Date(days.to);
+        toDate.setHours(hour);
+
+        if (BEST_PRICE_HOURS.includes(hour)) {
+            return {
+                price: getBestPrice(fromDate, toDate, quantity),
+                isBest: true,
+            };
+        }
+
+        return {
+            price: getHigherPrice(fromDate, toDate, quantity),
+            isBest: false,
+        };
     };
 
     return (
@@ -44,23 +56,17 @@ export function EndTimeInput({ formData: { days, quantity, start_time, end_time 
                     <SelectGroup>
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
-                            const totalPrice = calculateTotalForTime(hour);
+                            const { price, isBest } = getPriceForHour(i);
                             const isDisabled = Boolean(
                                 isSameDay && start_time && parseInt(hour) <= parseInt(start_time)
                             );
 
                             return (
                                 <SelectItem key={i} value={hour} disabled={isDisabled}>
-                                    <div className="w-[250px] flex justify-between">
+                                    <div className="w-[250px] flex justify-between items-center">
                                         <span>{formatTime(i)}</span>
-                                        <span
-                                            className={
-                                                totalPrice < calculateTotalForTime("12")
-                                                    ? "text-green-600"
-                                                    : "text-muted-foreground"
-                                            }
-                                        >
-                                            {formatCurrency(totalPrice)}
+                                        <span className={isBest ? "text-green-600" : "text-muted-foreground"}>
+                                            {formatCurrency(price)}
                                         </span>
                                     </div>
                                 </SelectItem>

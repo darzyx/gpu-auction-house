@@ -8,8 +8,8 @@ export default function PriceInput({
     placeholder = "0",
 }: {
     isBuy: boolean;
-    value: string;
-    onChange: (value: string) => void;
+    value: number | undefined;
+    onChange: (value: number | undefined) => void;
     placeholder?: string;
 }) {
     return (
@@ -23,7 +23,7 @@ export default function PriceInput({
                 step="1"
                 placeholder={placeholder}
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange(+e.target.value)}
             />
         </div>
     );

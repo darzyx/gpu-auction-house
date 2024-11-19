@@ -9,8 +9,8 @@ type OrderType = "market" | "limit";
 type OrderData = {
     tradeType: TradeType;
     orderType: OrderType;
-    quantity: string;
-    price?: string;
+    quantity: number | undefined;
+    price?: number | undefined;
     days: DateRange | undefined;
     total: string;
 };

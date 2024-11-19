@@ -13,8 +13,8 @@ export default function QuantityInput({
     id?: string;
     label?: string;
     placeholder?: string;
-    value: string;
-    onChange: (value: string) => void;
+    value: number | undefined;
+    onChange: (value: number | undefined) => void;
 }) {
     return (
         <div className="space-y-1">
@@ -25,8 +25,11 @@ export default function QuantityInput({
                 id={id}
                 type="number"
                 placeholder={placeholder}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
+                value={value ?? ""}
+                onChange={(e) => {
+                    const num = e.target.valueAsNumber;
+                    onChange(isNaN(num) ? undefined : num);
+                }}
             />
         </div>
     );
