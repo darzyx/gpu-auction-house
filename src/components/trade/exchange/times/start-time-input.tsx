@@ -15,7 +15,7 @@ type StartTimeInputProps = {
     onChange: (value: string) => void;
 };
 
-export function StartTimeInput({ formData: { days, quantity, start_time }, onChange }: StartTimeInputProps) {
+export function StartTimeInput({ formData: { days, quantity, start_time, end_time }, onChange }: StartTimeInputProps) {
     const selectedDate = days?.from;
     const disabled = !selectedDate;
     const basePrice = CURRENT_MARKET_PRICE;
@@ -24,8 +24,10 @@ export function StartTimeInput({ formData: { days, quantity, start_time }, onCha
         const parsedQuantity = parseFloat(quantity) || 0;
         const parsedDays =
             days?.from && days?.to ? Math.ceil((days.to.getTime() - days.from.getTime()) / (1000 * 60 * 60 * 24)) : 0;
-        const timePrice = getDayTimePrice(basePrice, hour);
-        return parsedQuantity * timePrice * parsedDays;
+        const startTimePrice = getDayTimePrice(basePrice, hour);
+        const endTimePrice = end_time ? getDayTimePrice(basePrice, end_time) : startTimePrice;
+        const effectivePrice = Math.max(startTimePrice, endTimePrice);
+        return parsedQuantity * effectivePrice * parsedDays;
     };
 
     return (

@@ -19,15 +19,16 @@ export function EndTimeInput({ formData: { days, quantity, start_time, end_time 
     const selectedDate = days?.to;
     const disabled = !selectedDate || !start_time;
     const basePrice = CURRENT_MARKET_PRICE;
-
     const isSameDay = Boolean(selectedDate && days?.from && selectedDate.toDateString() === days.from.toDateString());
 
     const calculateTotalForTime = (hour: string) => {
         const parsedQuantity = parseFloat(quantity) || 0;
         const parsedDays =
             days?.from && days?.to ? Math.ceil((days.to.getTime() - days.from.getTime()) / (1000 * 60 * 60 * 24)) : 0;
-        const timePrice = getDayTimePrice(basePrice, hour);
-        return parsedQuantity * timePrice * parsedDays;
+        const endTimePrice = getDayTimePrice(basePrice, hour);
+        const startTimePrice = start_time ? getDayTimePrice(basePrice, start_time) : endTimePrice;
+        const effectivePrice = Math.max(startTimePrice, endTimePrice);
+        return parsedQuantity * effectivePrice * parsedDays;
     };
 
     return (
