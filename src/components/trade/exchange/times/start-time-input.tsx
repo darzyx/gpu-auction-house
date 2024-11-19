@@ -3,6 +3,7 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
+    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/trade/exchange/times/custom-select";
@@ -18,7 +19,6 @@ type StartTimeInputProps = {
 
 export function StartTimeInput({ formData: { days, quantity, start_time }, onChange }: StartTimeInputProps) {
     const selectedDate = days?.from;
-    const disabled = !selectedDate;
 
     const getPriceForHour = (hour: number): { price: number; isBest: boolean } => {
         if (!days?.from || !quantity) return { price: 0, isBest: false };
@@ -46,23 +46,35 @@ export function StartTimeInput({ formData: { days, quantity, start_time }, onCha
             <Label htmlFor="start-time" className="text-xs">
                 Start Time
             </Label>
-            <Select value={start_time} onValueChange={onChange} disabled={disabled}>
+            <Select value={start_time} onValueChange={onChange}>
                 <SelectTrigger id="start-time">
                     <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
+                        {(!selectedDate || !quantity) && (
+                            <SelectLabel>
+                                {!selectedDate && !quantity
+                                    ? "Select dates and quantity to see prices."
+                                    : !selectedDate
+                                    ? "Select date range to see prices."
+                                    : "Select quantity to see prices."}
+                            </SelectLabel>
+                        )}
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
                             const { price, isBest } = getPriceForHour(i);
+                            const showPrice = selectedDate && quantity;
 
                             return (
                                 <SelectItem key={i} value={hour}>
                                     <div className="w-[250px] flex justify-between items-center">
                                         <span>{formatTime(i)}</span>
-                                        <span className={isBest ? "text-green-600" : "text-muted-foreground"}>
-                                            {formatCurrency(price)}
-                                        </span>
+                                        {showPrice && (
+                                            <span className={isBest ? "text-green-600" : "text-muted-foreground"}>
+                                                {formatCurrency(price)}
+                                            </span>
+                                        )}
                                     </div>
                                 </SelectItem>
                             );
