@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { CalendarIcon } from "lucide-react";
 import { OrderFormData, OrderType } from "../types";
 import {
     formatCurrency,
@@ -19,7 +20,6 @@ import {
     getPricesWithStartDate,
 } from "../utils";
 import { Calendar } from "./calendar";
-import { CalendarIcon } from "lucide-react";
 
 type DaysInputProps = {
     formData: OrderFormData;
@@ -75,12 +75,17 @@ export default function DaysInput({
         return isBuy ? getLowestPrice(date.from, date.to, quantity) : getHighestPrice(date.from, date.to, quantity);
     };
 
+    const getNumerOfDaysSelected = () => {
+        if (!date?.from || !date?.to) return 0;
+        return Math.round((date.to.getTime() - date.from.getTime()) / (1000 * 60 * 60 * 24));
+    };
+
     return (
         <div className="space-y-1">
             <Label htmlFor="days" className="text-xs">
                 DATE RANGE
             </Label>
-            <div className={cn("w-full grid gap-2", className)}>
+            <div className={cn("relative w-full grid gap-2", className)}>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
@@ -154,6 +159,11 @@ export default function DaysInput({
                         </div>
                     </PopoverContent>
                 </Popover>
+                <div className="absolute -bottom-5 flex flex-col justify-center items-end">
+                    <span className="text-muted-foreground text-xs">
+                        You have {getNumerOfDaysSelected()} days selected
+                    </span>
+                </div>
             </div>
         </div>
     );

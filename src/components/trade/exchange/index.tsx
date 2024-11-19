@@ -71,6 +71,7 @@ const OrderForm = ({
                     isBuy={isBuy}
                 />
             </div>
+            <div className="h-1" />
             {orderType === "market" && <PricePerGPUPerDayInfo formData={formData} />}
             <TotalInfo total={total} />
             <Button
