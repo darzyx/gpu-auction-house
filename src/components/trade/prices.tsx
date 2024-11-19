@@ -25,7 +25,7 @@ const chartConfig = {
 export default function Prices() {
     return (
         <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
-            <div className="flex flex-col lg:grid lg:grid-cols-[auto_1fr_auto_auto] gap-1 lg:gap-0">
+            <div className="flex flex-col lg:grid lg:grid-cols-[auto_1fr_auto_auto] gap-1.5 lg:gap-0">
                 <div className="space-y-2">
                     <h2 className="text-lg font-georgia leading-none">Prices</h2>
                     <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
