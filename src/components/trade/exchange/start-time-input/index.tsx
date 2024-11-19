@@ -9,16 +9,7 @@ import {
 } from "@/components/trade/exchange/start-time-input/custom-select";
 import { Label } from "@/components/ui/label";
 import { OrderFormData, OrderType } from "../types";
-import {
-    HIGHEST_PRICE_HOURS,
-    LOWEST_PRICE_HOURS,
-    UNAVAILABLE_HOURS,
-    formatCurrency,
-    formatTime,
-    getHighestPrice,
-    getLowestPrice,
-    getMediumPrice,
-} from "../utils";
+import { formatCurrency, formatTime, getPriceInfoForHour } from "../utils";
 
 type StartTimeInputProps = {
     formData: OrderFormData;
@@ -36,47 +27,8 @@ export function StartTimeInput({
     const selectedDate = days?.from;
     const hasRequirements = Boolean(days?.from && quantity);
 
-    const getPriceForHour = (
-        hour: number
-    ): { price: number; priceType: "highest" | "lowest" | "normal" | "unavailable" } => {
-        if (!days?.from || !quantity) {
-            // If requirements aren't met, treat all hours as normal
-            const fromDate = new Date();
-            fromDate.setHours(hour);
-            return {
-                price: getMediumPrice(fromDate, fromDate, 1),
-                priceType: "normal",
-            };
-        }
-
-        const fromDate = new Date(days.from);
-        fromDate.setHours(hour);
-        const toDate = days.to ? new Date(days.to) : new Date(days.from);
-        toDate.setHours(hour);
-
-        // Only treat as unavailable if we have the requirements
-        if (hasRequirements && UNAVAILABLE_HOURS.includes(hour)) {
-            return { price: 0, priceType: "unavailable" };
-        }
-
-        if (HIGHEST_PRICE_HOURS.includes(hour)) {
-            return {
-                price: getHighestPrice(fromDate, toDate, quantity),
-                priceType: "highest",
-            };
-        }
-
-        if (LOWEST_PRICE_HOURS.includes(hour)) {
-            return {
-                price: getLowestPrice(fromDate, toDate, quantity),
-                priceType: "lowest",
-            };
-        }
-
-        return {
-            price: getMediumPrice(fromDate, toDate, quantity),
-            priceType: "normal",
-        };
+    const getPriceForHour = (hour: number) => {
+        return getPriceInfoForHour(hour, days?.from, days?.to, quantity);
     };
 
     const getPriceColor = (priceType: "highest" | "lowest" | "normal" | "unavailable") => {

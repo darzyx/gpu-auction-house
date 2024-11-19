@@ -141,7 +141,14 @@ export const getHighestPrice = (startDate: Date, endDate: Date, quantity: number
     return generateHighestPrice(startDate, endDate, quantity);
 };
 
+export type PriceInfo = {
+    price: number;
+    priceType: "highest" | "lowest" | "normal" | "unavailable";
+};
+
 export const getPriceForHour = (hour: number, fromDate: Date, toDate: Date, quantity: number | undefined): number => {
+    if (quantity === undefined) return 0;
+
     // Set the specific hours on the dates
     const dateFrom = new Date(fromDate);
     const dateTo = new Date(toDate);
@@ -153,6 +160,41 @@ export const getPriceForHour = (hour: number, fromDate: Date, toDate: Date, quan
         : HIGHEST_PRICE_HOURS.includes(hour)
         ? getHighestPrice(dateFrom, dateTo, quantity)
         : getMediumPrice(dateFrom, dateTo, quantity);
+};
+
+export const getPriceInfoForHour = (
+    hour: number,
+    fromDate: Date | undefined,
+    toDate: Date | undefined,
+    quantity: number | undefined
+): PriceInfo => {
+    // Handle unavailable hours
+    if (fromDate && quantity && UNAVAILABLE_HOURS.includes(hour)) {
+        return { price: 0, priceType: "unavailable" };
+    }
+
+    // If requirements aren't met, return normal price with default values
+    if (!fromDate || !quantity) {
+        const defaultDate = new Date();
+        defaultDate.setHours(hour);
+        return {
+            price: getMediumPrice(defaultDate, defaultDate, 1),
+            priceType: "normal",
+        };
+    }
+
+    const effectiveToDate = toDate || fromDate;
+    const price = getPriceForHour(hour, fromDate, effectiveToDate, quantity);
+
+    // Determine price type
+    let priceType: PriceInfo["priceType"] = "normal";
+    if (HIGHEST_PRICE_HOURS.includes(hour)) {
+        priceType = "highest";
+    } else if (LOWEST_PRICE_HOURS.includes(hour)) {
+        priceType = "lowest";
+    }
+
+    return { price, priceType };
 };
 
 export const calculateTotal = (data: OrderFormData, orderType: OrderType): number => {
