@@ -41,7 +41,7 @@ function Calendar({
                 nav_button_next: "absolute right-1",
                 table: "w-full border-collapse space-y-1",
                 head_row: "flex",
-                head_cell: "text-muted-foreground rounded-md w-11 md:w-14 font-normal text-[0.8rem]",
+                head_cell: "text-muted-foreground rounded-md w-11 lg:w-14 font-normal text-[0.8rem]",
                 row: "flex w-full mt-2",
                 cell: cn(
                     "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
@@ -51,7 +51,7 @@ function Calendar({
                 ),
                 day: cn(
                     buttonVariants({ variant: "ghost" }),
-                    "w-11 h-11 md:w-14 md:h-14 font-normal aria-selected:opacity-100 flex flex-col justify-center items-center"
+                    "w-11 h-11 lg:w-14 lg:h-14 font-normal aria-selected:opacity-100 flex flex-col justify-center items-center"
                 ),
                 day_range_start: "day-range-start",
                 day_range_end: "day-range-end",
@@ -80,11 +80,11 @@ function Calendar({
                     const isRangeEnd = props.activeModifiers.range_end;
                     return (
                         <>
-                            <span className="text-xs md:text-sm">{props.date.getDate()}</span>
+                            <span className="text-xs lg:text-sm">{props.date.getDate()}</span>
                             {renderPrice && (
                                 <span
                                     className={cn(
-                                        "text-[0.6rem] md:text-xs leading-none -mt-1.5 font-berkeley-mono",
+                                        "text-[0.6rem] lg:text-xs leading-none -mt-1.5 font-berkeley-mono",
                                         makePriceVisible
                                             ? isRangeStart
                                                 ? "text-white"
