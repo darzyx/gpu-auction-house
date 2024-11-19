@@ -1,5 +1,9 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
     ColumnDef,
@@ -10,8 +14,6 @@ import {
     SortingState,
     useReactTable,
 } from "@tanstack/react-table";
-import { ArrowRight } from "lucide-react";
-import { useState } from "react";
 
 type TOrdersProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
@@ -79,10 +81,13 @@ export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TD
                 </TableBody>
             </Table>
             <div className="w-full flex justify-center items-center">
-                <div className="group flex items-center gap-1 text-sm text-muted-foreground font-medium hover:underline underline-offset-2 cursor-pointer">
+                <Link
+                    href="/trade"
+                    className="group flex items-center gap-1 text-sm text-muted-foreground font-medium hover:underline underline-offset-2 cursor-pointer"
+                >
                     See all orders
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </div>
+                </Link>
             </div>
         </div>
     );
