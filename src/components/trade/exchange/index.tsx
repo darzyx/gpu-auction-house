@@ -11,7 +11,7 @@ import DaysInput from "./days-input";
 import OrderTypeTabs from "./order-types-tabs";
 import PriceInput from "./price-input";
 import QuantityInput from "./quantity-input";
-import { StartTimeInput } from "./times/start-time-input";
+import { StartTimeInput } from "./start-time-input";
 import TotalInfo from "./total-info";
 import { OrderFormData, OrderType, TradeType } from "./types";
 import { calculateTotal, formatCurrency, initFormData, validateFormData } from "./utils";
@@ -61,13 +61,15 @@ const OrderForm = ({
                     />
                 )}
             </div>
-            <DaysInput formData={formData} orderType={orderType} setDate={handleDateChange} isBuy={isBuy} />
-            <StartTimeInput
-                formData={formData}
-                onChange={(value) => setFormData((prev) => ({ ...prev, start_time: value }))}
-                orderType={orderType}
-                isBuy={isBuy}
-            />
+            <div className="grid grid-cols-[1fr_135px] items-end gap-4">
+                <DaysInput formData={formData} orderType={orderType} setDate={handleDateChange} isBuy={isBuy} />
+                <StartTimeInput
+                    formData={formData}
+                    onChange={(value) => setFormData((prev) => ({ ...prev, start_time: value }))}
+                    orderType={orderType}
+                    isBuy={isBuy}
+                />
+            </div>
             <TotalInfo total={total} />
             <Button
                 disabled={!isValid}

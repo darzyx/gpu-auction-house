@@ -6,7 +6,7 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "@/components/trade/exchange/times/custom-select";
+} from "@/components/trade/exchange/start-time-input/custom-select";
 import { Label } from "@/components/ui/label";
 import { OrderFormData, OrderType } from "../types";
 import {
@@ -79,7 +79,7 @@ export function StartTimeInput({
     return (
         <div>
             <Label htmlFor="start-time" className="text-xs">
-                Start Time
+                START TIME
             </Label>
             <Select value={start_time} onValueChange={onChange}>
                 <SelectTrigger id="start-time">
@@ -105,7 +105,7 @@ export function StartTimeInput({
 
                             return (
                                 <SelectItem key={i} value={hour} className="w-full [&>*]:w-full">
-                                    <div className="w-full flex justify-between items-center">
+                                    <div className="w-full flex justify-between items-center gap-4">
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
                                             <span className={getPriceColor(priceType) + " " + "font-berkeley-mono"}>

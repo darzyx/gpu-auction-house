@@ -39,7 +39,7 @@ export default async function Page() {
             <Separator orientation="vertical" className="hidden lg:block" />
             <Separator orientation="horizontal" className="lg:hidden" />
             <div className="grid grid-rows-[auto_auto_1fr] h-full">
-                <div className="w-full grid grid-cols-1 md:grid-cols-[325px_auto_1fr] lg:grid-cols-[375px_auto_1fr]">
+                <div className="w-full grid grid-cols-1 md:grid-cols-[350px_auto_1fr] lg:grid-cols-[400px_auto_1fr]">
                     <div>
                         <div className="p-4">
                             <Portfolio />

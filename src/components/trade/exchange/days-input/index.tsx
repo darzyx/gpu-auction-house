@@ -2,7 +2,6 @@
 
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -78,7 +77,7 @@ export default function DaysInput({
     return (
         <div className="space-y-1">
             <Label htmlFor="days" className="text-xs">
-                DAYS
+                DATE RANGE
             </Label>
             <div className={cn("w-full grid gap-2", className)}>
                 <Popover>
@@ -91,14 +90,13 @@ export default function DaysInput({
                                 !date && "text-muted-foreground"
                             )}
                         >
-                            <CalendarIcon />
                             {date?.from ? (
                                 date.to ? (
                                     <>
-                                        {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+                                        {format(date.from, "M/d/yy")} - {format(date.to, "M/d/yy")}
                                     </>
                                 ) : (
-                                    format(date.from, "LLL dd, y")
+                                    format(date.from, "M/d/yy")
                                 )
                             ) : (
                                 <span>Select dates</span>
