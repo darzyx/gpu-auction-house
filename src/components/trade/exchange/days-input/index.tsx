@@ -12,20 +12,30 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { OrderFormData, OrderType } from "../types";
-import { formatCurrency, getLowestPrice, getPricesWithDateRange, getPricesWithStartDate } from "../utils";
+import {
+    formatCurrency,
+    getHighestPrice,
+    getLowestPrice,
+    getPricesWithDateRange,
+    getPricesWithStartDate,
+} from "../utils";
 import { Calendar } from "./calendar";
+
+type DaysInputProps = {
+    formData: OrderFormData;
+    orderType: OrderType;
+    setDate: (date: DateRange | undefined) => void;
+    className?: string;
+    isBuy: boolean;
+};
 
 export default function DaysInput({
     formData: { days: date, quantity },
     orderType,
     setDate,
     className,
-}: {
-    formData: OrderFormData;
-    orderType: OrderType;
-    setDate: (date: DateRange | undefined) => void;
-    className?: string;
-}) {
+    isBuy,
+}: DaysInputProps) {
     const isDesktop = useMediaQuery("(min-width: 768px)");
     const [dayAmounts, setDayAmounts] = useState<Record<string, number>>({});
 
@@ -53,19 +63,16 @@ export default function DaysInput({
             setDayAmounts({});
             return;
         }
-
         if (date.from && !date.to) {
-            // Only start date selected
-            setDayAmounts(getPricesWithStartDate(date.from, quantity));
+            setDayAmounts(getPricesWithStartDate(date.from, quantity, isBuy));
         } else if (date.from && date.to) {
-            // Both dates selected
-            setDayAmounts(getPricesWithDateRange(date, quantity));
+            setDayAmounts(getPricesWithDateRange(date, quantity, isBuy));
         }
-    }, [date?.from, date?.to, quantity]);
+    }, [date?.from, date?.to, quantity, isBuy]);
 
     const getSelectedRangePrice = () => {
         if (!date?.from || !date?.to) return 0;
-        return getLowestPrice(date.from, date.to, quantity);
+        return isBuy ? getLowestPrice(date.from, date.to, quantity) : getHighestPrice(date.from, date.to, quantity);
     };
 
     return (
@@ -123,7 +130,9 @@ export default function DaysInput({
                                 ) : date?.from && date?.to ? (
                                     <span className="flex flex-col justify-center items-end">
                                         <span className="flex justify-start items-center gap-1">
-                                            <span className="text-xs text-muted-foreground">from</span>
+                                            <span className="text-xs text-muted-foreground">
+                                                {isBuy ? "from" : "up to"}
+                                            </span>
                                             <span className="font-berkeley-mono">
                                                 {formatCurrency(getSelectedRangePrice())}
                                             </span>

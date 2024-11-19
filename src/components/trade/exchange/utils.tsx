@@ -68,7 +68,11 @@ const generateHighestPrice = (from: Date, to: Date, quantity: number): number =>
     return Number(`${dollars}.${newCents.toString().padStart(2, "0")}`);
 };
 
-export const getPricesWithStartDate = (startDate: Date, quantity: number | undefined): Record<string, number> => {
+export const getPricesWithStartDate = (
+    startDate: Date,
+    quantity: number | undefined,
+    isBuy: boolean
+): Record<string, number> => {
     if (quantity === undefined) return {};
     const prices: Record<string, number> = {};
     const endOfYear = new Date(2024, 11, 31);
@@ -76,7 +80,9 @@ export const getPricesWithStartDate = (startDate: Date, quantity: number | undef
 
     while (currentDate <= endOfYear) {
         const dateKey = currentDate.toISOString().split("T")[0];
-        prices[dateKey] = generatePriceForRange(startDate, currentDate, quantity);
+        prices[dateKey] = isBuy
+            ? generatePriceForRange(startDate, currentDate, quantity)
+            : generateHighestPrice(startDate, currentDate, quantity);
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -84,7 +90,11 @@ export const getPricesWithStartDate = (startDate: Date, quantity: number | undef
     return prices;
 };
 
-export const getPricesWithDateRange = (range: DateRange, quantity: number | undefined): Record<string, number> => {
+export const getPricesWithDateRange = (
+    range: DateRange,
+    quantity: number | undefined,
+    isBuy: boolean
+): Record<string, number> => {
     if (quantity === undefined) return {};
     const prices: Record<string, number> = {};
     if (!range.from || !range.to) return prices;
@@ -92,7 +102,9 @@ export const getPricesWithDateRange = (range: DateRange, quantity: number | unde
     let currentDate = new Date(2024, 10, 19);
     while (currentDate < range.from) {
         const dateKey = currentDate.toISOString().split("T")[0];
-        prices[dateKey] = generatePriceForRange(currentDate, range.to, quantity);
+        prices[dateKey] = isBuy
+            ? generatePriceForRange(currentDate, range.to, quantity)
+            : generateHighestPrice(currentDate, range.to, quantity);
 
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
@@ -102,7 +114,9 @@ export const getPricesWithDateRange = (range: DateRange, quantity: number | unde
     const endOfYear = new Date(2024, 11, 31);
     while (currentDate <= endOfYear) {
         const dateKey = currentDate.toISOString().split("T")[0];
-        prices[dateKey] = generatePriceForRange(range.from, currentDate, quantity);
+        prices[dateKey] = isBuy
+            ? generatePriceForRange(range.from, currentDate, quantity)
+            : generateHighestPrice(range.from, currentDate, quantity);
 
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
