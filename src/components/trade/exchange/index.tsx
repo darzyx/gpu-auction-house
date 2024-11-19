@@ -29,6 +29,8 @@ const OrderForm = ({
         quantity: "",
         price: "",
         days: undefined,
+        start_time: undefined,
+        end_time: undefined,
     });
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
@@ -41,7 +43,13 @@ const OrderForm = ({
 
     const handleConfirm = () => {
         setIsConfirmationOpen(false);
-        setFormData({ quantity: "", price: "", days: undefined });
+        setFormData({
+            quantity: "",
+            price: "",
+            days: undefined,
+            start_time: undefined,
+            end_time: undefined,
+        });
     };
 
     return (
@@ -68,8 +76,14 @@ const OrderForm = ({
                 total={total}
             />
             <div className="grid grid-cols-2 gap-4">
-                <StartTimeInput />
-                <EndTimeInput />
+                <StartTimeInput
+                    formData={formData}
+                    onChange={(value) => setFormData((prev) => ({ ...prev, start_time: value }))}
+                />
+                <EndTimeInput
+                    formData={formData}
+                    onChange={(value) => setFormData((prev) => ({ ...prev, end_time: value }))}
+                />
             </div>
             <TotalInfo total={total} />
             <Button
