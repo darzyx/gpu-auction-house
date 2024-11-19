@@ -16,6 +16,7 @@ import { StartTimeInput } from "./start-time-input";
 import TotalInfo from "./total-info";
 import { OrderFormData, OrderType, TradeType } from "./types";
 import { calculateTotal, formatCurrency, initFormData, validateFormData } from "./utils";
+import { Separator } from "@/components/ui/separator";
 
 const OrderForm = ({
     orderType,
@@ -72,6 +73,7 @@ const OrderForm = ({
                 />
             </div>
             <div className="h-1" />
+            <Separator />
             {orderType === "market" && <PricePerGPUPerDayInfo formData={formData} />}
             <TotalInfo total={total} />
             <Button
