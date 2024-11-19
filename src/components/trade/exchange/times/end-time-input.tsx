@@ -18,6 +18,7 @@ import {
     getMediumPrice,
     getHighestPrice,
 } from "../utils";
+import { cn } from "@/lib/utils";
 
 type EndTimeInputProps = {
     formData: OrderFormData;
@@ -103,7 +104,12 @@ export function EndTimeInput({
 
                             return (
                                 <SelectItem key={i} value={hour}>
-                                    <div className="w-[200px] flex justify-between items-center">
+                                    <div
+                                        className={cn(
+                                            orderType === "market" ? "w-[200px]" : "w-auto",
+                                            "flex justify-between items-center"
+                                        )}
+                                    >
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
                                             <span className={getPriceColor(priceType)}>{formatCurrency(price)}</span>

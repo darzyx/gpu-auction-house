@@ -8,15 +8,16 @@ import {
     SelectValue,
 } from "@/components/trade/exchange/times/custom-select";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { OrderFormData, OrderType } from "../types";
 import {
     HIGHEST_PRICE_HOURS,
     LOWEST_PRICE_HOURS,
     formatCurrency,
     formatTime,
+    getHighestPrice,
     getLowestPrice,
     getMediumPrice,
-    getHighestPrice,
 } from "../utils";
 
 type StartTimeInputProps = {
@@ -103,7 +104,12 @@ export function StartTimeInput({
 
                             return (
                                 <SelectItem key={i} value={hour}>
-                                    <div className="w-[200px] flex justify-between items-center">
+                                    <div
+                                        className={cn(
+                                            orderType === "market" ? "w-[200px]" : "w-auto",
+                                            "flex justify-between items-center"
+                                        )}
+                                    >
                                         <span>{formatTime(i)}</span>
                                         {showPrice && (
                                             <span className={getPriceColor(priceType)}>{formatCurrency(price)}</span>
