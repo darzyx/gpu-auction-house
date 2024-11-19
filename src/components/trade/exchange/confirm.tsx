@@ -4,7 +4,7 @@ import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { OrderType, TradeType } from "./types";
-import { formatCurrency, formatTime } from "./utils";
+import { formatCurrency, formatTime, getPriceForHour } from "./utils";
 
 type OrderData = {
     tradeType: TradeType;
@@ -39,6 +39,11 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
         ? "flex-1 bg-green-600 hover:bg-green-600"
         : "flex-1 bg-red-600 hover:bg-red-600";
 
+    const getValueForPricePerGPUPerDay = () => {
+        if (!price || !days?.from || !days?.to || !start_time || !quantity) return "---";
+        return formatCurrency(getPriceForHour(parseInt(start_time), days.from, days.to, quantity));
+    };
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="max-w-[90vw] sm:max-w-[400px] rounded-md space-y-4">
@@ -66,6 +71,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         />
                     )}
                     {start_time && <DetailRow label="Start/End Time" value={formatTime(parseInt(start_time))} />}
+                    <DetailRow label="$/GPU/Day" value={getValueForPricePerGPUPerDay()} />
                     <DetailRow label="Total" value={total} />
                 </div>
                 <div className="flex gap-4">
