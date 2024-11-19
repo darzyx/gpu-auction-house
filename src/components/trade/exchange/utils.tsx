@@ -156,14 +156,17 @@ export const calculateTotal = (data: OrderFormData, orderType: OrderType): numbe
     const quantity = data.quantity;
     if (!quantity) return 0;
 
-    if (!data.days?.from || !data.days?.to || !data.start_time || !data.end_time) {
-        return 0;
-    }
+    if (!data.days?.from || !data.days?.to) return 0;
 
     const days = Math.ceil((data.days.to.getTime() - data.days.from.getTime()) / (1000 * 60 * 60 * 24));
     if (days <= 0) return 0;
 
-    // Calculate prices for start and end times
+    if (orderType === "limit") {
+        return quantity * (data.price || 0) * days;
+    }
+
+    if (!data.start_time || !data.end_time) return 0;
+
     const startHour = parseInt(data.start_time);
     const endHour = parseInt(data.end_time);
 
