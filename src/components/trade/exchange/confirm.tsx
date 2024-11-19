@@ -63,9 +63,6 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                     )}
                     <DetailRow label="Total" value={total} />
                 </div>
-                <p className="text-sm text-muted-foreground text-center">
-                    Please note that all bookings both begin and end at 12:00 PM Pacific (UTC-8).
-                </p>
                 <div className="flex gap-4">
                     <Button variant="outline" onClick={onClose} className="flex-1">
                         Cancel

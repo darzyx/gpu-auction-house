@@ -100,9 +100,6 @@ export default function DaysInput({
                         </div>
                     </PopoverContent>
                 </Popover>
-                <p className="text-xs text-muted-foreground">
-                    Please note that all bookings both begin and end at 12:00 PM Pacific (UTC-8).
-                </p>
             </div>
         </div>
     );
