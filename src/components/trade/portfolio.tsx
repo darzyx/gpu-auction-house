@@ -1,3 +1,5 @@
+import { USER_GPUS } from "./exchange/utils";
+
 export default function Portfolio() {
     return (
         <div className="space-y-2">
@@ -5,7 +7,7 @@ export default function Portfolio() {
             <div className="grid grid-cols-[auto_auto] items-end gap-4">
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2">
                     <div className="text-muted-foreground leading-none uppercase">Inventory</div>
-                    <h3 className="font-berkeley-mono">512 GPUs</h3>
+                    <h3 className="font-berkeley-mono">{USER_GPUS} GPUs</h3>
                 </div>
                 <div className="flex flex-col text-xs bg-muted rounded-md p-2">
                     <div className="text-muted-foreground leading-none uppercase">Balance</div>

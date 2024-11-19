@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AVAILABLE_GPUS } from "./utils";
+import { AVAILABLE_GPUS, USER_GPUS } from "./utils";
 
 export default function QuantityInput({
     id = "quantity",
@@ -10,12 +10,14 @@ export default function QuantityInput({
     placeholder = "0",
     value,
     onChange,
+    isBuy,
 }: {
     id?: string;
     label?: string;
     placeholder?: string;
     value: number | undefined;
     onChange: (value: number | undefined) => void;
+    isBuy: boolean;
 }) {
     return (
         <div className="relative space-y-1">
@@ -37,7 +39,9 @@ export default function QuantityInput({
                 }}
             />
             <div className="absolute -bottom-5 flex flex-col justify-center items-end">
-                <span className="text-muted-foreground text-xs">Max {AVAILABLE_GPUS} available</span>
+                <span className="text-muted-foreground text-xs">
+                    Max {isBuy ? AVAILABLE_GPUS : USER_GPUS} available
+                </span>
             </div>
         </div>
     );

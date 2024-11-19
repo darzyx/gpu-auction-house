@@ -9,6 +9,7 @@ import { OrderFormData, OrderType } from "./types";
 
 export const TOTAL_GPUS = 3200;
 export const AVAILABLE_GPUS = 2295;
+export const USER_GPUS = 512;
 export const LOWEST_PRICE_HOURS = [2, 3, 16, 17, 23];
 export const HIGHEST_PRICE_HOURS = [4, 5, 18, 19];
 export const UNAVAILABLE_HOURS = [7, 21, 22];
@@ -218,9 +219,11 @@ export const calculateTotal = (data: OrderFormData, orderType: OrderType): numbe
     return quantity * effectivePrice * days;
 };
 
-export const validateFormData = (data: OrderFormData, orderType: OrderType): boolean => {
+export const validateFormData = (data: OrderFormData, orderType: OrderType, isBuy: boolean): boolean => {
     const quantity = data.quantity;
-    if (!quantity || quantity <= 0 || quantity > AVAILABLE_GPUS) return false;
+    if (!quantity || quantity <= 0 || (isBuy && quantity > AVAILABLE_GPUS) || (!isBuy && quantity > USER_GPUS)) {
+        return false;
+    }
 
     if (orderType === "limit") {
         const price = data.price;

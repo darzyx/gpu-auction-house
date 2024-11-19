@@ -34,7 +34,7 @@ const OrderForm = ({
         setFormData((prev) => ({ ...prev, days }));
     };
 
-    const isValid = validateFormData(formData, orderType);
+    const isValid = validateFormData(formData, orderType, isBuy);
     const total = useMemo(() => calculateTotal(formData, orderType), [formData, orderType]);
 
     const handleSubmit = () => {
@@ -54,6 +54,7 @@ const OrderForm = ({
                     id={isBuy ? "quantity" : "sell-quantity"}
                     value={formData.quantity}
                     onChange={(value) => setFormData((prev) => ({ ...prev, quantity: value }))}
+                    isBuy={isBuy}
                 />
                 {orderType === "limit" && (
                     <PriceInput
