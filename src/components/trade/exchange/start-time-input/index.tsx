@@ -34,20 +34,30 @@ export function StartTimeInput({
     isBuy,
 }: StartTimeInputProps) {
     const selectedDate = days?.from;
+    const hasRequirements = Boolean(days?.from && quantity);
 
     const getPriceForHour = (
         hour: number
     ): { price: number; priceType: "highest" | "lowest" | "normal" | "unavailable" } => {
-        if (UNAVAILABLE_HOURS.includes(hour)) {
-            return { price: 0, priceType: "unavailable" };
+        if (!days?.from || !quantity) {
+            // If requirements aren't met, treat all hours as normal
+            const fromDate = new Date();
+            fromDate.setHours(hour);
+            return {
+                price: getMediumPrice(fromDate, fromDate, 1),
+                priceType: "normal",
+            };
         }
-
-        if (!days?.from || !quantity) return { price: 0, priceType: "normal" };
 
         const fromDate = new Date(days.from);
         fromDate.setHours(hour);
         const toDate = days.to ? new Date(days.to) : new Date(days.from);
         toDate.setHours(hour);
+
+        // Only treat as unavailable if we have the requirements
+        if (hasRequirements && UNAVAILABLE_HOURS.includes(hour)) {
+            return { price: 0, priceType: "unavailable" };
+        }
 
         if (HIGHEST_PRICE_HOURS.includes(hour)) {
             return {
