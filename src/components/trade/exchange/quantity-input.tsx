@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AVAILABLE_GPUS } from "./utils";
 
 export default function QuantityInput({
     id = "quantity",
@@ -17,7 +18,7 @@ export default function QuantityInput({
     onChange: (value: number | undefined) => void;
 }) {
     return (
-        <div className="space-y-1">
+        <div className="relative space-y-1">
             <Label htmlFor={id} className="text-xs">
                 {label}
             </Label>
@@ -35,6 +36,9 @@ export default function QuantityInput({
                     if (e.key === "-") e.preventDefault();
                 }}
             />
+            <div className="absolute -bottom-5 flex flex-col justify-center items-end">
+                <span className="text-muted-foreground text-xs">Max {AVAILABLE_GPUS} available</span>
+            </div>
         </div>
     );
 }

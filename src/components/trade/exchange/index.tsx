@@ -63,6 +63,7 @@ const OrderForm = ({
                     />
                 )}
             </div>
+            <div className="h-1" />
             <div className="grid grid-cols-[1fr_125px] items-end gap-4">
                 <DaysInput formData={formData} orderType={orderType} setDate={handleDateChange} isBuy={isBuy} />
                 <StartTimeInput
