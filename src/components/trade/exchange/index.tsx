@@ -113,6 +113,8 @@ const OrderForm = ({
                     price: formData.price,
                     days: formData.days,
                     total: formatCurrency(total),
+                    start_time: formData.start_time,
+                    end_time: formData.end_time,
                 }}
             />
         </div>

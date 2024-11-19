@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
-type TradeType = "buy" | "sell";
-type OrderType = "market" | "limit";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { OrderType, TradeType } from "./types";
+import { formatCurrency, formatTime } from "./utils";
 
 type OrderData = {
     tradeType: TradeType;
@@ -12,6 +12,8 @@ type OrderData = {
     quantity: number | undefined;
     price?: number | undefined;
     days: DateRange | undefined;
+    start_time?: string;
+    end_time?: string;
     total: string;
 };
 
@@ -30,13 +32,17 @@ const DetailRow = ({ label, value }: { label: string; value: string | JSX.Elemen
 );
 
 export default function Confirm({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
-    const { tradeType, orderType, quantity, price, days, total } = orderData;
+    const { tradeType, orderType, quantity, price, days, start_time, end_time, total } = orderData;
     const isBuy = tradeType === "buy";
     const isMarket = orderType === "market";
 
     const confirmButtonClasses = isBuy
         ? "flex-1 bg-green-600 hover:bg-green-600"
         : "flex-1 bg-red-600 hover:bg-red-600";
+
+    const formatDateWithTime = (date: Date, time: string) => {
+        return `${format(date, "MMM d")} ${formatTime(parseInt(time))}`;
+    };
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -52,13 +58,25 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         value={`${orderType.charAt(0).toUpperCase() + orderType.slice(1)} Order`}
                     />
                     <DetailRow label="Quantity" value={`${quantity} GPUs`} />
-                    {!isMarket && (
-                        <DetailRow label={`${isBuy ? "Ceiling" : "Floor"} price`} value={`$${price}/GPU/day`} />
+                    {!isMarket && price && (
+                        <DetailRow
+                            label={`${isBuy ? "Ceiling" : "Floor"} price`}
+                            value={formatCurrency(price) + "/GPU/day"}
+                        />
                     )}
                     {days?.from && days?.to && (
                         <DetailRow
-                            label="Days"
-                            value={`${format(days.from, "MMM d")} - ${format(days.to, "MMM d, yyyy")}`}
+                            label="Period"
+                            value={
+                                start_time && end_time ? (
+                                    <span>
+                                        {formatDateWithTime(days.from, start_time)} -{" "}
+                                        {formatDateWithTime(days.to, end_time)}
+                                    </span>
+                                ) : (
+                                    `${format(days.from, "MMM d")} - ${format(days.to, "MMM d, yyyy")}`
+                                )
+                            }
                         />
                     )}
                     <DetailRow label="Total" value={total} />
