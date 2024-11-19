@@ -92,7 +92,7 @@ export function StartTimeInput({
                         {showLabel && (
                             <SelectLabel>
                                 {!selectedDate && !quantity
-                                    ? "Select dates and quantity to see prices."
+                                    ? "Select quantity and dates to see prices."
                                     : !selectedDate
                                     ? "Select date range to see prices."
                                     : "Select quantity to see prices."}
