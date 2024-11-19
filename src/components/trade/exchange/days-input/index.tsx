@@ -69,7 +69,7 @@ export default function DaysInput({
         } else if (days.from && days.to) {
             setDayAmounts(getPricesWithDateRange(days, quantity, isBuy));
         }
-    }, [days?.from, days?.to, quantity, isBuy]);
+    }, [days, days?.from, days?.to, quantity, isBuy]);
 
     const getSelectedRangePrice = () => {
         if (!days?.from || !days?.to) return 0;
