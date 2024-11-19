@@ -19,8 +19,8 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 
 ### Key Areas and Design Decisions
 
--   Aesthetics: I put a lot of thought into making this both beautiful and usable. I took some aesthetic inspiration from the SF Compute home page.
--   Exchange Section: Most important section. This lets the user buy/sell market/limit orders with a planned Google Flights-style calendar for optimizing block pricing. It's a fun tetris-like problem and I think this solves it well. Select GPU quantity, then open calendar to see best prices. Select time to see final price.
+-   Aesthetics: I put a lot of thought into making this both beautiful and usable. I took some aesthetic inspiration from the SF Compute home page
+-   Exchange Section: Most important section. This lets the user buy/sell market/limit orders with a planned Google Flights-style calendar for optimizing block pricing. It's a fun tetris-like problem and I think this solves it well. Select GPU quantity, then open calendar to see best prices. Select time to see final price
 -   Price Section: Helps users evaluate current market rates before executing trades
 -   Orders Section: Sortable table design, detailed information, limit order cancellation (UI only)
 -   Portfolio Section positioned above Exchange Section for quick trading decisions
