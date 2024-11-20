@@ -1,11 +1,17 @@
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { TOrder } from "@/types";
+import { TOrderFrontend } from "@/types";
 import { Column, ColumnDef } from "@tanstack/react-table";
 import { formatCurrency, formatTime } from "../exchange/utils";
 
-const SortableHeader = ({ column, children }: { column: Column<TOrder, unknown>; children: React.ReactNode }) => {
+const SortableHeader = ({
+    column,
+    children,
+}: {
+    column: Column<TOrderFrontend, unknown>;
+    children: React.ReactNode;
+}) => {
     return (
         <Button
             variant="ghost"
@@ -24,7 +30,7 @@ const SortableHeader = ({ column, children }: { column: Column<TOrder, unknown>;
     );
 };
 
-const ordersColumns: ColumnDef<TOrder>[] = [
+const ordersColumns: ColumnDef<TOrderFrontend>[] = [
     {
         accessorKey: "orderDate",
         header: ({ column }) => <SortableHeader column={column}>Order Date</SortableHeader>,
@@ -37,7 +43,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         accessorKey: "side",
         header: "Side",
         cell: ({ row }) => {
-            const v = row.getValue("side") as TOrder["side"];
+            const v = row.getValue("side") as TOrderFrontend["side"];
             return <div className="capitalize">{v}</div>;
         },
     },
@@ -45,7 +51,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         accessorKey: "type",
         header: "Type",
         cell: ({ row }) => {
-            const v = row.getValue("type") as TOrder["type"];
+            const v = row.getValue("type") as TOrderFrontend["type"];
             return <div className="capitalize">{v}</div>;
         },
     },
@@ -57,7 +63,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         accessorKey: "startTime",
         header: ({ column }) => <SortableHeader column={column}>Start Time</SortableHeader>,
         cell: ({ row }) => {
-            const v = row.getValue("startTime") as TOrder["startTime"];
+            const v = row.getValue("startTime") as TOrderFrontend["startTime"];
             return formatTime(v);
         },
     },
@@ -74,7 +80,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         header: ({ column }) => <SortableHeader column={column}>$/GPU/day</SortableHeader>,
         cell: ({ row }) => {
             const v = row.getValue("pricePerGpu") as string;
-            return formatCurrency(+v);
+            return formatCurrency(v);
         },
     },
     {
@@ -82,14 +88,14 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         header: ({ column }) => <SortableHeader column={column}>Total</SortableHeader>,
         cell: ({ row }) => {
             const v = row.getValue("totalPrice") as string;
-            return formatCurrency(+v);
+            return formatCurrency(v);
         },
     },
     {
         accessorKey: "status",
         header: () => <div className="text-right">Status</div>,
         cell: ({ row }) => {
-            const v = row.getValue("status") as TOrder["status"];
+            const v = row.getValue("status") as TOrderFrontend["status"];
             const color = v === "filled" ? "text-green-600" : v === "pending" ? "text-yellow-600" : "text-red-600";
             return <div className={color + " text-right capitalize"}>{v}</div>;
         },

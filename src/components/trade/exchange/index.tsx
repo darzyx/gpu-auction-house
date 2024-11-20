@@ -3,12 +3,12 @@
 import { useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TOrder } from "@/types";
+import { TOrderFrontend } from "@/types";
 import OrderForm from "./order-form";
 import { OrderType, TradeType } from "./types";
 
 type ExchangeProps = {
-    onOrderSubmitted: (order: TOrder) => void;
+    onOrderSubmitted: (order: TOrderFrontend) => void;
 };
 
 export default function Exchange({ onOrderSubmitted }: ExchangeProps) {

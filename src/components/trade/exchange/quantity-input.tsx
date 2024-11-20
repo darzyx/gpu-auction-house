@@ -15,8 +15,8 @@ export default function QuantityInput({
     id?: string;
     label?: string;
     placeholder?: string;
-    value: number | undefined;
-    onChange: (value: number | undefined) => void;
+    value: string | undefined;
+    onChange: (value: string | undefined) => void;
     isBuy: boolean;
 }) {
     const maxGPUs = isBuy ? AVAILABLE_GPUS : USER_GPUS;
@@ -34,8 +34,8 @@ export default function QuantityInput({
                 placeholder={placeholder}
                 value={value ?? ""}
                 onChange={(e) => {
-                    const num = e.target.valueAsNumber;
-                    onChange(isNaN(num) ? undefined : Math.min(maxGPUs, Math.max(0, num)));
+                    const num = e.target.value;
+                    onChange(num ? Math.min(maxGPUs, Math.max(0, +num)).toString() : undefined);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();

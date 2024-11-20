@@ -9,14 +9,14 @@ import ordersColumns from "@/components/trade/orders/columns";
 import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices";
 import { Separator } from "@/components/ui/separator";
-import { TOrder } from "@/types";
+import { TOrderFrontend } from "@/types";
 
-export default function TradeParent({ initialOrders }: { initialOrders: TOrder[] }) {
+export default function TradeParent({ initialOrders }: { initialOrders: TOrderFrontend[] }) {
     // This is something I'd *absolutely* avoid normally with e.g. Tanstack or Redux,
     // but it's a good way to update the orders list for this simple project.
-    const [orders, setOrders] = useState<TOrder[]>(initialOrders);
+    const [orders, setOrders] = useState<TOrderFrontend[]>(initialOrders);
 
-    const handleNewOrder = (orderData: TOrder) => {
+    const handleNewOrder = (orderData: TOrderFrontend) => {
         setOrders((prev) => [orderData, ...prev]);
     };
 

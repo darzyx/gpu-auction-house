@@ -4,8 +4,8 @@ export type TradeType = "buy" | "sell";
 export type OrderType = "market" | "limit";
 
 export type OrderFormData = {
-    quantity: number | undefined;
-    price: number | undefined;
+    quantity: string | undefined;
+    price: string | undefined;
     days: DateRange | undefined;
     start_time: string | undefined;
 };

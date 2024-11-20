@@ -1,6 +1,6 @@
 import { formatCurrency } from "./utils";
 
-export default function TotalInfo({ total }: { total: number }) {
+export default function TotalInfo({ total }: { total: string }) {
     return (
         <div className="flex justify-between text-sm">
             <div className="font-semibold uppercase">Total</div>

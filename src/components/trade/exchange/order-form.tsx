@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { TOrder } from "@/types";
+import { TOrderDB, TOrderFrontend } from "@/types";
+import { useMemo, useState } from "react";
+import { DateRange } from "react-day-picker";
 import Confirm from "./confirm";
 import DaysInput from "./days-input";
 import OrderTypeTabs from "./order-types-tabs";
@@ -26,7 +26,7 @@ export default function OrderForm({
     orderType: OrderType;
     setOrderType: (type: OrderType) => void;
     isBuy: boolean;
-    onOrderSubmitted: (order: TOrder) => void;
+    onOrderSubmitted: (order: TOrderFrontend) => void;
 }) {
     const [formData, setFormData] = useState<OrderFormData>(initFormData);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -56,34 +56,35 @@ export default function OrderForm({
                 return;
             }
 
-            if (!Number.isFinite(formData.quantity) || formData.quantity <= 0) {
+            const quantity = parseInt(formData.quantity);
+            if (isNaN(quantity) || quantity <= 0) {
                 return;
             }
 
             let pricePerGpu: number;
             if (orderType === "market") {
-                pricePerGpu = getPriceForHour(startHour, formData.days.from, formData.days.to, formData.quantity);
+                pricePerGpu = +getPriceForHour(startHour, formData.days.from, formData.days.to, formData.quantity);
             } else {
-                if (!formData.price || !Number.isFinite(formData.price) || formData.price <= 0) {
-                    return;
-                }
-                pricePerGpu = formData.price;
+                if (!formData.price) return;
+                const price = parseFloat(formData.price);
+                if (isNaN(price) || price <= 0) return;
+                pricePerGpu = price;
             }
 
             if (!Number.isFinite(pricePerGpu) || pricePerGpu <= 0) {
                 return;
             }
 
-            const orderData: Omit<TOrder, "id" | "orderDate"> = {
+            const orderData: Omit<TOrderDB, "id" | "order_date"> = {
                 side: isBuy ? "buy" : "sell",
                 type: orderType === "market" ? "market" : "limit",
                 status: orderType === "market" ? "filled" : "pending",
-                gpus: +formData.quantity,
-                pricePerGpu: +pricePerGpu,
-                totalPrice: +total,
-                startDate: formData.days.from.toISOString().split("T")[0],
-                startTime: +formData.start_time,
-                endDate: formData.days.to.toISOString().split("T")[0],
+                gpus: quantity,
+                price_per_gpu: pricePerGpu,
+                total_price: +total,
+                start_date: formData.days.from.toISOString().split("T")[0],
+                start_time: startHour,
+                end_date: formData.days.to.toISOString().split("T")[0],
             };
 
             response = await fetch("/api/orders", {
@@ -104,7 +105,7 @@ export default function OrderForm({
             }
 
             const orderDateObj = new Date();
-            const newOrder: TOrder = {
+            const newOrder: TOrderFrontend = {
                 id: responseData.id,
                 orderDate: `${orderDateObj.getMonth() + 1}/${orderDateObj
                     .getDate()
@@ -123,15 +124,15 @@ export default function OrderForm({
                     day: "2-digit",
                     year: "2-digit",
                 }).format(formData.days.from),
-                startTime: +formData.start_time,
+                startTime: startHour.toString(),
                 endDate: new Intl.DateTimeFormat("en-US", {
                     month: "numeric",
                     day: "2-digit",
                     year: "2-digit",
                 }).format(formData.days.to),
-                gpus: +formData.quantity,
-                pricePerGpu: +pricePerGpu,
-                totalPrice: +total,
+                gpus: quantity.toString(),
+                pricePerGpu: pricePerGpu.toFixed(2),
+                totalPrice: total,
                 status: orderType === "market" ? "filled" : "pending",
             };
 

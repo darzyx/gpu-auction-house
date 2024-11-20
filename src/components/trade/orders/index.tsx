@@ -14,9 +14,9 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TOrder } from "@/types";
+import { TOrderFrontend } from "@/types";
 
-export default function Orders({ columns, data }: { columns: ColumnDef<TOrder>[]; data: TOrder[] }) {
+export default function Orders({ columns, data }: { columns: ColumnDef<TOrderFrontend>[]; data: TOrderFrontend[] }) {
     const slicedData = data
         .sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime())
         .slice(0, 10);

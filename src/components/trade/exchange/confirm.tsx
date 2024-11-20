@@ -9,8 +9,8 @@ import { formatCurrency, formatTime, getNumerOfDaysSelected, getPriceForHour } f
 type OrderData = {
     tradeType: TradeType;
     orderType: OrderType;
-    quantity: number | undefined;
-    price?: number | undefined;
+    quantity: string | undefined;
+    price?: string | undefined;
     days: DateRange | undefined;
     start_time?: string;
     total: string;
@@ -71,7 +71,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         />
                     )}
                     {days && <DetailRow label="Days" value={getNumerOfDaysSelected(days).toString()} />}
-                    {start_time && <DetailRow label="Start/End Time" value={formatTime(parseInt(start_time))} />}
+                    {start_time && <DetailRow label="Start/End Time" value={formatTime(start_time)} />}
                     <DetailRow label="$/GPU/Day" value={getValueForPricePerGPUPerDay()} />
                     <DetailRow label="Total" value={total} />
                 </div>

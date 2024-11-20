@@ -54,11 +54,11 @@ export async function POST(request: Request) {
                 ${data.type}::order_type, 
                 ${data.status}::order_status,
                 ${data.gpus},
-                ${data.pricePerGpu},
-                ${data.totalPrice},
-                ${data.startDate},
-                ${data.startTime},
-                ${data.endDate}
+                ${data.price_per_gpu},
+                ${data.total_price},
+                ${data.start_date},
+                ${data.start_time},
+                ${data.end_date}
             )
             RETURNING id;
         `;

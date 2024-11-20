@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { sql } from "@vercel/postgres";
 
-import { TOrder } from "@/types";
+import { TOrderDB, TOrderFrontend } from "@/types";
 import TradeParent from "./trade-parent";
 
 export default async function Page() {
@@ -24,18 +24,18 @@ export default async function Page() {
             ORDER BY order_date DESC;
         `;
 
-        const ordersData: TOrder[] = result.rows.map((order) => ({
-            id: order.id,
+        const ordersData: TOrderFrontend[] = result.rows.map((order) => ({
+            id: order.id.toString(),
             orderDate: formatDate(order.order_date),
-            side: order.side,
-            type: order.type,
+            side: order.side as "buy" | "sell",
+            type: order.type as "market" | "limit",
             startDate: formatShortDate(order.start_date),
-            startTime: order.start_time,
+            startTime: order.start_time.toString(),
             endDate: formatShortDate(order.end_date),
-            gpus: order.gpus,
-            pricePerGpu: order.price_per_gpu,
-            totalPrice: order.total_price,
-            status: order.status,
+            gpus: order.gpus.toString(),
+            pricePerGpu: order.price_per_gpu.toString(),
+            totalPrice: order.total_price.toString(),
+            status: order.status as "filled" | "pending" | "canceled",
         }));
 
         return <TradeParent initialOrders={ordersData} />;

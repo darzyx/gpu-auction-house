@@ -8,8 +8,8 @@ export default function PriceInput({
     placeholder = "0",
 }: {
     isBuy: boolean;
-    value: number | undefined;
-    onChange: (value: number | undefined) => void;
+    value: string | undefined;
+    onChange: (value: string | undefined) => void;
     placeholder?: string;
 }) {
     const MAX_PRICE = 10000;
@@ -28,8 +28,8 @@ export default function PriceInput({
                 placeholder={placeholder}
                 value={value ?? ""}
                 onChange={(e) => {
-                    const num = e.target.valueAsNumber;
-                    onChange(isNaN(num) ? undefined : Math.min(MAX_PRICE, Math.max(0, num)));
+                    const num = e.target.value;
+                    onChange(num ? Math.min(MAX_PRICE, Math.max(0, +num)).toString() : undefined);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();
