@@ -1,24 +1,15 @@
 "use client";
 
-import {
-    ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    SortingState,
-    useReactTable,
-} from "@tanstack/react-table";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TOrderFrontend } from "@/types";
 
 export default function Orders({ columns, data }: { columns: ColumnDef<TOrderFrontend>[]; data: TOrderFrontend[] }) {
-    const [sorting, setSorting] = useState<SortingState>([{ id: "orderDate", desc: true }]);
-
     const slicedData = useMemo(
         () => [...data].sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()).slice(0, 10),
         [data]
@@ -29,9 +20,6 @@ export default function Orders({ columns, data }: { columns: ColumnDef<TOrderFro
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        onSortingChange: setSorting,
-        getSortedRowModel: getSortedRowModel(),
-        state: { sorting },
     });
 
     return (
