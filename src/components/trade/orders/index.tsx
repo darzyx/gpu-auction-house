@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TOrder } from "./columns";
+import { TOrder } from "@/types";
 
 export default function Orders({ columns, data }: { columns: ColumnDef<TOrder>[]; data: TOrder[] }) {
     const slicedData = data

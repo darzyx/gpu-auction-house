@@ -1,4 +1,4 @@
-import { TOrder } from "@/components/trade/orders/columns";
+import { TOrder } from "@/types";
 import { sql } from "@vercel/postgres";
 
 import TradeParent from "./trade-parent";
@@ -13,12 +13,13 @@ export default async function Page() {
                 side::text,
                 type::text,
                 start_date,
+                start_time,
                 end_date,
                 gpus,
                 price_per_gpu,
                 total_price,
                 status::text
-            FROM orders_new 
+            FROM orders
             ORDER BY order_date DESC;
         `;
         ordersData = result.rows.map((order) => {
@@ -35,24 +36,25 @@ export default async function Page() {
                 .padStart(2, "0")}`;
 
             return {
-                id: order.id,
+                id: order.id as number,
                 orderDate,
-                side: order.side as "Buy" | "Sell",
-                type: order.type as "Market" | "Limit",
+                side: order.side as "buy" | "sell",
+                type: order.type as "market" | "limit",
                 startDate: new Intl.DateTimeFormat("en-US", {
                     month: "numeric",
                     day: "2-digit",
                     year: "2-digit",
                 }).format(new Date(order.start_date)),
+                startTime: order.start_time as number,
                 endDate: new Intl.DateTimeFormat("en-US", {
                     month: "numeric",
                     day: "2-digit",
                     year: "2-digit",
                 }).format(new Date(order.end_date)),
-                gpus: order.gpus,
-                pricePerGpu: order.price_per_gpu,
-                totalPrice: order.total_price,
-                status: order.status as "Pending" | "Filled" | "Canceled",
+                gpus: order.gpus as number,
+                pricePerGpu: order.price_per_gpu as number,
+                totalPrice: order.total_price as number,
+                status: order.status as "pending" | "filled" | "canceled",
             };
         });
     } catch (error) {

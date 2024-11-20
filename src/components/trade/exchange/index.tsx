@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TOrder } from "../orders/columns";
+import { TOrder } from "@/types";
 import OrderForm from "./order-form";
 import { OrderType, TradeType } from "./types";
 

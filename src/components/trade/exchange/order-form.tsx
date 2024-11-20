@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { TOrder } from "../orders/columns";
+import { TOrder } from "@/types";
 import Confirm from "./confirm";
 import DaysInput from "./days-input";
 import OrderTypeTabs from "./order-types-tabs";
@@ -112,7 +112,6 @@ export default function OrderForm({
 
             const responseData = await response.json();
 
-            // Create new order object with current timestamp
             const orderDateObj = new Date();
             const newOrder: TOrder = {
                 id: responseData.id,
@@ -126,22 +125,23 @@ export default function OrderForm({
                     .getSeconds()
                     .toString()
                     .padStart(2, "0")}`,
-                side: isBuy ? "Buy" : "Sell",
-                type: orderType === "market" ? "Market" : "Limit",
+                side: isBuy ? "buy" : "sell",
+                type: orderType === "market" ? "market" : "limit",
                 startDate: new Intl.DateTimeFormat("en-US", {
                     month: "numeric",
                     day: "2-digit",
                     year: "2-digit",
                 }).format(formData.days.from),
+                startTime: +formData.start_time,
                 endDate: new Intl.DateTimeFormat("en-US", {
                     month: "numeric",
                     day: "2-digit",
                     year: "2-digit",
                 }).format(formData.days.to),
-                gpus: formData.quantity,
-                pricePerGpu: pricePerGpu.toString(),
-                totalPrice: total.toString(),
-                status: orderType === "market" ? "Filled" : "Pending",
+                gpus: +formData.quantity,
+                pricePerGpu: +pricePerGpu,
+                totalPrice: +total,
+                status: orderType === "market" ? "filled" : "pending",
             };
 
             onOrderSubmitted(newOrder);

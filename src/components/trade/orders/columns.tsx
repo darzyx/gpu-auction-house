@@ -1,20 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Column, ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
-import { formatCurrency } from "../exchange/utils";
 
-export type TOrder = {
-    id: number;
-    orderDate: string;
-    side: "Buy" | "Sell";
-    type: "Market" | "Limit";
-    startDate: string;
-    endDate: string;
-    gpus: number;
-    pricePerGpu: string;
-    totalPrice: string;
-    status: "Filled" | "Pending" | "Canceled";
-};
+import { Button } from "@/components/ui/button";
+import { TOrder } from "@/types";
+import { Column, ColumnDef } from "@tanstack/react-table";
+import { formatCurrency, formatTime } from "../exchange/utils";
 
 const SortableHeader = ({ column, children }: { column: Column<TOrder, unknown>; children: React.ReactNode }) => {
     return (
@@ -47,14 +36,30 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     {
         accessorKey: "side",
         header: "Side",
+        cell: ({ row }) => {
+            const v = row.getValue("side") as TOrder["side"];
+            return <div className="capitalize">{v}</div>;
+        },
     },
     {
         accessorKey: "type",
         header: "Type",
+        cell: ({ row }) => {
+            const v = row.getValue("type") as TOrder["type"];
+            return <div className="capitalize">{v}</div>;
+        },
     },
     {
         accessorKey: "startDate",
         header: ({ column }) => <SortableHeader column={column}>Start Date</SortableHeader>,
+    },
+    {
+        accessorKey: "startTime",
+        header: ({ column }) => <SortableHeader column={column}>Start Time</SortableHeader>,
+        cell: ({ row }) => {
+            const v = row.getValue("startTime") as TOrder["startTime"];
+            return formatTime(v);
+        },
     },
     {
         accessorKey: "endDate",
@@ -84,15 +89,15 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         accessorKey: "status",
         header: () => <div className="text-right">Status</div>,
         cell: ({ row }) => {
-            const v = row.getValue("status") as string;
-            const color = v === "Filled" ? "text-green-600" : v === "Pending" ? "text-yellow-600" : "text-red-600";
-            return <div className={color + " text-right"}>{v}</div>;
+            const v = row.getValue("status") as TOrder["status"];
+            const color = v === "filled" ? "text-green-600" : v === "pending" ? "text-yellow-600" : "text-red-600";
+            return <div className={color + " text-right capitalize"}>{v}</div>;
         },
     },
     {
         id: "actions",
         cell: ({ row: { original } }) => {
-            return original.status === "Pending" ? (
+            return original.status === "pending" ? (
                 <div className="flex justify-end">
                     <Button
                         variant="outline"
