@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { formatCurrency } from "../utils";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-    dayAmounts: Record<string, number>;
+    dayAmounts: Record<string, string>;
     isMarketOrder: boolean;
     hasPickedQuantity: boolean;
 };

@@ -38,7 +38,7 @@ export default function DaysInput({
     isBuy,
 }: DaysInputProps) {
     const isDesktop = useMediaQuery("(min-width: 768px)");
-    const [dayAmounts, setDayAmounts] = useState<Record<string, number>>({});
+    const [dayAmounts, setDayAmounts] = useState<Record<string, string>>({});
 
     const handleSelect = (range: DateRange | undefined) => {
         if (!range) {
@@ -72,7 +72,7 @@ export default function DaysInput({
     }, [days, days?.from, days?.to, quantity, isBuy]);
 
     const getSelectedRangePrice = () => {
-        if (!days?.from || !days?.to) return 0;
+        if (!days?.from || !days?.to) return "0";
         return isBuy ? getLowestPrice(days.from, days.to, quantity) : getHighestPrice(days.from, days.to, quantity);
     };
 
