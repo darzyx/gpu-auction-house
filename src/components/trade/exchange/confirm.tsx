@@ -50,7 +50,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
             <DialogContent className="max-w-[90vw] sm:max-w-[400px] rounded-md space-y-4">
                 <DialogHeader>
                     <DialogTitle className="font-georgia text-lg font-normal">
-                        Confirm {tradeType === "buy" ? "Purchase" : "Sale"}
+                        Confirm {!isMarket ? "Order" : isBuy ? "Purchase" : "Sale"}
                     </DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
