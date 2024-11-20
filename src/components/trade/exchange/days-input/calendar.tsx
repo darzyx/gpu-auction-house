@@ -84,7 +84,7 @@ function Calendar({
                             {renderPrice && (
                                 <span
                                     className={cn(
-                                        "text-[0.6rem] lg:text-sm leading-none -mt-1.5 font-berkeley-mono",
+                                        "text-[0.6rem] lg:text-xs leading-none -mt-1.5 font-berkeley-mono",
                                         makePriceVisible
                                             ? isRangeStart
                                                 ? "text-white"

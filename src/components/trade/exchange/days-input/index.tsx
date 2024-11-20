@@ -124,7 +124,7 @@ export default function DaysInput({
                             <span>to see prices</span>
                         </span>
                     ) : days?.from && days?.to ? (
-                        <span className="flex flex-col justify-center items-end">
+                        <span className="flex flex-col justify-center items-end mb-1">
                             <span className="flex justify-start items-center gap-1">
                                 <span className="text-xs text-muted-foreground">{isBuy ? "from" : "up to"}</span>
                                 <span className="font-berkeley-mono">{formatCurrency(getSelectedRangePrice())}</span>
@@ -144,7 +144,7 @@ export default function DaysInput({
                     </DialogClose>
                 ) : (
                     <DrawerClose asChild>
-                        <Button className="w-20 h-10">Done</Button>
+                        <Button className="w-20">Done</Button>
                     </DrawerClose>
                 )}
             </div>
@@ -162,7 +162,9 @@ export default function DaysInput({
                         <DialogTrigger asChild>{TriggerButton}</DialogTrigger>
                         <DialogContent className="w-full max-w-fit">
                             <DialogHeader>
-                                <DialogTitle>Select Date Range</DialogTitle>
+                                <DialogTitle className="font-georgia font-normal text-center">
+                                    Select Date Range
+                                </DialogTitle>
                             </DialogHeader>
                             <div className="flex flex-col justify-center items-center">
                                 <CalendarContent />
