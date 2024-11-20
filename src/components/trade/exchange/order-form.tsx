@@ -136,7 +136,7 @@ export default function OrderForm({
                 status: orderType === "market" ? "filled" : "pending",
             };
 
-            onOrderSubmitted(newOrder);
+            // onOrderSubmitted(newOrder);
             setIsConfirmationOpen(false);
             setFormData(initFormData);
         } catch (error) {
