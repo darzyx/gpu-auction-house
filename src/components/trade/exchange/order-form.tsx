@@ -55,12 +55,6 @@ export default function OrderForm({
             const total = calculateTotal(formData, orderType);
             const startHour = parseInt(formData.start_time);
 
-            console.log("Debug - Start Hour:", {
-                rawStartTime: formData.start_time,
-                parsedStartHour: startHour,
-                isNaN: isNaN(startHour),
-            });
-
             if (isNaN(startHour)) {
                 toast.error("Start time must be a valid hour (0-23)");
                 return;
@@ -102,8 +96,6 @@ export default function OrderForm({
                 endDate: formData.days.to.toISOString().split("T")[0],
                 startHour: startHour,
             };
-
-            console.log("Debug - Order Data:", orderData);
 
             response = await fetch("/api/orders", {
                 method: "POST",
