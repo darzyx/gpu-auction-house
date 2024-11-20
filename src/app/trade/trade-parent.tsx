@@ -10,6 +10,8 @@ import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices";
 
 export default function TradeParent({ initialOrders }: { initialOrders: TOrder[] }) {
+    // This is something I'd *absolutely* avoid normally with e.g. Tanstack or Redux,
+    // but it's a good way to update the orders list for this simple project.
     const [orders, setOrders] = useState<TOrder[]>(initialOrders);
 
     const handleNewOrder = (orderData: TOrder) => {
