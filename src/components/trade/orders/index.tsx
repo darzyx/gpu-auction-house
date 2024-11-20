@@ -10,10 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { TOrderFrontend } from "@/types";
 
 export default function Orders({ columns, data }: { columns: ColumnDef<TOrderFrontend>[]; data: TOrderFrontend[] }) {
-    const slicedData = useMemo(
-        () => [...data].sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()).slice(0, 10),
-        [data]
-    );
+    const slicedData = useMemo(() => [...data].slice(0, 10), [data]);
 
     const table = useReactTable({
         data: slicedData,
