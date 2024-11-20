@@ -83,7 +83,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                         <Link href="/trade" className="inline text-sky-600 hover:underline underline-offset-2">
                             limit order
                         </Link>
-                        . You haven't actually {isBuy ? "bought" : "sold"} anything until your order gets filled.
+                        . You haven&apos;t actually {isBuy ? "bought" : "sold"} anything until your order gets filled.
                     </div>
                 )}
                 <div className="flex gap-4">
