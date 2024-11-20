@@ -41,6 +41,34 @@ export async function GET() {
     }
 }
 
+export async function POST(request: Request) {
+    try {
+        const data = await request.json();
+        const result = await sql`
+            INSERT INTO orders (
+                side, type, status, gpus, price_per_gpu, total_price,
+                start_date, start_time, end_date
+            )
+            VALUES (
+                ${data.side}::order_side,
+                ${data.type}::order_type, 
+                ${data.status}::order_status,
+                ${data.gpus},
+                ${data.pricePerGpu},
+                ${data.totalPrice},
+                ${data.startDate},
+                ${data.startTime},
+                ${data.endDate}
+            )
+            RETURNING id;
+        `;
+        return NextResponse.json({ id: result.rows[0].id });
+    } catch (error) {
+        console.error("Failed to create order:", error);
+        return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
+    }
+}
+
 function formatDate(date: Date) {
     const d = new Date(date);
     return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d

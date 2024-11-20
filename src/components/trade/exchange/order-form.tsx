@@ -2,8 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { toast } from "sonner";
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -46,7 +44,6 @@ export default function OrderForm({
 
     const handleConfirm = async () => {
         if (!formData.start_time || !formData.days?.from || !formData.days?.to || !formData.quantity) {
-            toast.error("Please fill in all required fields");
             return;
         }
 
@@ -55,18 +52,11 @@ export default function OrderForm({
             const total = calculateTotal(formData, orderType);
             const startHour = parseInt(formData.start_time);
 
-            if (isNaN(startHour)) {
-                toast.error("Start time must be a valid hour (0-23)");
-                return;
-            }
-
-            if (startHour < 0 || startHour >= 24) {
-                toast.error("Start time must be between 0 and 23");
+            if (isNaN(startHour) || startHour < 0 || startHour >= 24) {
                 return;
             }
 
             if (!Number.isFinite(formData.quantity) || formData.quantity <= 0) {
-                toast.error("Invalid quantity");
                 return;
             }
 
@@ -75,26 +65,25 @@ export default function OrderForm({
                 pricePerGpu = getPriceForHour(startHour, formData.days.from, formData.days.to, formData.quantity);
             } else {
                 if (!formData.price || !Number.isFinite(formData.price) || formData.price <= 0) {
-                    toast.error("Invalid price for limit order");
                     return;
                 }
                 pricePerGpu = formData.price;
             }
 
             if (!Number.isFinite(pricePerGpu) || pricePerGpu <= 0) {
-                toast.error("Invalid price calculation");
                 return;
             }
 
-            const orderData = {
-                side: isBuy ? "Buy" : "Sell",
-                type: orderType === "market" ? "Market" : "Limit",
-                gpus: Number(formData.quantity),
-                pricePerGpu: Number(pricePerGpu),
-                totalPrice: Number(total),
+            const orderData: Omit<TOrder, "id" | "orderDate"> = {
+                side: isBuy ? "buy" : "sell",
+                type: orderType === "market" ? "market" : "limit",
+                status: orderType === "market" ? "filled" : "pending",
+                gpus: +formData.quantity,
+                pricePerGpu: +pricePerGpu,
+                totalPrice: +total,
                 startDate: formData.days.from.toISOString().split("T")[0],
+                startTime: +formData.start_time,
                 endDate: formData.days.to.toISOString().split("T")[0],
-                startHour: startHour,
             };
 
             response = await fetch("/api/orders", {
@@ -105,12 +94,14 @@ export default function OrderForm({
                 body: JSON.stringify(orderData),
             });
 
+            let responseData;
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || "Failed to submit order");
+                console.error("API Error:", errorData);
+                return;
+            } else {
+                responseData = await response.json();
             }
-
-            const responseData = await response.json();
 
             const orderDateObj = new Date();
             const newOrder: TOrder = {
@@ -145,16 +136,11 @@ export default function OrderForm({
             };
 
             onOrderSubmitted(newOrder);
-            toast.success(`${isBuy ? "Buy" : "Sell"} order submitted successfully`);
             setIsConfirmationOpen(false);
             setFormData(initFormData);
         } catch (error) {
-            toast.error(error instanceof Error ? error.message : "Failed to submit order");
-            console.error("Frontend Error Details:", error);
-            if (response) {
-                const errorResponse = await response.json();
-                console.error("API Response:", errorResponse);
-            }
+            console.error("Frontend Error:", error);
+            setIsConfirmationOpen(false);
         }
     };
 
