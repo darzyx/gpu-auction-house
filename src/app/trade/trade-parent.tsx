@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Navigation from "@/components/navigation";
 import Exchange from "@/components/trade/exchange";
 import Orders from "@/components/trade/orders";
@@ -8,7 +10,6 @@ import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices";
 import { Separator } from "@/components/ui/separator";
 import { TOrder } from "@/types";
-import { useState } from "react";
 
 export default function TradeParent({ initialOrders }: { initialOrders: TOrder[] }) {
     // This is something I'd *absolutely* avoid normally with e.g. Tanstack or Redux,

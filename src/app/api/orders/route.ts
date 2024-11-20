@@ -1,46 +1,23 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
-    try {
-        const body = await request.json();
-        const { side, type, gpus, pricePerGpu, totalPrice, startDate, endDate, startHour } = body;
+function formatDate(date: Date) {
+    const d = new Date(date);
+    return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d
+        .getSeconds()
+        .toString()
+        .padStart(2, "0")}`;
+}
 
-        const result = await sql`
-            INSERT INTO orders_new (
-                side,
-                type,
-                gpus,
-                price_per_gpu,
-                total_price,
-                start_date,
-                end_date,
-                start_hour
-            ) VALUES (
-                ${side}::order_side_type,
-                ${type}::order_type_type,
-                ${gpus},
-                ${pricePerGpu},
-                ${totalPrice},
-                ${startDate}::date,
-                ${endDate}::date,
-                ${startHour}
-            ) RETURNING *;
-        `;
-
-        return NextResponse.json({
-            message: "Order created successfully",
-            order: result.rows[0],
-        });
-    } catch (error) {
-        return NextResponse.json(
-            {
-                error: error instanceof Error ? error.message : "Failed to create order",
-                details: JSON.stringify(error),
-            },
-            { status: 500 }
-        );
-    }
+function formatShortDate(date: Date) {
+    return new Intl.DateTimeFormat("en-US", {
+        month: "numeric",
+        day: "2-digit",
+        year: "2-digit",
+    }).format(new Date(date));
 }
 
 export async function GET() {
@@ -52,17 +29,33 @@ export async function GET() {
                 side::text,
                 type::text,
                 start_date,
+                start_time,
                 end_date,
                 gpus,
                 price_per_gpu,
                 total_price,
                 status::text
-            FROM orders_new 
+            FROM orders
             ORDER BY order_date DESC;
         `;
 
-        return NextResponse.json(result);
-    } catch {
+        const ordersData = result.rows.map((order) => ({
+            id: order.id,
+            orderDate: formatDate(order.order_date),
+            side: order.side,
+            type: order.type,
+            startDate: formatShortDate(order.start_date),
+            startTime: order.start_time,
+            endDate: formatShortDate(order.end_date),
+            gpus: order.gpus,
+            pricePerGpu: order.price_per_gpu,
+            totalPrice: order.total_price,
+            status: order.status,
+        }));
+
+        return NextResponse.json(ordersData);
+    } catch (error) {
+        console.error("Failed to fetch orders:", error);
         return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
     }
 }
