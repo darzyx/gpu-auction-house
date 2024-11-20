@@ -4,8 +4,11 @@ import { TOrder } from "@/types";
 import TradeParent from "./trade-parent";
 
 async function getOrders() {
-    const baseUrl = process.env.NODE_ENV === "development" ? process.env.NEXT_PUBLIC_API_URL : "";
-    const res = await fetch(`${baseUrl}/api/orders`, { method: "GET" });
+    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/orders`, {
+        method: "GET",
+        cache: "no-store",
+    });
     if (!res.ok) throw new Error("Failed to fetch orders");
     return res.json();
 }
