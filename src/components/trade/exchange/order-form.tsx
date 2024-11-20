@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { TOrder } from "../orders/columns";
 import Confirm from "./confirm";
 import DaysInput from "./days-input";
 import OrderTypeTabs from "./order-types-tabs";
@@ -22,10 +23,12 @@ export default function OrderForm({
     orderType,
     setOrderType,
     isBuy,
+    onOrderSubmitted,
 }: {
     orderType: OrderType;
     setOrderType: (type: OrderType) => void;
     isBuy: boolean;
+    onOrderSubmitted: (order: TOrder) => void;
 }) {
     const [formData, setFormData] = useState<OrderFormData>(initFormData);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -58,7 +61,6 @@ export default function OrderForm({
                 isNaN: isNaN(startHour),
             });
 
-            // Validate startHour first since that seems to be our issue
             if (isNaN(startHour)) {
                 toast.error("Start time must be a valid hour (0-23)");
                 return;
@@ -69,13 +71,11 @@ export default function OrderForm({
                 return;
             }
 
-            // Validate quantity
             if (!Number.isFinite(formData.quantity) || formData.quantity <= 0) {
                 toast.error("Invalid quantity");
                 return;
             }
 
-            // Calculate price per GPU
             let pricePerGpu: number;
             if (orderType === "market") {
                 pricePerGpu = getPriceForHour(startHour, formData.days.from, formData.days.to, formData.quantity);
@@ -100,10 +100,9 @@ export default function OrderForm({
                 totalPrice: Number(total),
                 startDate: formData.days.from.toISOString().split("T")[0],
                 endDate: formData.days.to.toISOString().split("T")[0],
-                startHour: startHour, // Using the validated startHour
+                startHour: startHour,
             };
 
-            // Log what we're about to send
             console.log("Debug - Order Data:", orderData);
 
             response = await fetch("/api/orders", {
@@ -119,6 +118,41 @@ export default function OrderForm({
                 throw new Error(errorData.error || "Failed to submit order");
             }
 
+            const responseData = await response.json();
+
+            // Create new order object with current timestamp
+            const orderDateObj = new Date();
+            const newOrder: TOrder = {
+                id: responseData.id,
+                orderDate: `${orderDateObj.getMonth() + 1}/${orderDateObj
+                    .getDate()
+                    .toString()
+                    .padStart(2, "0")}/${orderDateObj.getFullYear().toString().slice(-2)} ${orderDateObj
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0")}:${orderDateObj.getMinutes().toString().padStart(2, "0")}:${orderDateObj
+                    .getSeconds()
+                    .toString()
+                    .padStart(2, "0")}`,
+                side: isBuy ? "Buy" : "Sell",
+                type: orderType === "market" ? "Market" : "Limit",
+                startDate: new Intl.DateTimeFormat("en-US", {
+                    month: "numeric",
+                    day: "2-digit",
+                    year: "2-digit",
+                }).format(formData.days.from),
+                endDate: new Intl.DateTimeFormat("en-US", {
+                    month: "numeric",
+                    day: "2-digit",
+                    year: "2-digit",
+                }).format(formData.days.to),
+                gpus: formData.quantity,
+                pricePerGpu: pricePerGpu.toString(),
+                totalPrice: total.toString(),
+                status: "Pending",
+            };
+
+            onOrderSubmitted(newOrder);
             toast.success(`${isBuy ? "Buy" : "Sell"} order submitted successfully`);
             setIsConfirmationOpen(false);
             setFormData(initFormData);

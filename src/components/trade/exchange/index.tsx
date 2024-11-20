@@ -3,10 +3,15 @@
 import { useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TOrder } from "../orders/columns";
 import OrderForm from "./order-form";
 import { OrderType, TradeType } from "./types";
 
-export default function Exchange() {
+type ExchangeProps = {
+    onOrderSubmitted: (order: TOrder) => void;
+};
+
+export default function Exchange({ onOrderSubmitted }: ExchangeProps) {
     const [tradeType, setTradeType] = useState<TradeType>("buy");
     const [orderType, setOrderType] = useState<OrderType>("market");
 
@@ -23,10 +28,20 @@ export default function Exchange() {
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="buy">
-                    <OrderForm orderType={orderType} setOrderType={setOrderType} isBuy={true} />
+                    <OrderForm
+                        orderType={orderType}
+                        setOrderType={setOrderType}
+                        isBuy={true}
+                        onOrderSubmitted={onOrderSubmitted}
+                    />
                 </TabsContent>
                 <TabsContent value="sell">
-                    <OrderForm orderType={orderType} setOrderType={setOrderType} isBuy={false} />
+                    <OrderForm
+                        orderType={orderType}
+                        setOrderType={setOrderType}
+                        isBuy={false}
+                        onOrderSubmitted={onOrderSubmitted}
+                    />
                 </TabsContent>
             </Tabs>
         </div>
