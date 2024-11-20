@@ -141,7 +141,7 @@ export default function OrderForm({
                 gpus: formData.quantity,
                 pricePerGpu: pricePerGpu.toString(),
                 totalPrice: total.toString(),
-                status: "Pending",
+                status: orderType === "market" ? "Filled" : "Pending",
             };
 
             onOrderSubmitted(newOrder);
