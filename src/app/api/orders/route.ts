@@ -1,25 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
-function formatDate(date: Date) {
-    const d = new Date(date);
-    return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d
-        .getSeconds()
-        .toString()
-        .padStart(2, "0")}`;
-}
-
-function formatShortDate(date: Date) {
-    return new Intl.DateTimeFormat("en-US", {
-        month: "numeric",
-        day: "2-digit",
-        year: "2-digit",
-    }).format(new Date(date));
-}
-
 export async function GET() {
     try {
         const result = await sql`
@@ -58,4 +39,23 @@ export async function GET() {
         console.error("Failed to fetch orders:", error);
         return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
     }
+}
+
+function formatDate(date: Date) {
+    const d = new Date(date);
+    return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d
+        .getSeconds()
+        .toString()
+        .padStart(2, "0")}`;
+}
+
+function formatShortDate(date: Date) {
+    return new Intl.DateTimeFormat("en-US", {
+        month: "numeric",
+        day: "2-digit",
+        year: "2-digit",
+    }).format(new Date(date));
 }

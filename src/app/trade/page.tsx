@@ -2,10 +2,7 @@ import { TOrder } from "@/types";
 import TradeParent from "./trade-parent";
 
 async function getOrders() {
-    const res = await fetch(
-        `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}/api/orders`,
-        { next: { revalidate: 60 } }
-    );
+    const res = await fetch(process.env.VERCEL_URL + "/api/orders", { method: "GET" });
     if (!res.ok) throw new Error("Failed to fetch orders");
     return res.json();
 }
