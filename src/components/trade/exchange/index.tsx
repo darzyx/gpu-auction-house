@@ -2,8 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import Confirm from "./confirm";
@@ -15,8 +17,7 @@ import QuantityInput from "./quantity-input";
 import { StartTimeInput } from "./start-time-input";
 import TotalInfo from "./total-info";
 import { OrderFormData, OrderType, TradeType } from "./types";
-import { calculateTotal, formatCurrency, initFormData, validateFormData } from "./utils";
-import { Separator } from "@/components/ui/separator";
+import { calculateTotal, formatCurrency, getPriceForHour, initFormData, validateFormData } from "./utils";
 
 const OrderForm = ({
     orderType,
@@ -41,9 +42,95 @@ const OrderForm = ({
         setIsConfirmationOpen(true);
     };
 
-    const handleConfirm = () => {
-        setIsConfirmationOpen(false);
-        setFormData(initFormData);
+    const handleConfirm = async () => {
+        if (!formData.start_time || !formData.days?.from || !formData.days?.to || !formData.quantity) {
+            toast.error("Please fill in all required fields");
+            return;
+        }
+
+        let response;
+        try {
+            const total = calculateTotal(formData, orderType);
+            const startHour = parseInt(formData.start_time);
+
+            console.log("Debug - Start Hour:", {
+                rawStartTime: formData.start_time,
+                parsedStartHour: startHour,
+                isNaN: isNaN(startHour),
+            });
+
+            // Validate startHour first since that seems to be our issue
+            if (isNaN(startHour)) {
+                toast.error("Start time must be a valid hour (0-23)");
+                return;
+            }
+
+            if (startHour < 0 || startHour >= 24) {
+                toast.error("Start time must be between 0 and 23");
+                return;
+            }
+
+            // Validate quantity
+            if (!Number.isFinite(formData.quantity) || formData.quantity <= 0) {
+                toast.error("Invalid quantity");
+                return;
+            }
+
+            // Calculate price per GPU
+            let pricePerGpu: number;
+            if (orderType === "market") {
+                pricePerGpu = getPriceForHour(startHour, formData.days.from, formData.days.to, formData.quantity);
+            } else {
+                if (!formData.price || !Number.isFinite(formData.price) || formData.price <= 0) {
+                    toast.error("Invalid price for limit order");
+                    return;
+                }
+                pricePerGpu = formData.price;
+            }
+
+            if (!Number.isFinite(pricePerGpu) || pricePerGpu <= 0) {
+                toast.error("Invalid price calculation");
+                return;
+            }
+
+            const orderData = {
+                side: isBuy ? "Buy" : "Sell",
+                type: orderType === "market" ? "Market" : "Limit",
+                gpus: Number(formData.quantity),
+                pricePerGpu: Number(pricePerGpu),
+                totalPrice: Number(total),
+                startDate: formData.days.from.toISOString().split("T")[0],
+                endDate: formData.days.to.toISOString().split("T")[0],
+                startHour: startHour, // Using the validated startHour
+            };
+
+            // Log what we're about to send
+            console.log("Debug - Order Data:", orderData);
+
+            response = await fetch("/api/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Failed to submit order");
+            }
+
+            toast.success(`${isBuy ? "Buy" : "Sell"} order submitted successfully`);
+            setIsConfirmationOpen(false);
+            setFormData(initFormData);
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Failed to submit order");
+            console.error("Frontend Error Details:", error);
+            if (response) {
+                const errorResponse = await response.json();
+                console.error("API Response:", errorResponse);
+            }
+        }
     };
 
     return (
