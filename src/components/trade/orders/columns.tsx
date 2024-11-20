@@ -1,8 +1,7 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Column, ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
+import { formatCurrency } from "../exchange/utils";
 
 export type TOrder = {
     id: number;
@@ -68,10 +67,18 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     {
         accessorKey: "pricePerGpu",
         header: ({ column }) => <SortableHeader column={column}>$/GPU/day</SortableHeader>,
+        cell: ({ row }) => {
+            const v = row.getValue("pricePerGpu") as string;
+            return formatCurrency(+v);
+        },
     },
     {
         accessorKey: "totalPrice",
         header: ({ column }) => <SortableHeader column={column}>Total</SortableHeader>,
+        cell: ({ row }) => {
+            const v = row.getValue("totalPrice") as string;
+            return formatCurrency(+v);
+        },
     },
     {
         accessorKey: "status",
