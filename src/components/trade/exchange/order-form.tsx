@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -44,6 +46,7 @@ export default function OrderForm({
 
     const handleConfirm = async () => {
         if (!formData.start_time || !formData.days?.from || !formData.days?.to || !formData.quantity) {
+            toast.error("Please fill in all fields.");
             return;
         }
 
@@ -99,6 +102,7 @@ export default function OrderForm({
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("API Error:", errorData);
+                toast.error("An error occurred while placing the order. Please try again later.");
                 return;
             } else {
                 responseData = await response.json();
@@ -136,10 +140,13 @@ export default function OrderForm({
                 status: orderType === "market" ? "filled" : "pending",
             };
 
+            toast.success("Order placed successfully.");
+
             onOrderSubmitted(newOrder);
             setIsConfirmationOpen(false);
             setFormData(initFormData);
         } catch (error) {
+            toast.error("An error occurred while placing the order. Please try again later.");
             console.error("Frontend Error:", error);
             setIsConfirmationOpen(false);
         }
