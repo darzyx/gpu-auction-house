@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { TOrder } from "@/types";
 import TradeParent from "./trade-parent";
 
