@@ -53,9 +53,7 @@ export function StartTimeInput({
             </Label>
             <Select value={start_time} onValueChange={onChange}>
                 <SelectTrigger id="start-time">
-                    <SelectValue placeholder="Select">
-                        {start_time ? formatTime(parseInt(start_time)) : "Select"}
-                    </SelectValue>
+                    <SelectValue placeholder="Select">{start_time ? formatTime(start_time) : "Select"}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
@@ -82,7 +80,7 @@ export function StartTimeInput({
                                     disabled={isUnavailable}
                                 >
                                     <div className="w-full flex justify-between items-center gap-8">
-                                        <span>{formatTime(i)}</span>
+                                        <span>{formatTime(i.toString())}</span>
                                         {showPrice && (
                                             <span className={getPriceColor(priceType) + " " + "font-berkeley-mono"}>
                                                 {isUnavailable ? "unavailable" : `${formatCurrency(price)}/GPU/day`}
