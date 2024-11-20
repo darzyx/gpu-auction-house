@@ -4,24 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-
-        // Log the raw request body
-        console.log("API Debug - Received body:", body);
-
         const { side, type, gpus, pricePerGpu, totalPrice, startDate, endDate, startHour } = body;
-
-        // Log the extracted values
-        console.log("API Debug - Extracted values:", {
-            side,
-            type,
-            gpus,
-            pricePerGpu,
-            totalPrice,
-            startDate,
-            endDate,
-            startHour,
-            startHourType: typeof startHour,
-        });
 
         const result = await sql`
             INSERT INTO orders_new (
@@ -50,7 +33,6 @@ export async function POST(request: Request) {
             order: result.rows[0],
         });
     } catch (error) {
-        console.error("API Error Details:", error);
         return NextResponse.json(
             {
                 error: error instanceof Error ? error.message : "Failed to create order",
@@ -58,5 +40,29 @@ export async function POST(request: Request) {
             },
             { status: 500 }
         );
+    }
+}
+
+export async function GET() {
+    try {
+        const result = await sql`
+            SELECT 
+                id,
+                order_date,
+                side::text,
+                type::text,
+                start_date,
+                end_date,
+                gpus,
+                price_per_gpu,
+                total_price,
+                status::text
+            FROM orders_new 
+            ORDER BY order_date DESC;
+        `;
+
+        return NextResponse.json(result);
+    } catch (error) {
+        return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
     }
 }
