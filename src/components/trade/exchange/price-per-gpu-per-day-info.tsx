@@ -14,7 +14,11 @@ export default function PricePerGPUPerDayInfo({
     return (
         <div className="flex justify-between text-sm">
             <div className="font-semibold uppercase">$/GPU/Day</div>
-            <div>{hasAllData ? formatCurrency(getPriceForHour(startTime, fromDate, toDate, quantity)) : "---"}</div>
+            {hasAllData ? (
+                <div>{formatCurrency(getPriceForHour(startTime, fromDate, toDate, quantity))}</div>
+            ) : (
+                <div className="text-muted-foreground">---</div>
+            )}
         </div>
     );
 }
