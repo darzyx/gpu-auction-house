@@ -3,6 +3,7 @@ import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import Link from "next/link";
 import { OrderType, TradeType } from "./types";
 import { formatCurrency, formatTime, getNumerOfDaysSelected, getPriceForHour } from "./utils";
 
@@ -75,6 +76,15 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                     <DetailRow label="$/GPU/Day" value={getValueForPricePerGPUPerDay()} />
                     <DetailRow label="Total" value={total} />
                 </div>
+                {!isMarket && (
+                    <div className="text-sm bg-muted text-muted-foreground rounded-md p-4 text-center">
+                        This is a{" "}
+                        <Link href="/trade" className="inline text-sky-600 hover:underline underline-offset-2">
+                            limit order
+                        </Link>
+                        . You haven't actually {isBuy ? "bought" : "sold"} anything until your order gets filled.
+                    </div>
+                )}
                 <div className="flex gap-4">
                     <Button variant="outline" onClick={onClose} className="flex-1">
                         Cancel
