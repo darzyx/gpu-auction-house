@@ -54,6 +54,7 @@ export default function Confirm({ isOpen, onClose, onConfirm, orderData }: Confi
                     </DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
+                    {!isMarket && <DetailRow label="Side" value={isBuy ? "Buy" : "Sell"} />}
                     <DetailRow
                         label="Type"
                         value={`${orderType.charAt(0).toUpperCase() + orderType.slice(1)} Order`}
