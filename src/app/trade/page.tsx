@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { sql } from "@vercel/postgres";
 
-import { TOrderDB, TOrderFrontend } from "@/types";
+import { TOrderFrontend } from "@/types";
 import TradeParent from "./trade-parent";
 
 export default async function Page() {
