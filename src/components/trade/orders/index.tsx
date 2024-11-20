@@ -1,10 +1,5 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
-
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
     ColumnDef,
     flexRender,
@@ -14,14 +9,18 @@ import {
     SortingState,
     useReactTable,
 } from "@tanstack/react-table";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
-type TOrdersProps<TData, TValue> = {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
-};
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TOrder } from "./columns";
 
-export default function Orders<TData, TValue>({ columns, data }: TOrdersProps<TData, TValue>) {
-    const slicedData = data.slice(0, 5);
+export default function Orders({ columns, data }: { columns: ColumnDef<TOrder>[]; data: TOrder[] }) {
+    const slicedData = data
+        .sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime())
+        .slice(0, 10);
+
     const [sorting, setSorting] = useState<SortingState>([{ id: "orderDate", desc: true }]);
     const table = useReactTable({
         data: slicedData,
