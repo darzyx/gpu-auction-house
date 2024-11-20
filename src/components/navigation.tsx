@@ -9,6 +9,7 @@ const navigationItems = [
     { id: "trade", label: "Trade", href: "/trade" },
     { id: "orders", label: "Orders", href: "/trade" },
     { id: "metrics", label: "Metrics", href: "/trade" },
+    { id: "learn", label: "Learn", href: "/trade" },
     { id: "settings", label: "Settings", href: "/trade" },
     { id: "logout", label: "Logout", href: "/trade" },
 ];
@@ -52,7 +53,7 @@ export default function Navigation() {
                                 <Link
                                     key={item.id}
                                     href={item.href}
-                                    className={`py-4 text-sm ${
+                                    className={`py-2 text-sm ${
                                         item.id === "trade" ? "font-medium" : "text-muted-foreground"
                                     }`}
                                 >
