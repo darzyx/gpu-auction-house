@@ -47,7 +47,7 @@ export function StartTimeInput({
     const showLabel = orderType === "market" && (!selectedDate || !quantity);
 
     return (
-        <div>
+        <div className="space-y-1">
             <Label htmlFor="start-time" className="text-xs">
                 START/END TIME
             </Label>
