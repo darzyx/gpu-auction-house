@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
-export async function PATCH(_request: Request, { params }: { params: { id: number } }) {
+export async function PATCH(_request: Request, { params }: { params: { id: string } }) {
     try {
         const id = params.id;
         await sql`UPDATE orders SET status = 'canceled' WHERE id = ${id}`;
