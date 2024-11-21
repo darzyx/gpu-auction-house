@@ -13,7 +13,7 @@ export type TOrderDB = {
 };
 
 export type TOrderFrontend = {
-    id?: number;
+    id: number;
     orderDate: string;
     side: "buy" | "sell";
     type: "market" | "limit";
