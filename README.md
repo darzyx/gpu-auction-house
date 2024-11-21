@@ -17,19 +17,20 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 -   `pnpm install`
 -   `pnpm run dev`
 
-### Key Areas and Design Decisions
+### Key Design Decisions
 
--   Aesthetics: I put a lot of thought into making this both beautiful and usable. I took some aesthetic inspiration from the SF Compute home page
--   Exchange Section: Most important section. This lets the user buy/sell market/limit orders with a planned Google Flights-style calendar for optimizing block pricing. It's a fun tetris-like problem and I think this solves it well. Select GPU quantity, then open calendar to see best prices. Select time to see final price. Submitting an order updates the database and the Orders section UI
--   Price Section: Helps users evaluate current market rates before executing trades
--   Orders Section: Updates when you submit a new order. Sortable table design, detailed information, limit order cancellation is UI only for now
--   Portfolio Section positioned above Exchange Section for quick trading decisions
--   Confirmation modal makes sure trades are intentional
--   Grabbing Orders data from Vercel Postgres DB (just to show I can)
--   Responsive design for mobile and desktop
--   Fonts: A nice combination of Georgia, Geist, and the gorgeous Berkeley Mono
+-   Aesthetics - inspired by the SF Compute home page. Made simple, beautiful, and highly usable
+-   Tasteful responsive design - try it on desktop and mobile!
+-   Fonts - a nice combination of Georgia, Geist, and the gorgeous Berkeley Mono
+
+### Sections
+
+-   Exchange Section - most important section. Lets the user buy/sell market/limit orders with a Google Flights-style calendar for optimized block pricing. This project presents a fun tetris-like problem, and I think this UI solves it well. Select GPU quantity, then open the calendar to see best prices. Select start hour to see final price. A confirmation modal is shown before submitting orders. Submitting an order updates the DB and the Orders section UI.
+-   Price Section - helps users evaluate current market rates before executing trades
+-   Orders Section - data is grabbed from the DB, and the table updates when you submit a new order. Sortable table design with detailed information. (Note that the cancel button is non-functional)
+-   Portfolio Section - positioned right above Exchange for aiding trading decisions
 
 ## Current Limitations
 
 -   Just one page UI implementation, the Trade page
--   Non-functional navigation
+-   Data on the Prices table is just hardcoded placeholder data and doesn't mean anything
