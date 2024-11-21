@@ -2,7 +2,6 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
 
 import {
     ColumnDef,
