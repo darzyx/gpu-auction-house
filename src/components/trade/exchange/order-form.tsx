@@ -122,7 +122,7 @@ export default function OrderForm({
                 status: responseData.status,
             };
 
-            toast.success("Order placed successfully.");
+            toast.success("Order placed");
             onOrderSubmitted(newOrderForFrontend);
             setIsConfirmationOpen(false);
             setFormData(initFormData);
