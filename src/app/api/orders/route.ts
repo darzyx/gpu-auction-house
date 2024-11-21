@@ -63,7 +63,7 @@ export async function POST(request: Request) {
                 ${data.start_time},
                 ${data.end_date}
             )
-            RETURNING id;
+            RETURNING id, order_date;
         `;
 
         return NextResponse.json({
