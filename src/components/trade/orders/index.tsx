@@ -4,7 +4,14 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
 
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
+import {
+    ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TOrderFrontend } from "@/types";
@@ -18,13 +25,12 @@ export default function Orders({
     data: TOrderFrontend[];
     onCancel: (id: number) => void;
 }) {
-    const slicedData = useMemo(() => [...data].slice(0, 10), [data]);
-
     const table = useReactTable({
-        data: slicedData,
+        data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         meta: { onCancel },
     });
 
