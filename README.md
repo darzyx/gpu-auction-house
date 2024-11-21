@@ -34,3 +34,4 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 
 -   Just one page UI implementation, the Trade page
 -   Data on the Prices line chart is just hardcoded placeholder data and doesn't mean anything
+-   Like Google Flights, the calendar shows best prices for (market) orders when you select a start date, and it shows best prices before the start date when you select an end date, but I think it should also show best prices before the user selects anything. Google Flights does this, where the price on each day would be the best price from all the possible date ranges with that date as the start date.
