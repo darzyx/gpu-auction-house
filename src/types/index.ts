@@ -1,6 +1,6 @@
 export type TOrderDB = {
     id: number;
-    order_date: string;
+    order_date: Date;
     side: "buy" | "sell";
     type: "market" | "limit";
     start_date: string;
