@@ -33,4 +33,4 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 ## Current Limitations
 
 -   Just one page UI implementation, the Trade page
--   Data on the Prices table is just hardcoded placeholder data and doesn't mean anything
+-   Data on the Prices line chart is just hardcoded placeholder data and doesn't mean anything
