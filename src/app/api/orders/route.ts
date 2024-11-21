@@ -1,5 +1,8 @@
-import { sql } from "@vercel/postgres";
+import { QueryResult, sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
+
+import { formatDate, formatShortDate } from "@/lib/utils";
+import { TOrderDB } from "@/types";
 
 export async function GET() {
     try {
@@ -44,7 +47,7 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         const data = await request.json();
-        const result = await sql`
+        const result: QueryResult<TOrderDB> = await sql`
             INSERT INTO orders (
                 side, type, status, gpus, price_per_gpu, total_price,
                 start_date, start_time, end_date
@@ -62,28 +65,14 @@ export async function POST(request: Request) {
             )
             RETURNING id;
         `;
-        return NextResponse.json({ id: result.rows[0].id });
+
+        return NextResponse.json({
+            id: result.rows[0].id,
+            order_date: result.rows[0].order_date,
+            ...data,
+        });
     } catch (error) {
         console.error("Failed to create order:", error);
         return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
     }
-}
-
-function formatDate(date: Date) {
-    const d = new Date(date);
-    return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d
-        .getSeconds()
-        .toString()
-        .padStart(2, "0")}`;
-}
-
-function formatShortDate(date: Date) {
-    return new Intl.DateTimeFormat("en-US", {
-        month: "numeric",
-        day: "2-digit",
-        year: "2-digit",
-    }).format(new Date(date));
 }

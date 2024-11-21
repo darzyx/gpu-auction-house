@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { QueryResult, sql } from "@vercel/postgres";
 
+import { formatDate, formatShortDate } from "@/lib/utils";
 import { TOrderDB, TOrderFrontend } from "@/types";
 import TradeParent from "./trade-parent";
 
@@ -43,23 +44,4 @@ export default async function Page() {
         console.error("Failed to fetch orders:", error);
         return <div>Error loading orders</div>;
     }
-}
-
-function formatDate(date: Date | string) {
-    const d = new Date(date);
-    return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d
-        .getSeconds()
-        .toString()
-        .padStart(2, "0")}`;
-}
-
-function formatShortDate(date: Date | string) {
-    return new Intl.DateTimeFormat("en-US", {
-        month: "numeric",
-        day: "2-digit",
-        year: "2-digit",
-    }).format(new Date(date));
 }

@@ -1,13 +1,13 @@
 "use client";
 
+import { useMemo, useState } from "react";
+import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import { cn, formatDate, formatShortDate } from "@/lib/utils";
 import { TOrderDB, TOrderFrontend } from "@/types";
-import { useMemo, useState } from "react";
-import { DateRange } from "react-day-picker";
 import Confirm from "./confirm";
 import DaysInput from "./days-input";
 import OrderTypeTabs from "./order-types-tabs";
@@ -78,7 +78,7 @@ export default function OrderForm({
                 return;
             }
 
-            const orderData: Omit<TOrderDB, "id" | "order_date"> = {
+            const orderForDB: Omit<TOrderDB, "id" | "order_date"> = {
                 side: isBuy ? "buy" : "sell",
                 type: orderType === "market" ? "market" : "limit",
                 status: orderType === "market" ? "filled" : "pending",
@@ -92,13 +92,11 @@ export default function OrderForm({
 
             response = await fetch("/api/orders", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(orderData),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderForDB),
             });
 
-            let responseData;
+            let responseData: TOrderDB;
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("API Error:", errorData);
@@ -108,41 +106,24 @@ export default function OrderForm({
                 responseData = await response.json();
             }
 
-            const orderDateObj = new Date();
-            const newOrder: TOrderFrontend = {
+            console.log({ responseData });
+
+            const newOrderForFrontend: TOrderFrontend = {
                 id: responseData.id,
-                orderDate: `${orderDateObj.getMonth() + 1}/${orderDateObj
-                    .getDate()
-                    .toString()
-                    .padStart(2, "0")}/${orderDateObj.getFullYear().toString().slice(-2)} ${orderDateObj
-                    .getHours()
-                    .toString()
-                    .padStart(2, "0")}:${orderDateObj.getMinutes().toString().padStart(2, "0")}:${orderDateObj
-                    .getSeconds()
-                    .toString()
-                    .padStart(2, "0")}`,
-                side: isBuy ? "buy" : "sell",
-                type: orderType === "market" ? "market" : "limit",
-                startDate: new Intl.DateTimeFormat("en-US", {
-                    month: "numeric",
-                    day: "2-digit",
-                    year: "2-digit",
-                }).format(formData.days.from),
+                orderDate: formatDate(responseData.order_date),
+                side: responseData.side,
+                type: responseData.type,
+                startDate: formatShortDate(responseData.start_date),
                 startTime: startHour.toString(),
-                endDate: new Intl.DateTimeFormat("en-US", {
-                    month: "numeric",
-                    day: "2-digit",
-                    year: "2-digit",
-                }).format(formData.days.to),
-                gpus: quantity.toString(),
-                pricePerGpu: pricePerGpu.toFixed(2),
-                totalPrice: total,
-                status: orderType === "market" ? "filled" : "pending",
+                endDate: formatShortDate(responseData.end_date),
+                gpus: responseData.gpus.toString(),
+                pricePerGpu: responseData.price_per_gpu.toString(),
+                totalPrice: responseData.total_price.toString(),
+                status: responseData.status,
             };
 
             toast.success("Order placed successfully.");
-
-            onOrderSubmitted(newOrder);
+            onOrderSubmitted(newOrderForFrontend);
             setIsConfirmationOpen(false);
             setFormData(initFormData);
         } catch (error) {
