@@ -133,8 +133,8 @@ export default function DaysInput({
                         </span>
                     ) : (
                         <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
-                            <span>Select start and end</span>
-                            <span>dates to see prices</span>
+                            <span>Select date range</span>
+                            <span>to see best prices</span>
                         </span>
                     )}
                 </div>
