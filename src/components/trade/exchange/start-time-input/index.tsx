@@ -70,7 +70,7 @@ export function StartTimeInput({
                             const hour = String(i).padStart(2, "0");
                             const { price, priceType } = getPriceForHour(i);
                             const showPrice = orderType === "market" && selectedDate && quantity;
-                            const isUnavailable = priceType === "unavailable";
+                            const isUnavailable = priceType === "unavailable" && orderType === "market";
 
                             return (
                                 <SelectItem
