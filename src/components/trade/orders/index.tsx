@@ -9,7 +9,15 @@ import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReact
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TOrderFrontend } from "@/types";
 
-export default function Orders({ columns, data }: { columns: ColumnDef<TOrderFrontend>[]; data: TOrderFrontend[] }) {
+export default function Orders({
+    columns,
+    data,
+    onCancel,
+}: {
+    columns: ColumnDef<TOrderFrontend>[];
+    data: TOrderFrontend[];
+    onCancel: (id: number) => void;
+}) {
     const slicedData = useMemo(() => [...data].slice(0, 10), [data]);
 
     const table = useReactTable({
@@ -17,6 +25,7 @@ export default function Orders({ columns, data }: { columns: ColumnDef<TOrderFro
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        meta: { onCancel },
     });
 
     return (

@@ -1,4 +1,5 @@
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { TOrderFrontend } from "@/types";
@@ -102,13 +103,35 @@ const ordersColumns: ColumnDef<TOrderFrontend>[] = [
     },
     {
         id: "actions",
-        cell: ({ row: { original } }) => {
+        cell: ({ row: { original }, table }) => {
+            const handleCancel = async () => {
+                try {
+                    const response = await fetch(`/api/orders/${original.id}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to cancel order");
+                    }
+
+                    const onCancel = (table.options.meta as { onCancel?: (id: number) => void })?.onCancel;
+                    if (onCancel) onCancel(original.id);
+
+                    toast.success("Order canceled");
+                } catch (error) {
+                    console.error("Error canceling order:", error);
+                    toast.error("Failed to cancel order");
+                }
+            };
+
             return original.status === "pending" ? (
                 <div className="flex justify-end">
                     <Button
                         variant="outline"
                         size="sm"
                         className="p-2 h-6 bg-zinc-100 hover:bg-red-500 hover:border-red-600 hover:text-white"
+                        onClick={handleCancel}
                     >
                         Cancel
                     </Button>

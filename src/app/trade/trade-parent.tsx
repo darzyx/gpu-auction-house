@@ -12,12 +12,19 @@ import { Separator } from "@/components/ui/separator";
 import { TOrderFrontend } from "@/types";
 
 export default function TradeParent({ initialOrders }: { initialOrders: TOrderFrontend[] }) {
-    // This is something I'd *absolutely* avoid normally with e.g. Tanstack or Redux,
-    // but it's a good way to update the orders list for this simple project.
     const [orders, setOrders] = useState<TOrderFrontend[]>(initialOrders);
 
     const handleNewOrder = (orderData: TOrderFrontend) => {
         setOrders((prev) => [orderData, ...prev]);
+    };
+
+    const handleCancelOrder = (id: number) => {
+        setOrders((prev) =>
+            prev.map((order) => {
+                if (order.id === id) return { ...order, status: "canceled" };
+                return order;
+            })
+        );
     };
 
     return (
@@ -47,7 +54,7 @@ export default function TradeParent({ initialOrders }: { initialOrders: TOrderFr
                 <Separator />
                 <div className="relative">
                     <div className="pb-10 md:pb-4 p-4 sm:p-6 lg:p-4 w-full absolute md:inset-0 md:overflow-auto">
-                        <Orders data={orders} columns={ordersColumns} />
+                        <Orders data={orders} columns={ordersColumns} onCancel={handleCancelOrder} />
                     </div>
                 </div>
             </div>
