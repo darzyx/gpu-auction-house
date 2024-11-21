@@ -25,9 +25,9 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 
 ### Sections
 
--   Exchange Section - most important section. Lets the user buy/sell market/limit orders with a Google Flights-style calendar for optimized block pricing. This project presents a fun tetris-like problem, and I think this UI solves it well. Select GPU quantity, then open the calendar to see best prices. Select start hour to see final price. A confirmation modal is shown before submitting orders. Submitting an order updates the DB and the Orders section UI.
+-   Exchange Section - most important section. Lets the user buy/sell market/limit orders with a Google Flights-style calendar for optimized block pricing. This project presents a fun tetris-like problem, and I think this UI solves it well. To use: select GPU quantity, then open the calendar and select dates to see best prices. Select start hour to see final price. A confirmation modal is shown before submitting orders. Submitting an order updates the DB and the Orders section UI.
 -   Price Section - helps users evaluate current market rates before executing trades
--   Orders Section - data is grabbed from the DB, and the table updates when you submit a new order. Sortable table design with detailed information. (Note that the cancel button is non-functional)
+-   Orders Section - data is grabbed from the DB, and the table updates when you submit a new order. Sortable table design with detailed information. Cancel pending (limit) orders by clicking on the cancel button
 -   Portfolio Section - positioned right above Exchange for aiding trading decisions
 
 ## Current Limitations
