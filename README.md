@@ -19,7 +19,7 @@ Next.js, TypeScript, Tailwind, shadcn/ui, Postgres, and Vercel
 
 ### Key Design Decisions
 
--   Aesthetics - inspired by the SF Compute home page. Made simple, beautiful, and highly usable
+-   Aesthetics - Made simple yet beautiful, and highly usable
 -   Layout - similar to a stock trading platform, but with important original differences that make it work great specifically for trading GPU time on clusters
 -   Tasteful responsive design - try it on desktop and mobile!
 -   Fonts - a nice combination of Georgia, Geist, and the gorgeous Berkeley Mono
