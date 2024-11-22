@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "SF Compute / Trade",
+    title: "GPU Trader / Trade",
     description: "Buy and sell GPUs",
 };
 

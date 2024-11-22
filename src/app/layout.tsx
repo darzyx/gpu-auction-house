@@ -37,7 +37,7 @@ const berkeleyMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "SF Compute / Home",
+    title: "GPU Trader / Home",
     description: "Buy and sell GPUs",
 };
 
