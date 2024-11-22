@@ -33,7 +33,7 @@ export default function Navigation() {
         <>
             <div className="flex justify-between items-center md:hidden">
                 <div>
-                    <Image src="/icon.svg" width={25} height={25} alt="GPU Trader Logo" />
+                    <Image src="/icon.svg" width={25} height={25} alt="GPU Exchange Logo" />
                 </div>
                 <Sheet>
                     <SheetTrigger asChild>
@@ -47,7 +47,7 @@ export default function Navigation() {
                         </SheetHeader>
                         <div className="flex flex-col mt-4">
                             <div className="pb-4">
-                                <Image src="/icon.svg" width={25} height={25} alt="GPU Trader Logo" />
+                                <Image src="/icon.svg" width={25} height={25} alt="GPU Exchange Logo" />
                             </div>
                             {navigationItems.map((item) => (
                                 <Link
@@ -66,7 +66,7 @@ export default function Navigation() {
             </div>
             <nav className="hidden md:flex lg:flex-col gap-4 lg:gap-2">
                 <div className="flex justify-end lg:pb-4">
-                    <Image src="/icon.svg" width={25} height={25} alt="GPU Trader Logo" />
+                    <Image src="/icon.svg" width={25} height={25} alt="GPU Exchange Logo" />
                 </div>
                 {navigationItems.map((item) => (
                     <Item key={item.id} id={item.id} href={item.href}>
