@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn, formatDate, formatShortDate } from "@/lib/utils";
 import { TOrderDB, TOrderFrontend } from "@/types";
-import Confirm from "./confirm";
+import ConfirmOrder from "./confirm-order";
 import DaysInput from "./days-input";
 import OrderTypeInput from "./order-type-input";
 import PriceInput from "./price-input";
@@ -175,7 +175,7 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
             >
                 Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
             </Button>
-            <Confirm
+            <ConfirmOrder
                 isOpen={isConfirmationOpen}
                 onClose={() => setIsConfirmationOpen(false)}
                 onConfirm={handleConfirm}

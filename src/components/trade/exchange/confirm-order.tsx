@@ -1,9 +1,9 @@
 import { format } from "date-fns";
+import Link from "next/link";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import Link from "next/link";
 import { OrderType, TradeType } from "./types";
 import { formatCurrency, formatTime, getNumerOfDaysSelected, getPriceForHour } from "./utils";
 
@@ -31,7 +31,7 @@ const DetailRow = ({ label, value }: { label: string; value: string | JSX.Elemen
     </div>
 );
 
-export default function Confirm({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
+export default function ConfirmOrder({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
     const { tradeType, orderType, quantity, price, days, start_time, total } = orderData;
     const isBuy = tradeType === "buy";
     const isMarket = orderType === "market";
