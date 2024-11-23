@@ -11,10 +11,10 @@ import Prices from "@/components/trade/prices";
 import { Separator } from "@/components/ui/separator";
 import { TOrderFrontend } from "@/types";
 
-export default function TradeParent({ initialOrders }: { initialOrders: TOrderFrontend[] }) {
+export default function Trade({ initialOrders }: { initialOrders: TOrderFrontend[] }) {
     const [orders, setOrders] = useState<TOrderFrontend[]>(initialOrders);
 
-    const handleNewOrder = (orderData: TOrderFrontend) => {
+    const handleAddOrder = (orderData: TOrderFrontend) => {
         setOrders((prev) => [orderData, ...prev]);
     };
 
@@ -42,7 +42,7 @@ export default function TradeParent({ initialOrders }: { initialOrders: TOrderFr
                         </div>
                         <Separator />
                         <div className="p-4 sm:p-6 lg:p-4">
-                            <Exchange onOrderSubmitted={handleNewOrder} />
+                            <Exchange onAddOrder={handleAddOrder} />
                         </div>
                     </div>
                     <Separator className="md:hidden" />

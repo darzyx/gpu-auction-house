@@ -4,7 +4,7 @@ import { QueryResult, sql } from "@vercel/postgres";
 
 import { formatDate, formatShortDate } from "@/lib/utils";
 import { TOrderDB, TOrderFrontend } from "@/types";
-import TradeParent from "./trade-parent";
+import Trade from ".";
 
 export default async function Page() {
     try {
@@ -25,7 +25,7 @@ export default async function Page() {
             ORDER BY order_date DESC;
         `;
 
-        const ordersData: TOrderFrontend[] = result.rows.map((order) => ({
+        const initialOrders: TOrderFrontend[] = result.rows.map((order) => ({
             id: order.id,
             orderDate: formatDate(order.order_date),
             side: order.side,
@@ -39,7 +39,7 @@ export default async function Page() {
             status: order.status,
         }));
 
-        return <TradeParent initialOrders={ordersData} />;
+        return <Trade initialOrders={initialOrders} />;
     } catch (error) {
         console.error("Failed to fetch orders:", error);
         return <div>Error loading orders</div>;
