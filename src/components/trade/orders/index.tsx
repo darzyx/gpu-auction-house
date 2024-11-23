@@ -13,24 +13,24 @@ import {
 } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TOrderFrontend } from "@/types";
+import { TOrder } from "@/types";
 
 export default function Orders({
+    orders,
     columns,
-    data,
-    onCancel,
+    onOrderCanceled,
 }: {
-    columns: ColumnDef<TOrderFrontend>[];
-    data: TOrderFrontend[];
-    onCancel: (id: number) => void;
+    orders: TOrder[];
+    columns: ColumnDef<TOrder>[];
+    onOrderCanceled: (id: string) => void;
 }) {
     const table = useReactTable({
-        data,
+        data: orders,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        meta: { onCancel },
+        meta: { onOrderCanceled },
     });
 
     return (

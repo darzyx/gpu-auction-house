@@ -6,39 +6,33 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { cn, transformDBOrderToFrontend } from "@/lib/utils";
-import { TOrderDB, TOrderFrontend } from "@/types";
+import { cn } from "@/lib/utils";
+import { TOrder, TOrderFormData, TOrderForSubmit } from "@/types";
 import ConfirmOrder from "./confirm-order";
-import DaysInput from "./days-input";
-import OrderTypeInput from "./order-type-input";
-import PriceInput from "./price-input";
+import DateRangeInput from "./date-range-input";
+import GPUCountInput from "./gpu-count-input";
+import MethodInput from "./method-input";
+import PricePerGpuInput from "./price-per-gpu-input";
 import PricePerGPUPerDayInfo from "./price-per-gpu-per-day-info";
-import QuantityInput from "./quantity-input";
-import { StartTimeInput } from "./start-time-input";
+import SideInput from "./side-input";
+import { StartEndHourInput } from "./start-end-hour-input.tsx";
 import TotalInfo from "./total-info";
-import TradeTypeInput from "./trade-type-input";
-import { OrderFormData, OrderType, TradeType } from "./types";
-import { calculateTotal, formatCurrency, getPriceForHour, initFormData, validateFormData } from "./utils";
+import { calculateTotal, getPriceForHour, initFormData, validateFormData } from "./utils";
 
-type ExchangeProps = {
-    onAddOrder: (order: TOrderFrontend) => void;
-};
+export default function Exchange({ onOrderAdded }: { onOrderAdded: (order: TOrder) => void }) {
+    const [formData, setFormData] = useState<TOrderFormData>(initFormData);
 
-export default function Exchange({ onAddOrder }: ExchangeProps) {
-    const [tradeType, setTradeType] = useState<TradeType>("buy");
-    const isBuy = tradeType === "buy";
-
-    const [orderType, setOrderType] = useState<OrderType>("market");
-
-    const [formData, setFormData] = useState<OrderFormData>(initFormData);
-
-    const handleDateChange = (days: DateRange | undefined) => {
-        setFormData((prev) => ({ ...prev, days }));
+    const handleChangeDateRange = (newDateRange: DateRange | undefined) => {
+        const newFormData: TOrderFormData = {
+            ...formData,
+            date_range: newDateRange,
+        };
+        setFormData(newFormData);
     };
 
-    const total = useMemo(() => calculateTotal(formData, orderType), [formData, orderType]);
+    const totalPrice = useMemo(() => +calculateTotal(formData), [formData]);
 
-    const isValid = validateFormData(formData, orderType, isBuy);
+    const isValid = validateFormData(formData);
 
     const [isConfirmOrderModalOpen, setIsConfirmOrderModalOpen] = useState(false);
     const handleSubmit = () => {
@@ -46,31 +40,31 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
     };
 
     const handleConfirm = async () => {
-        if (!formData.start_time || !formData.days?.from || !formData.days?.to || !formData.quantity) {
+        if (!isValid) {
             toast.error("Please fill in all fields.");
             return;
         }
 
         let response;
         try {
-            const total = calculateTotal(formData, orderType);
-            const startHour = parseInt(formData.start_time);
-
-            if (isNaN(startHour) || startHour < 0 || startHour >= 24) {
+            const startEndHour = parseInt(formData.start_end_hour || "0");
+            if (isNaN(startEndHour) || startEndHour < 0 || startEndHour >= 24) {
+                toast.error("Please enter a valid start/end hour.");
                 return;
             }
 
-            const quantity = parseInt(formData.quantity);
-            if (isNaN(quantity) || quantity <= 0) {
+            const gpuCount = parseInt(formData.gpu_count || "0");
+            if (isNaN(gpuCount) || gpuCount <= 0) {
+                toast.error("Please enter a valid GPU count.");
                 return;
             }
 
             let pricePerGpu: number;
-            if (orderType === "market") {
-                pricePerGpu = +getPriceForHour(startHour, formData.days.from, formData.days.to, formData.quantity);
+            if (formData.method === "market") {
+                pricePerGpu = +getPriceForHour(formData, formData.start_end_hour);
             } else {
-                if (!formData.price) return;
-                const price = parseFloat(formData.price);
+                if (!formData.price_per_gpu) return;
+                const price = parseFloat(formData.price_per_gpu);
                 if (isNaN(price) || price <= 0) return;
                 pricePerGpu = price;
             }
@@ -79,38 +73,41 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
                 return;
             }
 
-            const orderForDB: Omit<TOrderDB, "id" | "order_date"> = {
-                side: isBuy ? "buy" : "sell",
-                type: orderType === "market" ? "market" : "limit",
-                status: orderType === "market" ? "filled" : "pending",
-                gpus: quantity,
+            if (!formData.date_range?.from || !formData.date_range?.to) {
+                toast.error("Please select a date range.");
+                return;
+            }
+
+            const orderForSubmit: TOrderForSubmit = {
+                side: formData.side,
+                method: formData.method,
+                status: formData.method === "market" ? "filled" : "pending",
+                gpu_count: gpuCount,
                 price_per_gpu: pricePerGpu,
-                total_price: +total,
-                start_date: formData.days.from.toISOString().split("T")[0],
-                start_time: startHour,
-                end_date: formData.days.to.toISOString().split("T")[0],
+                total_price: totalPrice,
+                start_date: formData.date_range.from.toString(),
+                start_end_hour: startEndHour,
+                end_date: formData.date_range.to.toString(),
             };
 
             response = await fetch("/api/orders", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(orderForDB),
+                body: JSON.stringify(orderForSubmit),
             });
 
-            let responseData: TOrderDB;
+            let responseOrder: TOrder;
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("API Error:", errorData);
                 toast.error("An error occurred while placing the order. Please try again later.");
                 return;
             } else {
-                responseData = await response.json();
+                responseOrder = await response.json();
             }
 
-            const newOrderForFrontend: TOrderFrontend = transformDBOrderToFrontend(responseData);
-
             toast.success("Order placed");
-            onAddOrder(newOrderForFrontend);
+            onOrderAdded(responseOrder);
             setIsConfirmOrderModalOpen(false);
             setFormData(initFormData);
         } catch (error) {
@@ -123,57 +120,37 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
     return (
         <div className="space-y-4">
             <h2 className="text-lg font-georgia leading-none">Exchange</h2>
-            <TradeTypeInput tradeType={tradeType} setTradeType={setTradeType} isBuy={isBuy} />
-            <OrderTypeInput orderType={orderType} setOrderType={setOrderType} />
-            <div className={orderType === "limit" ? "grid grid-cols-2 gap-4" : ""}>
-                <QuantityInput
-                    id={isBuy ? "quantity" : "sell-quantity"}
-                    value={formData.quantity}
-                    onChange={(value) => setFormData((prev) => ({ ...prev, quantity: value }))}
-                    isBuy={isBuy}
-                />
-                {orderType === "limit" && (
-                    <PriceInput
-                        isBuy={isBuy}
-                        value={formData.price}
-                        onChange={(value) => setFormData((prev) => ({ ...prev, price: value }))}
-                    />
-                )}
+            <SideInput formData={formData} setFormData={setFormData} />
+            <MethodInput formData={formData} setFormData={setFormData} />
+            <div className={formData.method === "limit" ? "grid grid-cols-2 gap-4" : ""}>
+                <GPUCountInput formData={formData} setFormData={setFormData} />
+                {formData.method === "limit" && <PricePerGpuInput formData={formData} setFormData={setFormData} />}
             </div>
             <div className="h-1" />
             <div className="grid grid-cols-[1fr_125px] items-end gap-4">
-                <DaysInput formData={formData} orderType={orderType} setDate={handleDateChange} isBuy={isBuy} />
-                <StartTimeInput
-                    formData={formData}
-                    onChange={(value) => setFormData((prev) => ({ ...prev, start_time: value }))}
-                    orderType={orderType}
-                    isBuy={isBuy}
-                />
+                <DateRangeInput formData={formData} setFormData={setFormData} />
+                <StartEndHourInput formData={formData} setFormData={setFormData} />
             </div>
             <div className="h-1" />
             <Separator />
-            {orderType === "market" && <PricePerGPUPerDayInfo formData={formData} />}
-            <TotalInfo total={total} />
+            {formData.method === "market" && <PricePerGPUPerDayInfo formData={formData} />}
+            <TotalInfo formData={formData} />
             <Button
                 disabled={!isValid}
-                className={cn("w-full", isBuy ? "bg-green-600 hover:bg-green-600" : "bg-red-600 hover:bg-red-600")}
+                className={cn(
+                    "w-full",
+                    formData.side === "buy" ? "bg-green-600 hover:bg-green-600" : "bg-red-600 hover:bg-red-600"
+                )}
                 onClick={handleSubmit}
             >
-                Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
+                Place {formData.method === "market" ? "Market" : "Limit"} {formData.side === "buy" ? "Buy" : "Sell"}{" "}
+                Order
             </Button>
             <ConfirmOrder
+                formData={formData}
                 isOpen={isConfirmOrderModalOpen}
                 onClose={() => setIsConfirmOrderModalOpen(false)}
                 onConfirm={handleConfirm}
-                orderData={{
-                    tradeType: isBuy ? "buy" : "sell",
-                    orderType,
-                    quantity: formData.quantity,
-                    price: formData.price,
-                    days: formData.days,
-                    total: formatCurrency(total),
-                    start_time: formData.start_time,
-                }}
             />
         </div>
     );

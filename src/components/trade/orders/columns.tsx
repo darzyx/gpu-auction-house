@@ -2,17 +2,11 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { TOrderFrontend } from "@/types";
+import { TOrder } from "@/types";
 import { Column, ColumnDef } from "@tanstack/react-table";
 import { formatCurrency, formatTime } from "../exchange/utils";
 
-const SortableHeader = ({
-    column,
-    children,
-}: {
-    column: Column<TOrderFrontend, unknown>;
-    children: React.ReactNode;
-}) => {
+const SortableHeader = ({ column, children }: { column: Column<TOrder, unknown>; children: React.ReactNode }) => {
     return (
         <Button
             variant="ghost"
@@ -31,12 +25,12 @@ const SortableHeader = ({
     );
 };
 
-const ordersColumns: ColumnDef<TOrderFrontend>[] = [
+const ordersColumns: ColumnDef<TOrder>[] = [
     {
-        accessorKey: "orderDate",
-        header: ({ column }) => <SortableHeader column={column}>Order Date</SortableHeader>,
+        accessorKey: "created_date",
+        header: ({ column }) => <SortableHeader column={column}>Time Placed</SortableHeader>,
         cell: ({ row }) => {
-            const v = row.getValue("orderDate") as string;
+            const v = row.getValue("created_date") as string;
             return <div className="text-muted-foreground">{v}</div>;
         },
     },
@@ -44,59 +38,59 @@ const ordersColumns: ColumnDef<TOrderFrontend>[] = [
         accessorKey: "side",
         header: "Side",
         cell: ({ row }) => {
-            const v = row.getValue("side") as TOrderFrontend["side"];
+            const v = row.getValue("side") as TOrder["side"];
             return <div className="capitalize">{v}</div>;
         },
     },
     {
-        accessorKey: "type",
-        header: "Type",
+        accessorKey: "method",
+        header: "Method",
         cell: ({ row }) => {
-            const v = row.getValue("type") as TOrderFrontend["type"];
+            const v = row.getValue("method") as TOrder["method"];
             return <div className="capitalize">{v}</div>;
         },
     },
     {
-        accessorKey: "startDate",
-        header: ({ column }) => <SortableHeader column={column}>Start Date</SortableHeader>,
+        accessorKey: "start_date",
+        header: ({ column }) => <SortableHeader column={column}>Start</SortableHeader>,
     },
     {
-        accessorKey: "startTime",
-        header: ({ column }) => <SortableHeader column={column}>Start Time</SortableHeader>,
+        accessorKey: "start_end_hour",
+        header: ({ column }) => <SortableHeader column={column}>Start/End Hour</SortableHeader>,
         cell: ({ row }) => {
-            const v = row.getValue("startTime") as TOrderFrontend["startTime"];
-            return formatTime(v);
+            const v: TOrder["start_end_hour"] = row.getValue("start_end_hour");
+            return formatTime(v.toString());
         },
     },
     {
-        accessorKey: "endDate",
-        header: ({ column }) => <SortableHeader column={column}>End Date</SortableHeader>,
+        accessorKey: "end_date",
+        header: ({ column }) => <SortableHeader column={column}>End</SortableHeader>,
     },
     {
-        accessorKey: "gpus",
-        header: ({ column }) => <SortableHeader column={column}>GPUs</SortableHeader>,
+        accessorKey: "gpu_count",
+        header: ({ column }) => <SortableHeader column={column}>GPU Count</SortableHeader>,
     },
     {
-        accessorKey: "pricePerGpu",
+        accessorKey: "price_per_gpu",
         header: ({ column }) => <SortableHeader column={column}>$/GPU/day</SortableHeader>,
         cell: ({ row }) => {
-            const v = row.getValue("pricePerGpu") as string;
-            return formatCurrency(v);
+            const v = row.getValue("price_per_gpu") as number;
+            return formatCurrency(v.toString());
         },
     },
     {
-        accessorKey: "totalPrice",
+        accessorKey: "total_price",
         header: ({ column }) => <SortableHeader column={column}>Total</SortableHeader>,
         cell: ({ row }) => {
-            const v = row.getValue("totalPrice") as string;
-            return formatCurrency(v);
+            const v = row.getValue("total_price") as number;
+            return formatCurrency(v.toString());
         },
     },
     {
         accessorKey: "status",
         header: () => <div className="text-right">Status</div>,
         cell: ({ row }) => {
-            const v = row.getValue("status") as TOrderFrontend["status"];
+            const v = row.getValue("status") as TOrder["status"];
             const color = v === "filled" ? "text-green-600" : v === "pending" ? "text-yellow-600" : "text-red-600";
             return <div className={color + " text-right capitalize"}>{v}</div>;
         },
@@ -115,8 +109,9 @@ const ordersColumns: ColumnDef<TOrderFrontend>[] = [
                         throw new Error("Failed to cancel order");
                     }
 
-                    const onCancel = (table.options.meta as { onCancel?: (id: number) => void })?.onCancel;
-                    if (onCancel) onCancel(original.id);
+                    const onOrderCanceled = (table.options.meta as { onOrderCanceled?: (id: string) => void })
+                        ?.onOrderCanceled;
+                    if (onOrderCanceled) onOrderCanceled(original.id);
 
                     toast.success("Order canceled");
                 } catch (error) {

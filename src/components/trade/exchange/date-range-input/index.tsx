@@ -11,7 +11,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTr
 import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
-import { OrderFormData, OrderType } from "../types";
+import { TOrderFormData } from "@/types";
 import {
     formatCurrency,
     getHighestPrice,
@@ -22,77 +22,58 @@ import {
 } from "../utils";
 import { Calendar } from "./calendar";
 
-type DaysInputProps = {
-    formData: OrderFormData;
-    orderType: OrderType;
-    setDate: (date: DateRange | undefined) => void;
-    className?: string;
-    isBuy: boolean;
-};
+export default function DateRangeInput({
+    formData,
+    setFormData,
+}: {
+    formData: TOrderFormData;
+    setFormData: React.Dispatch<React.SetStateAction<TOrderFormData>>;
+}) {
+    const { date_range, gpu_count, side, method } = formData;
+    const gpuCountInt = parseInt(gpu_count || "0");
 
-export default function DaysInput({
-    formData: { days, quantity },
-    orderType,
-    setDate,
-    className,
-    isBuy,
-}: DaysInputProps) {
     const isDesktop = useMediaQuery("(min-width: 768px)");
     const [open, setOpen] = useState(false);
-    const [dayAmounts, setDayAmounts] = useState<Record<string, string>>({});
+    const [datePrices, setDatesPrices] = useState<Record<string, string>>({});
 
-    const handleSelect = (range: DateRange | undefined) => {
-        if (!range) {
-            setDate(undefined);
-            return;
-        }
-
-        if (range.from && range.to) {
-            const fromDate = new Date(range.from);
-            const toDate = new Date(range.to);
-
-            if (fromDate.toDateString() === toDate.toDateString()) {
-                setDate({ from: range.from, to: undefined });
-                return;
-            }
-        }
-
-        setDate(range);
+    const handleSelect = (newDateRange: DateRange | undefined) => {
+        let newFormData: TOrderFormData = { ...formData, date_range: newDateRange };
+        setFormData(newFormData);
     };
 
     useEffect(() => {
-        if (!days) {
-            setDayAmounts({});
-            return;
+        if (!gpuCountInt || !date_range || (!date_range.from && !date_range.to)) {
+            setDatesPrices({});
+        } else if (date_range.from && !date_range.to) {
+            setDatesPrices(getPricesWithStartDate(formData));
+        } else if (date_range.from && date_range.to) {
+            setDatesPrices(getPricesWithDateRange(formData));
         }
-        if (days.from && !days.to) {
-            setDayAmounts(getPricesWithStartDate(days.from, quantity, isBuy));
-        } else if (days.from && days.to) {
-            setDayAmounts(getPricesWithDateRange(days, quantity, isBuy));
-        }
-    }, [days, days?.from, days?.to, quantity, isBuy]);
+    }, [formData]);
 
     const getSelectedRangePrice = () => {
-        if (!days?.from || !days?.to) return "0";
-        return isBuy ? getLowestPrice(days.from, days.to, quantity) : getHighestPrice(days.from, days.to, quantity);
+        if (!date_range?.from || !date_range?.to || !gpuCountInt) return "0";
+        return side === "buy"
+            ? getLowestPrice(date_range.from, date_range.to, gpu_count)
+            : getHighestPrice(date_range.from, date_range.to, gpu_count);
     };
 
-    const numSelectedDays = days ? getNumerOfDaysSelected(days) : 0;
+    const numSelectedDays = date_range ? getNumerOfDaysSelected(date_range) : 0;
 
     const TriggerButton = (
         <Button
             id="date"
             variant="outline"
-            className={cn("w-full justify-start text-left font-normal", !days && "text-muted-foreground")}
+            className={cn("w-full justify-start text-left font-normal", !date_range && "text-muted-foreground")}
         >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {days?.from ? (
-                days.to ? (
+            {date_range?.from ? (
+                date_range.to ? (
                     <>
-                        {format(days.from, "M/d/yy")} - {format(days.to, "M/d/yy")}
+                        {format(date_range.from, "M/d/yy")} - {format(date_range.to, "M/d/yy")}
                     </>
                 ) : (
-                    format(days.from, "M/d/yy")
+                    format(date_range.from, "M/d/yy")
                 )
             ) : (
                 <span>Select dates</span>
@@ -106,27 +87,29 @@ export default function DaysInput({
                 initialFocus
                 mode="range"
                 defaultMonth={new Date()}
-                selected={days}
+                selected={date_range}
                 onSelect={handleSelect}
                 numberOfMonths={isDesktop ? 2 : 1}
                 fromDate={new Date()}
-                dayAmounts={dayAmounts}
-                hasPickedQuantity={!!quantity}
-                isMarketOrder={orderType === "market"}
+                datePrices={datePrices}
+                hasPickedGPUCount={!!gpu_count}
+                isMarketOrder={method === "market"}
             />
             <div className="flex justify-end items-center gap-1 mt-2">
                 <div className="flex items-center h-10 p-2 text-sm md:text-base">
-                    {orderType === "limit" ? (
+                    {method === "limit" ? (
                         ""
-                    ) : !quantity ? (
+                    ) : !gpuCountInt ? (
                         <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
-                            <span>Add quantity (GPUs)</span>
+                            <span>Add GPU count</span>
                             <span>to see prices</span>
                         </span>
-                    ) : days?.from && days?.to ? (
+                    ) : date_range?.from && date_range?.to ? (
                         <span className="flex flex-col justify-center items-end mb-1">
                             <span className="flex justify-start items-center gap-1">
-                                <span className="text-xs text-muted-foreground">{isBuy ? "from" : "up to"}</span>
+                                <span className="text-xs text-muted-foreground">
+                                    {side === "buy" ? "from" : "up to"}
+                                </span>
                                 <span className="font-berkeley-mono">{formatCurrency(getSelectedRangePrice())}</span>
                             </span>
                             <span className="text-xs text-muted-foreground">per GPU per day</span>
@@ -156,7 +139,7 @@ export default function DaysInput({
             <Label htmlFor="days" className="text-xs">
                 DATE RANGE
             </Label>
-            <div className={cn("relative w-full grid gap-2", className)}>
+            <div className="relative w-full grid gap-2">
                 {isDesktop ? (
                     <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>{TriggerButton}</DialogTrigger>

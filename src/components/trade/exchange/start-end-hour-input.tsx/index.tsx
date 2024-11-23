@@ -6,36 +6,25 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "@/components/trade/exchange/start-time-input/custom-select";
+} from "@/components/trade/exchange/start-end-hour-input.tsx/custom-select";
 import { Label } from "@/components/ui/label";
-import { OrderFormData, OrderType } from "../types";
-import { formatCurrency, formatTime, getPriceInfoForHour } from "../utils";
+import { TOrderFormData } from "@/types";
+import { formatCurrency, formatTime, getDatePriceInfo } from "../utils";
 
-type StartTimeInputProps = {
-    formData: OrderFormData;
-    onChange: (value: string) => void;
-    orderType: OrderType;
-    isBuy: boolean;
-};
-
-export function StartTimeInput({
-    formData: { days, quantity, start_time },
-    onChange,
-    orderType,
-    isBuy,
-}: StartTimeInputProps) {
-    const selectedDate = days?.from;
-
-    const getPriceForHour = (hour: number) => {
-        return getPriceInfoForHour(hour, days?.from, days?.to, quantity);
-    };
+export function StartEndHourInput({
+    formData,
+    setFormData,
+}: {
+    formData: TOrderFormData;
+    setFormData: React.Dispatch<React.SetStateAction<TOrderFormData>>;
+}) {
+    const { date_range, method, gpu_count, start_end_hour, side } = formData;
+    const gpuCountInt = parseInt(gpu_count || "0");
 
     const getPriceColor = (priceType: "highest" | "lowest" | "normal" | "unavailable") => {
         if (priceType === "normal" || priceType === "unavailable") {
             return "text-muted-foreground";
-        }
-
-        if (isBuy) {
+        } else if (side === "buy") {
             // For buys: low is good (green), high is bad (red)
             return priceType === "lowest" ? "text-green-600" : "text-red-600";
         } else {
@@ -44,33 +33,41 @@ export function StartTimeInput({
         }
     };
 
-    const showLabel = orderType === "market" && (!selectedDate || !quantity);
+    const showLabel = method === "market" && (!date_range?.from || !gpuCountInt);
 
     return (
         <div className="space-y-1">
             <Label htmlFor="start-time" className="text-xs">
                 START/END TIME
             </Label>
-            <Select value={start_time} onValueChange={onChange}>
+            <Select
+                value={start_end_hour}
+                onValueChange={(newStartEndHour) => {
+                    const newFormData: TOrderFormData = { ...formData, start_end_hour: newStartEndHour };
+                    setFormData(newFormData);
+                }}
+            >
                 <SelectTrigger id="start-time">
-                    <SelectValue placeholder="Select">{start_time ? formatTime(start_time) : "Select"}</SelectValue>
+                    <SelectValue placeholder="Select">
+                        {start_end_hour ? formatTime(start_end_hour) : "Select"}
+                    </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
                         {showLabel && (
                             <SelectLabel>
-                                {!selectedDate && !quantity
-                                    ? "Select quantity and dates to see prices."
-                                    : !selectedDate
-                                    ? "Select date range to see prices."
-                                    : "Select quantity to see prices."}
+                                {!date_range?.from && !gpuCountInt
+                                    ? "Add GPU count and dates to see prices."
+                                    : !date_range?.from
+                                    ? "Add date range to see prices."
+                                    : "Add GPU count to see prices."}
                             </SelectLabel>
                         )}
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
-                            const { price, priceType } = getPriceForHour(i);
-                            const showPrice = orderType === "market" && selectedDate && quantity;
-                            const isUnavailable = priceType === "unavailable" && orderType === "market";
+                            const { price, priceType } = getDatePriceInfo(formData, hour);
+                            const showPrice: boolean = method === "market" && !!date_range?.from && !!gpuCountInt;
+                            const isUnavailable: boolean = priceType === "unavailable" && method === "market";
 
                             return (
                                 <SelectItem

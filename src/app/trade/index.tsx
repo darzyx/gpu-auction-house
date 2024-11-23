@@ -9,21 +9,21 @@ import ordersColumns from "@/components/trade/orders/columns";
 import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices";
 import { Separator } from "@/components/ui/separator";
-import { TOrderFrontend } from "@/types";
+import { TOrder } from "@/types";
 
-export default function Trade({ initialOrders }: { initialOrders: TOrderFrontend[] }) {
-    const [orders, setOrders] = useState<TOrderFrontend[]>(initialOrders);
+export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
+    const [orders, setOrders] = useState<TOrder[]>(initOrders);
 
-    const handleAddOrder = (orderData: TOrderFrontend) => {
-        setOrders((prev) => [orderData, ...prev]);
+    const handleOrderAdded = (newOrder: TOrder) => {
+        setOrders((prev) => [newOrder, ...prev]);
     };
 
-    const handleCancelOrder = (id: number) => {
+    const handleOrderCanceled = (id: string) => {
         setOrders((prev) =>
-            prev.map((order) => {
-                if (order.id === id) return { ...order, status: "canceled" };
-                return order;
-            })
+            prev.map((order) => ({
+                ...order,
+                status: order.id === id ? "canceled" : order.status,
+            }))
         );
     };
 
@@ -42,7 +42,7 @@ export default function Trade({ initialOrders }: { initialOrders: TOrderFrontend
                         </div>
                         <Separator />
                         <div className="p-4 sm:p-6 lg:p-4">
-                            <Exchange onAddOrder={handleAddOrder} />
+                            <Exchange onOrderAdded={handleOrderAdded} />
                         </div>
                     </div>
                     <Separator className="md:hidden" />
@@ -54,7 +54,7 @@ export default function Trade({ initialOrders }: { initialOrders: TOrderFrontend
                 <Separator />
                 <div className="relative">
                     <div className="pb-10 md:pb-4 p-4 sm:p-6 lg:p-4 w-full absolute md:inset-0 md:overflow-auto">
-                        <Orders data={orders} columns={ordersColumns} onCancel={handleCancelOrder} />
+                        <Orders orders={orders} columns={ordersColumns} onOrderCanceled={handleOrderCanceled} />
                     </div>
                 </div>
             </div>

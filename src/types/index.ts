@@ -1,27 +1,37 @@
-export type TOrderDB = {
-    id: number;
-    order_date: Date;
-    side: "buy" | "sell";
-    type: "market" | "limit";
-    start_date: string;
-    start_time: number;
-    end_date: string;
-    gpus: number;
+import { DateRange } from "react-day-picker";
+
+export type TOrderSide = "buy" | "sell";
+export type TOrderMethod = "market" | "limit";
+export type TOrderStatus = "filled" | "pending" | "canceled";
+
+export type TOrder = {
+    id: string;
+    side: TOrderSide;
+    method: TOrderMethod;
+    gpu_count: number;
     price_per_gpu: number;
+    start_date: string;
+    end_date: string;
+    start_end_hour: number;
     total_price: number;
-    status: "filled" | "pending" | "canceled";
+    status: TOrderStatus;
+    created_date: string;
+    updated_date: string;
 };
 
-export type TOrderFrontend = {
-    id: number;
-    orderDate: string;
-    side: "buy" | "sell";
-    type: "market" | "limit";
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    gpus: string;
-    pricePerGpu: string;
-    totalPrice: string;
-    status: "filled" | "pending" | "canceled";
+export type TOrderFormData = {
+    side: TOrderSide;
+    method: TOrderMethod;
+    gpu_count: string;
+    price_per_gpu: string;
+    date_range: DateRange | undefined;
+    start_end_hour: string;
+    total_price: string | undefined;
 };
+
+export type TOrderForSubmit = Omit<TOrder, "id" | "created_date" | "updated_date" | "start_date" | "end_date"> & {
+    start_date: string;
+    end_date: string;
+};
+
+export type TOrderForTable = Omit<TOrder, "id" | "updated_date">;

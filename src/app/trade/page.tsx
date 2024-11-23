@@ -2,32 +2,30 @@ export const dynamic = "force-dynamic";
 
 import { QueryResult, sql } from "@vercel/postgres";
 
-import { transformDBOrderToFrontend } from "@/lib/utils";
-import { TOrderDB, TOrderFrontend } from "@/types";
+import { TOrder } from "@/types";
 import Trade from ".";
 
 export default async function Page() {
     try {
-        const result: QueryResult<TOrderDB> = await sql`
+        const result: QueryResult<TOrder> = await sql`
             SELECT 
                 id,
-                order_date,
-                side::text,
-                type::text,
-                start_date,
-                start_time,
-                end_date,
-                gpus,
+                side,
+                method,
+                status,
+                gpu_count,
                 price_per_gpu,
                 total_price,
-                status::text
-            FROM orders
-            ORDER BY order_date DESC;
+                start_date,
+                end_date,
+                start_end_hour,
+                created_date,
+                updated_date
+            FROM new_orders
+            ORDER BY created_date DESC;
         `;
-
-        const initialOrders: TOrderFrontend[] = result.rows.map((order) => transformDBOrderToFrontend(order));
-
-        return <Trade initialOrders={initialOrders} />;
+        const initOrders = result.rows;
+        return <Trade initOrders={initOrders} />;
     } catch (error) {
         console.error("Failed to fetch orders:", error);
         return <div>Error loading orders</div>;

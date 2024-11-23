@@ -2,40 +2,36 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TOrderFormData } from "@/types";
 import { AVAILABLE_GPUS, USER_GPUS } from "./utils";
 
-export default function QuantityInput({
-    id = "quantity",
-    label = "QUANTITY (GPUs)",
-    placeholder = "0",
-    value,
-    onChange,
-    isBuy,
+export default function GPUCountInput({
+    formData: { gpu_count, side },
+    setFormData,
 }: {
-    id?: string;
-    label?: string;
-    placeholder?: string;
-    value: string | undefined;
-    onChange: (value: string | undefined) => void;
-    isBuy: boolean;
+    formData: TOrderFormData;
+    setFormData: React.Dispatch<React.SetStateAction<TOrderFormData>>;
 }) {
-    const maxGPUs = isBuy ? AVAILABLE_GPUS : USER_GPUS;
+    const maxGPUs = side === "buy" ? AVAILABLE_GPUS : USER_GPUS;
 
     return (
         <div className="relative space-y-1">
-            <Label htmlFor={id} className="text-xs">
-                {label}
+            <Label htmlFor="gpu-count" className="text-xs">
+                GPU COUNT
             </Label>
             <Input
-                id={id}
+                id="gpu-count"
                 type="number"
                 min={0}
                 max={maxGPUs}
-                placeholder={placeholder}
-                value={value ?? ""}
+                placeholder="0"
+                value={gpu_count ?? ""}
                 onChange={(e) => {
-                    const num = e.target.value;
-                    onChange(num ? Math.min(maxGPUs, Math.max(0, +num)).toString() : undefined);
+                    const num = parseInt(e.target.value || "0");
+                    setFormData((prev) => ({
+                        ...prev,
+                        gpu_count: Math.min(num, maxGPUs).toString(),
+                    }));
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();

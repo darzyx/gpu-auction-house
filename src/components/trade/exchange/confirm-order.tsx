@@ -1,28 +1,10 @@
 import { format } from "date-fns";
 import Link from "next/link";
-import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { OrderType, TradeType } from "./types";
+import { TOrderFormData } from "@/types";
 import { formatCurrency, formatTime, getNumerOfDaysSelected, getPriceForHour } from "./utils";
-
-type OrderData = {
-    tradeType: TradeType;
-    orderType: OrderType;
-    quantity: string | undefined;
-    price?: string | undefined;
-    days: DateRange | undefined;
-    start_time?: string;
-    total: string;
-};
-
-type ConfirmProps = {
-    isOpen: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
-    orderData: OrderData;
-};
 
 const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
     <div className="flex justify-between items-center gap-4">
@@ -31,18 +13,28 @@ const DetailRow = ({ label, value }: { label: string; value: string | JSX.Elemen
     </div>
 );
 
-export default function ConfirmOrder({ isOpen, onClose, onConfirm, orderData }: ConfirmProps) {
-    const { tradeType, orderType, quantity, price, days, start_time, total } = orderData;
-    const isBuy = tradeType === "buy";
-    const isMarket = orderType === "market";
+export default function ConfirmOrder({
+    formData,
+    isOpen,
+    onClose,
+    onConfirm,
+}: {
+    formData: TOrderFormData;
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+}) {
+    const { side, method, gpu_count, price_per_gpu, date_range, start_end_hour, total_price } = formData;
 
-    const confirmButtonClasses = isBuy
-        ? "flex-1 bg-green-600 hover:bg-green-600"
-        : "flex-1 bg-red-600 hover:bg-red-600";
+    const confirmButtonClasses =
+        side === "buy" ? "flex-1 bg-green-600 hover:bg-green-600" : "flex-1 bg-red-600 hover:bg-red-600";
 
     const getValueForPricePerGPUPerDay = () => {
-        if (!days?.from || !days?.to || !start_time || !quantity) return "---";
-        return formatCurrency(getPriceForHour(parseInt(start_time), days.from, days.to, quantity));
+        if (!date_range?.from || !date_range?.to || !start_end_hour || !gpu_count) {
+            return "---";
+        } else {
+            return formatCurrency(getPriceForHour(formData, formData.start_end_hour));
+        }
     };
 
     return (
@@ -50,40 +42,38 @@ export default function ConfirmOrder({ isOpen, onClose, onConfirm, orderData }: 
             <DialogContent className="max-w-[90vw] sm:max-w-[400px] rounded-md space-y-4">
                 <DialogHeader>
                     <DialogTitle className="font-georgia text-lg font-normal">
-                        Confirm {!isMarket ? "Order" : isBuy ? "Purchase" : "Sale"}
+                        Confirm {method === "limit" ? "Order" : side === "buy" ? "Purchase" : "Sale"}
                     </DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
-                    {!isMarket && <DetailRow label="Side" value={isBuy ? "Buy" : "Sell"} />}
-                    <DetailRow
-                        label="Type"
-                        value={`${orderType.charAt(0).toUpperCase() + orderType.slice(1)} Order`}
-                    />
-                    <DetailRow label="Quantity" value={`${quantity} GPUs`} />
-                    {!isMarket && price && (
+                    {method === "limit" && <DetailRow label="Side" value={side === "buy" ? "Buy" : "Sell"} />}
+                    <DetailRow label="Method" value={method === "limit" ? "Limit Order" : "Market Order"} />
+                    <DetailRow label="GPU Count" value={`${gpu_count} GPUs`} />
+                    {method === "limit" && price_per_gpu && (
                         <DetailRow
-                            label={`${isBuy ? "Ceiling" : "Floor"} price`}
-                            value={formatCurrency(price) + "/GPU/day"}
+                            label={`${side === "buy" ? "Ceiling" : "Floor"} price`}
+                            value={formatCurrency(price_per_gpu) + "/GPU/day"}
                         />
                     )}
-                    {days?.from && days?.to && (
+                    {date_range?.from && date_range?.to && (
                         <DetailRow
                             label="Period"
-                            value={`${format(days.from, "M/d/yy")} - ${format(days.to, "M/d/yy")}`}
+                            value={`${format(date_range.from, "M/d/yy")} - ${format(date_range.to, "M/d/yy")}`}
                         />
                     )}
-                    {days && <DetailRow label="Days" value={getNumerOfDaysSelected(days).toString()} />}
-                    {start_time && <DetailRow label="Start/End Time" value={formatTime(start_time)} />}
+                    {date_range && <DetailRow label="Days" value={getNumerOfDaysSelected(date_range).toString()} />}
+                    {start_end_hour && <DetailRow label="Start/End Time" value={formatTime(start_end_hour)} />}
                     <DetailRow label="$/GPU/Day" value={getValueForPricePerGPUPerDay()} />
-                    <DetailRow label="Total" value={total} />
+                    {total_price && <DetailRow label="Total" value={total_price.toString()} />}
                 </div>
-                {!isMarket && (
+                {method === "limit" && (
                     <div className="text-sm bg-muted text-muted-foreground rounded-md p-4 text-center">
                         This is a{" "}
                         <Link href="/trade" className="inline text-sky-600 hover:underline underline-offset-2">
                             limit order
                         </Link>
-                        . You haven&apos;t actually {isBuy ? "bought" : "sold"} anything until your order gets filled.
+                        . You haven&apos;t actually {side === "buy" ? "bought" : "sold"} anything until your order gets
+                        filled.
                     </div>
                 )}
                 <div className="flex gap-4">

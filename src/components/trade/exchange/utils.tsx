@@ -1,5 +1,5 @@
+import { TOrderFormData } from "@/types";
 import { DateRange } from "react-day-picker";
-import { OrderFormData, OrderType } from "./types";
 
 export const TOTAL_GPUS = 3200;
 export const AVAILABLE_GPUS = 2295;
@@ -8,24 +8,24 @@ export const LOWEST_PRICE_HOURS = [2, 3, 16, 17, 23];
 export const HIGHEST_PRICE_HOURS = [4, 5, 18, 19];
 export const UNAVAILABLE_HOURS = [7, 21, 22];
 
-const generateDeterministicCents = (date1: Date, date2: Date, quantity: string): number => {
-    const seed = (date1.getDate() * date2.getMonth() + date2.getDate() * date1.getMonth()) * parseInt(quantity);
+const generateDeterministicCents = (date1: Date, date2: Date, gpu_count: string): number => {
+    const seed = (date1.getDate() * date2.getMonth() + date2.getDate() * date1.getMonth()) * parseInt(gpu_count);
     return seed % 100;
 };
 
-const generatePriceForRange = (from: Date, to: Date, quantity: string): string => {
-    if (!quantity) return "0";
-    const parsedQuantity = parseInt(quantity);
-    const seed = (from.getDate() * to.getMonth() + to.getDate() * from.getMonth() + parsedQuantity) % 25;
+const generatePriceForRange = (from: Date, to: Date, gpu_count: string): string => {
+    if (!gpu_count) return "0";
+    const gpuCountInt = parseInt(gpu_count);
+    const seed = (from.getDate() * to.getMonth() + to.getDate() * from.getMonth() + gpuCountInt) % 25;
     const dollars = 35 + seed;
-    const cents = generateDeterministicCents(from, to, quantity);
+    const cents = generateDeterministicCents(from, to, gpu_count);
     return `${dollars}.${cents.toString().padStart(2, "0")}`;
 };
 
-const generateMediumPrice = (from: Date, to: Date, quantity: string): string => {
-    const basePrice = generatePriceForRange(from, to, quantity);
-    const parsedQuantity = parseInt(quantity);
-    const increaseSeed = (from.getHours() * to.getDate() + to.getHours() * from.getDate() + parsedQuantity) % 2000;
+const generateMediumPrice = (from: Date, to: Date, gpu_count: string): string => {
+    const basePrice = generatePriceForRange(from, to, gpu_count);
+    const gpuCountInt = parseInt(gpu_count);
+    const increaseSeed = (from.getHours() * to.getDate() + to.getHours() * from.getDate() + gpuCountInt) % 2000;
     const percentageIncrease = 0.05 + (increaseSeed / 2000) * 0.45;
     const increasedPrice = +basePrice * (1 + percentageIncrease);
     const newCentsSeed = new Date(from.getTime() + to.getTime());
@@ -34,39 +34,37 @@ const generateMediumPrice = (from: Date, to: Date, quantity: string): string => 
     const increasedDollars = Math.floor(increasedPrice);
 
     if (increasedDollars === baseDollars) {
-        const additionalCents = (generateDeterministicCents(from, newCentsSeed, quantity) % (99 - baseCents)) + 1;
+        const additionalCents = (generateDeterministicCents(from, newCentsSeed, gpu_count) % (99 - baseCents)) + 1;
         const newCents = baseCents + additionalCents;
         return `${increasedDollars}.${newCents.toString().padStart(2, "0")}`;
     }
 
-    const newCents = generateDeterministicCents(from, newCentsSeed, quantity);
+    const newCents = generateDeterministicCents(from, newCentsSeed, gpu_count);
     return `${increasedDollars}.${newCents.toString().padStart(2, "0")}`;
 };
 
-const generateHighestPrice = (from: Date, to: Date, quantity: string): string => {
-    const basePrice = generatePriceForRange(from, to, quantity);
+const generateHighestPrice = (from: Date, to: Date, gpu_count: string): string => {
+    const basePrice = generatePriceForRange(from, to, gpu_count);
     const increasedPrice = +basePrice * 1.65;
     const newCentsSeed = new Date(from.getTime() + to.getTime());
-    const newCents = generateDeterministicCents(from, newCentsSeed, quantity);
+    const newCents = generateDeterministicCents(from, newCentsSeed, gpu_count);
     const dollars = Math.floor(increasedPrice);
     return `${dollars}.${newCents.toString().padStart(2, "0")}`;
 };
 
-export const getPricesWithStartDate = (
-    startDate: Date,
-    quantity: string | undefined,
-    isBuy: boolean
-): Record<string, string> => {
-    if (!quantity) return {};
+export const getPricesWithStartDate = (formData: TOrderFormData): Record<string, string> => {
+    if (!formData.gpu_count || !formData.date_range?.from) return {};
     const prices: Record<string, string> = {};
     const endOfJanuary = new Date(2025, 0, 31);
-    let currentDate = startDate;
+
+    let currentDate = formData.date_range?.from;
 
     while (currentDate <= endOfJanuary) {
         const dateKey = currentDate.toISOString().split("T")[0];
-        prices[dateKey] = isBuy
-            ? generatePriceForRange(startDate, currentDate, quantity)
-            : generateHighestPrice(startDate, currentDate, quantity);
+        prices[dateKey] =
+            formData.side === "buy"
+                ? generatePriceForRange(formData.date_range?.from, currentDate, formData.gpu_count)
+                : generateHighestPrice(formData.date_range?.from, currentDate, formData.gpu_count);
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -74,32 +72,30 @@ export const getPricesWithStartDate = (
     return prices;
 };
 
-export const getPricesWithDateRange = (
-    range: DateRange,
-    quantity: string | undefined,
-    isBuy: boolean
-): Record<string, string> => {
-    if (!quantity) return {};
+export const getPricesWithDateRange = (formData: TOrderFormData): Record<string, string> => {
+    if (!formData.gpu_count) return {};
     const prices: Record<string, string> = {};
-    if (!range.from || !range.to) return prices;
+    if (!formData.date_range?.from || !formData.date_range?.to) return prices;
 
     let currentDate = new Date(2024, 10, 19);
-    while (currentDate < range.from) {
+    while (currentDate < formData.date_range.from) {
         const dateKey = currentDate.toISOString().split("T")[0];
-        prices[dateKey] = isBuy
-            ? generatePriceForRange(currentDate, range.to, quantity)
-            : generateHighestPrice(currentDate, range.to, quantity);
+        prices[dateKey] =
+            formData.side === "buy"
+                ? generatePriceForRange(currentDate, formData.date_range?.to, formData.gpu_count)
+                : generateHighestPrice(currentDate, formData.date_range?.to, formData.gpu_count);
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    currentDate = new Date(range.from);
+    currentDate = new Date(formData.date_range?.from);
     const endOfJanuary = new Date(2025, 0, 31);
     while (currentDate <= endOfJanuary) {
         const dateKey = currentDate.toISOString().split("T")[0];
-        prices[dateKey] = isBuy
-            ? generatePriceForRange(range.from, currentDate, quantity)
-            : generateHighestPrice(range.from, currentDate, quantity);
+        prices[dateKey] =
+            formData.side === "buy"
+                ? generatePriceForRange(formData.date_range?.from, currentDate, formData.gpu_count)
+                : generateHighestPrice(formData.date_range?.from, currentDate, formData.gpu_count);
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -107,19 +103,19 @@ export const getPricesWithDateRange = (
     return prices;
 };
 
-export const getLowestPrice = (startDate: Date, endDate: Date, quantity: string | undefined): string => {
-    if (!quantity) return "0";
-    return generatePriceForRange(startDate, endDate, quantity);
+export const getLowestPrice = (startDate: Date, endDate: Date, gpu_count: string): string => {
+    if (!gpu_count) return "0";
+    return generatePriceForRange(startDate, endDate, gpu_count);
 };
 
-export const getMediumPrice = (startDate: Date, endDate: Date, quantity: string | undefined): string => {
-    if (!quantity) return "0";
-    return generateMediumPrice(startDate, endDate, quantity);
+export const getMediumPrice = (startDate: Date, endDate: Date, gpu_count: string | undefined): string => {
+    if (!gpu_count) return "0";
+    return generateMediumPrice(startDate, endDate, gpu_count);
 };
 
-export const getHighestPrice = (startDate: Date, endDate: Date, quantity: string | undefined): string => {
-    if (!quantity) return "0";
-    return generateHighestPrice(startDate, endDate, quantity);
+export const getHighestPrice = (startDate: Date, endDate: Date, gpu_count: string): string => {
+    if (!gpu_count) return "0";
+    return generateHighestPrice(startDate, endDate, gpu_count);
 };
 
 export type PriceInfo = {
@@ -127,91 +123,101 @@ export type PriceInfo = {
     priceType: "highest" | "lowest" | "normal" | "unavailable";
 };
 
-export const getPriceForHour = (hour: number, fromDate: Date, toDate: Date, quantity: string | undefined): string => {
-    if (!quantity) return "0";
+export const getPriceForHour = (data: TOrderFormData, startEndHour: string): string => {
+    if (!data.gpu_count || !data.date_range?.from || !data.date_range?.to || typeof startEndHour !== "string") {
+        return "0";
+    }
 
-    const dateFrom = new Date(fromDate);
-    const dateTo = new Date(toDate);
-    dateFrom.setHours(hour);
-    dateTo.setHours(hour);
+    const startEndHourInt = parseInt(startEndHour);
 
-    return LOWEST_PRICE_HOURS.includes(hour)
-        ? getLowestPrice(dateFrom, dateTo, quantity)
-        : HIGHEST_PRICE_HOURS.includes(hour)
-        ? getHighestPrice(dateFrom, dateTo, quantity)
-        : getMediumPrice(dateFrom, dateTo, quantity);
+    const dateFrom = new Date(data.date_range?.from);
+    const dateTo = new Date(data.date_range?.to);
+    dateFrom.setHours(startEndHourInt);
+    dateTo.setHours(startEndHourInt);
+
+    return LOWEST_PRICE_HOURS.includes(startEndHourInt)
+        ? getLowestPrice(dateFrom, dateTo, data.gpu_count)
+        : HIGHEST_PRICE_HOURS.includes(startEndHourInt)
+        ? getHighestPrice(dateFrom, dateTo, data.gpu_count)
+        : getMediumPrice(dateFrom, dateTo, data.gpu_count);
 };
 
-export const getPriceInfoForHour = (
-    hour: number,
-    fromDate: Date | undefined,
-    toDate: Date | undefined,
-    quantity: string | undefined
-): PriceInfo => {
-    if (fromDate && quantity && UNAVAILABLE_HOURS.includes(hour)) {
+export const getDatePriceInfo = (formData: TOrderFormData, startEndHour: string): PriceInfo => {
+    if (
+        formData.date_range?.from &&
+        formData.gpu_count &&
+        typeof startEndHour === "string" &&
+        UNAVAILABLE_HOURS.includes(parseInt(startEndHour || "0"))
+    ) {
         return { price: "0", priceType: "unavailable" };
     }
 
-    if (!fromDate || !quantity) {
+    if (!formData.date_range?.from || !formData.gpu_count) {
         const defaultDate = new Date();
-        defaultDate.setHours(hour);
+        defaultDate.setHours(parseInt(startEndHour || "0"));
         return {
             price: getMediumPrice(defaultDate, defaultDate, "1"),
             priceType: "normal",
         };
     }
 
-    const effectiveToDate = toDate || fromDate;
-    const price = getPriceForHour(hour, fromDate, effectiveToDate, quantity);
-
     let priceType: PriceInfo["priceType"] = "normal";
-    if (HIGHEST_PRICE_HOURS.includes(hour)) {
+    if (HIGHEST_PRICE_HOURS.includes(parseInt(startEndHour || "0"))) {
         priceType = "highest";
-    } else if (LOWEST_PRICE_HOURS.includes(hour)) {
+    } else if (LOWEST_PRICE_HOURS.includes(parseInt(startEndHour || "0"))) {
         priceType = "lowest";
     }
 
-    return { price, priceType };
+    return { price: getPriceForHour(formData, startEndHour), priceType };
 };
 
-export const calculateTotal = (data: OrderFormData, orderType: OrderType): string => {
-    const quantity = parseInt(data.quantity || "0");
-    if (!quantity) return "0";
+export const calculateTotal = (data: TOrderFormData): string => {
+    const gpuCountInt = parseInt(data.gpu_count || "0");
 
-    if (!data.days?.from || !data.days?.to) return "0";
+    if (!gpuCountInt) return "0";
 
-    const days = Math.ceil((data.days.to.getTime() - data.days.from.getTime()) / (1000 * 60 * 60 * 24));
+    if (!data.date_range?.from || !data.date_range?.to) return "0";
+
+    const days = Math.ceil((data.date_range.to.getTime() - data.date_range.from.getTime()) / (1000 * 60 * 60 * 24));
     if (days <= 0) return "0";
 
-    if (orderType === "limit") {
-        return (quantity * parseFloat(data.price || "0") * days).toString();
+    if (data.method === "limit") {
+        return (gpuCountInt * parseFloat(data.price_per_gpu || "0") * days).toString();
     }
 
-    if (!data.start_time) return "0";
+    if (!data.start_end_hour) return "0";
 
-    const startHour = parseInt(data.start_time);
-    const effectivePrice = getPriceForHour(startHour, data.days.from, data.days.to, data.quantity);
+    const effectivePrice = getPriceForHour(data, data.start_end_hour);
 
-    return (quantity * +effectivePrice * days).toString();
+    return (gpuCountInt * +effectivePrice * days).toString();
 };
 
-export const validateFormData = (data: OrderFormData, orderType: OrderType, isBuy: boolean): boolean => {
-    const quantity = parseInt(data.quantity || "0");
-    if (!quantity || quantity <= 0 || (isBuy && quantity > AVAILABLE_GPUS) || (!isBuy && quantity > USER_GPUS)) {
+export const validateFormData = (data: TOrderFormData): boolean => {
+    const gpuCountInt = parseInt(data.gpu_count || "0");
+
+    if (!data.side) return false;
+
+    if (!data.method) return false;
+
+    if (
+        !gpuCountInt ||
+        gpuCountInt <= 0 ||
+        (data.side === "buy" && gpuCountInt > AVAILABLE_GPUS) ||
+        (data.side === "sell" && gpuCountInt > USER_GPUS)
+    ) {
         return false;
     }
 
-    if (orderType === "limit") {
-        const price = parseFloat(data.price || "0");
-        if (!price || price <= 0) return false;
+    if (!data.price_per_gpu || parseFloat(data.price_per_gpu) <= 0) {
+        return false;
     }
 
-    if (!data.days?.from || !data.days?.to) return false;
+    if (!data.date_range?.from || !data.date_range?.to) return false;
 
-    const days = Math.ceil((data.days.to.getTime() - data.days.from.getTime()) / (1000 * 60 * 60 * 24));
-    if (days < 1) return false;
+    const numDays = Math.ceil((data.date_range.to.getTime() - data.date_range.from.getTime()) / (1000 * 60 * 60 * 24));
+    if (numDays < 1) return false;
 
-    if (!data.start_time) return false;
+    if (!data.start_end_hour) return false;
 
     return true;
 };
@@ -229,11 +235,14 @@ export const formatCurrency = (amount: string): string => {
     }).format(+amount);
 };
 
-export const initFormData: OrderFormData = {
-    quantity: undefined,
-    price: undefined,
-    days: undefined,
-    start_time: undefined,
+export const initFormData: TOrderFormData = {
+    side: "buy",
+    method: "market",
+    gpu_count: "",
+    price_per_gpu: "",
+    date_range: undefined,
+    start_end_hour: "",
+    total_price: undefined,
 };
 
 export const getNumerOfDaysSelected = (days: DateRange) => {

@@ -9,18 +9,18 @@ import { cn } from "@/lib/utils";
 import { formatCurrency } from "../utils";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-    dayAmounts: Record<string, string>;
+    datePrices: Record<string, string>;
     isMarketOrder: boolean;
-    hasPickedQuantity: boolean;
+    hasPickedGPUCount: boolean;
 };
 
 function Calendar({
     className,
     classNames,
     showOutsideDays = true,
-    dayAmounts = {},
+    datePrices = {},
     isMarketOrder,
-    hasPickedQuantity,
+    hasPickedGPUCount,
     ...props
 }: CalendarProps) {
     return (
@@ -70,11 +70,11 @@ function Calendar({
                 IconRight: () => <ChevronRight className="h-4 w-4" />,
                 DayContent: (props: DayContentProps) => {
                     const dateKey = props.date.toISOString().split("T")[0];
-                    const amount = dayAmounts[dateKey];
+                    const amount = datePrices[dateKey];
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     const isNotPastDate = props.date >= today;
-                    const renderPrice = isMarketOrder && hasPickedQuantity;
+                    const renderPrice = isMarketOrder && hasPickedGPUCount;
                     const makePriceVisible = amount !== undefined && isNotPastDate;
                     const isRangeStart = props.activeModifiers.range_start;
                     const isRangeEnd = props.activeModifiers.range_end;
