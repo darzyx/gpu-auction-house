@@ -40,9 +40,9 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
 
     const isValid = validateFormData(formData, orderType, isBuy);
 
-    const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+    const [isConfirmOrderModalOpen, setIsConfirmOrderModalOpen] = useState(false);
     const handleSubmit = () => {
-        setIsConfirmationOpen(true);
+        setIsConfirmOrderModalOpen(true);
     };
 
     const handleConfirm = async () => {
@@ -125,12 +125,12 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
 
             toast.success("Order placed");
             onAddOrder(newOrderForFrontend);
-            setIsConfirmationOpen(false);
+            setIsConfirmOrderModalOpen(false);
             setFormData(initFormData);
         } catch (error) {
             toast.error("An error occurred while placing the order. Please try again later.");
             console.error("Frontend Error:", error);
-            setIsConfirmationOpen(false);
+            setIsConfirmOrderModalOpen(false);
         }
     };
 
@@ -176,8 +176,8 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
                 Place {orderType === "market" ? "Market" : "Limit"} {isBuy ? "Buy" : "Sell"} Order
             </Button>
             <ConfirmOrder
-                isOpen={isConfirmationOpen}
-                onClose={() => setIsConfirmationOpen(false)}
+                isOpen={isConfirmOrderModalOpen}
+                onClose={() => setIsConfirmOrderModalOpen(false)}
                 onConfirm={handleConfirm}
                 orderData={{
                     tradeType: isBuy ? "buy" : "sell",
