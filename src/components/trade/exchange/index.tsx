@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { cn, formatDate, formatShortDate } from "@/lib/utils";
+import { cn, transformDBOrderToFrontend } from "@/lib/utils";
 import { TOrderDB, TOrderFrontend } from "@/types";
 import ConfirmOrder from "./confirm-order";
 import DaysInput from "./days-input";
@@ -107,21 +107,7 @@ export default function Exchange({ onAddOrder }: ExchangeProps) {
                 responseData = await response.json();
             }
 
-            console.log({ responseData });
-
-            const newOrderForFrontend: TOrderFrontend = {
-                id: responseData.id,
-                orderDate: formatDate(responseData.order_date),
-                side: responseData.side,
-                type: responseData.type,
-                startDate: formatShortDate(responseData.start_date),
-                startTime: startHour.toString(),
-                endDate: formatShortDate(responseData.end_date),
-                gpus: responseData.gpus.toString(),
-                pricePerGpu: responseData.price_per_gpu.toString(),
-                totalPrice: responseData.total_price.toString(),
-                status: responseData.status,
-            };
+            const newOrderForFrontend: TOrderFrontend = transformDBOrderToFrontend(responseData);
 
             toast.success("Order placed");
             onAddOrder(newOrderForFrontend);
