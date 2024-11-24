@@ -44,11 +44,11 @@ export function StartEndHourInput({
                 value={start_end_hour}
                 onValueChange={(newStartEndHour) => {
                     const newFormData: TOrderFormData = { ...formData, start_end_hour: newStartEndHour };
-                    setFormData({
-                        ...newFormData,
-                        total_price: calculateTotal(newFormData),
-                        price_per_gpu: getPriceForHour(newFormData, newStartEndHour),
-                    });
+                    if (newFormData.method === "market") {
+                        newFormData.price_per_gpu = getPriceForHour(newFormData, newStartEndHour);
+                    }
+                    newFormData.total_price = calculateTotal(newFormData);
+                    setFormData(newFormData);
                 }}
             >
                 <SelectTrigger id="start-time">
