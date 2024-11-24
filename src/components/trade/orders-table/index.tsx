@@ -77,7 +77,8 @@ export default function OrdersTable({
                                   data-state={row.getIsSelected() && "selected"}
                               >
                                   {row.getVisibleCells().map((cell, idx) => {
-                                      let className = "h-12";
+                                      let className =
+                                          "h-10 xl:h-12 text-xs xl:text-sm";
                                       if (idx === 0) className += " pl-0";
                                       if (
                                           idx ===
