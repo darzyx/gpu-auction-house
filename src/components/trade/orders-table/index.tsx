@@ -104,7 +104,7 @@ export default function OrdersTable({
             {!hasOrders && (
                 <div className="w-full flex justify-center items-center h-20 lg:h-40">
                     <p className="text-sm text-muted-foreground">
-                        You have&apos;t placed any orders yet.
+                        Your orders will appear here.
                     </p>
                 </div>
             )}
