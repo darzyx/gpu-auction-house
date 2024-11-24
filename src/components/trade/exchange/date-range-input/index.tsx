@@ -6,7 +6,15 @@ import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -154,6 +162,9 @@ export default function DateRangeInput({
                                 <DialogTitle className="font-georgia font-normal text-center">
                                     Select Date Range
                                 </DialogTitle>
+                                <DialogDescription className="font-normal text-center">
+                                    {numSelectedDays} {numSelectedDays === 1 ? "day" : "days"} selected
+                                </DialogDescription>
                             </DialogHeader>
                             <div className="flex flex-col justify-center items-center">
                                 <CalendarContent />
