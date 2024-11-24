@@ -1,5 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TOrderFormData, TOrderMethod } from "@/types";
+import { initFormData } from "./utils";
 
 export default function MethodInput({
     formData,
@@ -13,10 +14,9 @@ export default function MethodInput({
         <Tabs
             value={method}
             onValueChange={(newMethod) => {
-                const newFormData: TOrderFormData = {
-                    ...formData,
-                    method: newMethod as TOrderMethod,
-                };
+                const newFormData: TOrderFormData = { ...initFormData };
+                newFormData.side = formData.side;
+                newFormData.method = newMethod as TOrderMethod;
                 setFormData(newFormData);
             }}
         >

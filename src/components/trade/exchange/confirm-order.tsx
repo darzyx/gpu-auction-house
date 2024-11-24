@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { TOrderFormData } from "@/types";
-import { formatCurrency, formatTime, getNumerOfDaysSelected, getPriceForHour } from "./utils";
+import { formatCurrency, formatTime, getNumerOfDaysSelected } from "./utils";
 
 const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
     <div className="flex justify-between items-center gap-4">
@@ -33,7 +33,7 @@ export default function ConfirmOrder({
         if (!date_range?.from || !date_range?.to || !start_end_hour || !gpu_count) {
             return "---";
         } else {
-            return formatCurrency(getPriceForHour(formData, formData.start_end_hour));
+            return formatCurrency(price_per_gpu);
         }
     };
 

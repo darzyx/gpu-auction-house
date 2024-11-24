@@ -9,7 +9,7 @@ import {
 } from "@/components/trade/exchange/start-end-hour-input.tsx/custom-select";
 import { Label } from "@/components/ui/label";
 import { TOrderFormData } from "@/types";
-import { formatCurrency, formatTime, getDatePriceInfo } from "../utils";
+import { calculateTotal, formatCurrency, formatTime, getDatePriceInfo, getPriceForHour } from "../utils";
 
 export function StartEndHourInput({
     formData,
@@ -43,11 +43,12 @@ export function StartEndHourInput({
             <Select
                 value={start_end_hour}
                 onValueChange={(newStartEndHour) => {
-                    const newFormData: TOrderFormData = {
-                        ...formData,
-                        start_end_hour: newStartEndHour,
-                    };
-                    setFormData(newFormData);
+                    const newFormData: TOrderFormData = { ...formData, start_end_hour: newStartEndHour };
+                    setFormData({
+                        ...newFormData,
+                        total_price: calculateTotal(newFormData),
+                        price_per_gpu: getPriceForHour(newFormData, newStartEndHour),
+                    });
                 }}
             >
                 <SelectTrigger id="start-time">

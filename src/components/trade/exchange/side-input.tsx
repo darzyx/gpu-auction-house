@@ -1,5 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TOrderFormData, TOrderSide } from "@/types";
+import { initFormData } from "./utils";
 
 export default function SideInput({
     formData,
@@ -13,10 +14,9 @@ export default function SideInput({
         <Tabs
             value={side}
             onValueChange={(newSide) => {
-                const newFormData: TOrderFormData = {
-                    ...formData,
-                    side: newSide as TOrderSide,
-                };
+                const newFormData: TOrderFormData = { ...initFormData };
+                newFormData.side = newSide as TOrderSide;
+                newFormData.method = formData.method;
                 setFormData(newFormData);
             }}
             className="space-y-4"

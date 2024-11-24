@@ -13,6 +13,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { TOrderFormData } from "@/types";
 import {
+    calculateTotal,
     formatCurrency,
     getHighestPrice,
     getLowestPrice,
@@ -37,10 +38,12 @@ export default function DateRangeInput({
     const [datePrices, setDatesPrices] = useState<Record<string, string>>({});
 
     const handleSelect = (newDateRange: DateRange | undefined) => {
-        const newFormData: TOrderFormData = {
-            ...formData,
-            date_range: newDateRange,
-        };
+        const newFormData: TOrderFormData = { ...formData };
+        newFormData.date_range = newDateRange;
+        if (newFormData.method === "market") {
+            newFormData.start_end_hour = "";
+        }
+        newFormData.total_price = calculateTotal(newFormData);
         setFormData(newFormData);
     };
 

@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TOrderFormData } from "@/types";
+import { calculateTotal } from "./utils";
 
 export default function PricePerGpuInput({
     formData,
@@ -31,7 +32,7 @@ export default function PricePerGpuInput({
                         ...formData,
                         price_per_gpu: Math.min(MAX_PRICE, Math.max(0, num)).toString(),
                     };
-                    setFormData(newFormData);
+                    setFormData({ ...newFormData, total_price: calculateTotal(newFormData) });
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();

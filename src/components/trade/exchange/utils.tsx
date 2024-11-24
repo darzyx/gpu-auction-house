@@ -171,25 +171,25 @@ export const getDatePriceInfo = (formData: TOrderFormData, startEndHour: string)
     return { price: getPriceForHour(formData, startEndHour), priceType };
 };
 
-export const calculateTotal = (data: TOrderFormData): string => {
+export const calculateTotal = (data: TOrderFormData): number => {
     const gpuCountInt = parseInt(data.gpu_count || "0");
 
-    if (!gpuCountInt) return "0";
+    if (!gpuCountInt) return 0;
 
-    if (!data.date_range?.from || !data.date_range?.to) return "0";
+    if (!data.date_range?.from || !data.date_range?.to) return 0;
 
     const days = Math.ceil((data.date_range.to.getTime() - data.date_range.from.getTime()) / (1000 * 60 * 60 * 24));
-    if (days <= 0) return "0";
+    if (days <= 0) return 0;
 
     if (data.method === "limit") {
-        return (gpuCountInt * parseFloat(data.price_per_gpu || "0") * days).toString();
+        return gpuCountInt * parseFloat(data.price_per_gpu || "0") * days;
     }
 
-    if (!data.start_end_hour) return "0";
+    if (!data.start_end_hour) return 0;
 
-    const effectivePrice = getPriceForHour(data, data.start_end_hour);
+    const price = +getPriceForHour(data, data.start_end_hour);
 
-    return (gpuCountInt * +effectivePrice * days).toString();
+    return gpuCountInt * price * days;
 };
 
 export const validateFormData = (data: TOrderFormData): boolean => {
@@ -242,7 +242,7 @@ export const initFormData: TOrderFormData = {
     price_per_gpu: "",
     date_range: undefined,
     start_end_hour: "",
-    total_price: undefined,
+    total_price: 0,
 };
 
 export const getNumerOfDaysSelected = (days: DateRange) => {

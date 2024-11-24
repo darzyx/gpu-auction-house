@@ -26,7 +26,7 @@ export type TOrderFormData = {
     price_per_gpu: string;
     date_range: DateRange | undefined;
     start_end_hour: string;
-    total_price: string | undefined;
+    total_price: number;
 };
 
 export type TOrderForSubmit = Omit<TOrder, "id" | "created_date" | "updated_date" | "start_date" | "end_date"> & {

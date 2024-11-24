@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TOrderFormData } from "@/types";
-import { AVAILABLE_GPUS, USER_GPUS } from "./utils";
+import { AVAILABLE_GPUS, calculateTotal, USER_GPUS } from "./utils";
 
 export default function GPUCountInput({
     formData,
@@ -28,11 +28,14 @@ export default function GPUCountInput({
                 placeholder="0"
                 value={gpu_count ?? ""}
                 onChange={(e) => {
-                    const num = parseInt(e.target.value || "0");
-                    const newFormData: TOrderFormData = {
-                        ...formData,
-                        gpu_count: Math.min(num, maxGPUs).toString(),
-                    };
+                    const newGPUCount = Math.min(parseInt(e.target.value || "0"), maxGPUs);
+                    const newFormData: TOrderFormData = { ...formData };
+                    newFormData.gpu_count = newGPUCount.toString();
+                    if (newFormData.method === "market") {
+                        newFormData.date_range = undefined;
+                        newFormData.start_end_hour = "";
+                    }
+                    newFormData.total_price = calculateTotal(newFormData);
                     setFormData(newFormData);
                 }}
                 onKeyDown={(e) => {

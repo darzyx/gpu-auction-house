@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { DateRange } from "react-day-picker";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -17,12 +16,10 @@ import PricePerGPUPerDayInfo from "./price-per-gpu-per-day-info";
 import SideInput from "./side-input";
 import { StartEndHourInput } from "./start-end-hour-input.tsx";
 import TotalInfo from "./total-info";
-import { calculateTotal, getPriceForHour, initFormData, validateFormData } from "./utils";
+import { getPriceForHour, initFormData, validateFormData } from "./utils";
 
 export default function Exchange({ onOrderAdded }: { onOrderAdded: (order: TOrder) => void }) {
     const [formData, setFormData] = useState<TOrderFormData>(initFormData);
-
-    const totalPrice = useMemo(() => +calculateTotal(formData), [formData]);
 
     const isValid = validateFormData(formData);
 
@@ -76,7 +73,7 @@ export default function Exchange({ onOrderAdded }: { onOrderAdded: (order: TOrde
                 status: formData.method === "market" ? "filled" : "pending",
                 gpu_count: gpuCount,
                 price_per_gpu: pricePerGpu,
-                total_price: totalPrice,
+                total_price: formData.total_price,
                 start_date: formData.date_range.from.toString(),
                 start_end_hour: startEndHour,
                 end_date: formData.date_range.to.toString(),
