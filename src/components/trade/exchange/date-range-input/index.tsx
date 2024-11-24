@@ -15,7 +15,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
@@ -175,8 +183,13 @@ export default function DateRangeInput({
                     <Drawer open={open} onOpenChange={setOpen}>
                         <DrawerTrigger asChild>{TriggerButton}</DrawerTrigger>
                         <DrawerContent className="flex flex-col justify-center items-center pb-10">
-                            <DrawerHeader className="hidden">
-                                <DrawerTitle>Select Date Range</DrawerTitle>
+                            <DrawerHeader>
+                                <DrawerTitle className="font-georgia font-normal text-center">
+                                    Select Date Range
+                                </DrawerTitle>
+                                <DrawerDescription className="font-normal text-center">
+                                    {numSelectedDays} {numSelectedDays === 1 ? "day" : "days"} selected
+                                </DrawerDescription>
                             </DrawerHeader>
                             <CalendarContent />
                         </DrawerContent>
