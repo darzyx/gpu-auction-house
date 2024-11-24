@@ -1,8 +1,5 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-
 import {
     ColumnDef,
     flexRender,
@@ -104,17 +101,6 @@ export default function OrdersTable({
                         : null}
                 </TableBody>
             </Table>
-            {hasOrders && (
-                <div className="w-full flex justify-center items-center">
-                    <Link
-                        href="/trade"
-                        className="group flex items-center gap-1 text-sm text-muted-foreground font-medium hover:underline underline-offset-2 cursor-pointer"
-                    >
-                        See all orders
-                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                </div>
-            )}
             {!hasOrders && (
                 <div className="w-full flex justify-center items-center h-20 lg:h-40">
                     <p className="text-sm text-muted-foreground">

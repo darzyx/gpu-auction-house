@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 import Exchange from "@/components/trade/exchange";
@@ -52,6 +54,17 @@ export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
                         columns={ordersColumns}
                         onOrderCanceled={handleOrderCanceled}
                     />
+                    {orders.length > 0 && (
+                        <div className="w-full flex justify-center items-center">
+                            <Link
+                                href="/orders"
+                                className="group flex items-center gap-1 text-sm text-muted-foreground font-medium hover:underline underline-offset-2 cursor-pointer"
+                            >
+                                See all orders
+                                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         </main>
