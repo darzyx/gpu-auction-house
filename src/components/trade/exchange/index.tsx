@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { TOrder, TOrderFormData, TOrderForSubmit } from "@/types";
 import ConfirmOrder from "./confirm-order";
 import DateRangeInput from "./date-range-input";
@@ -74,9 +74,9 @@ export default function Exchange({ onOrderAdded }: { onOrderAdded: (order: TOrde
                 gpu_count: gpuCount,
                 price_per_gpu: pricePerGpu,
                 total_price: formData.total_price,
-                start_date: formatDate(formData.date_range.from),
+                start_date: formData.date_range.from.toISOString(),
                 start_end_hour: startEndHour,
-                end_date: formatDate(formData.date_range.to),
+                end_date: formData.date_range.to.toISOString(),
             };
 
             response = await fetch("/api/orders", {
