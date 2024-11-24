@@ -76,7 +76,9 @@ export default function ConfirmOrder({
                     {date_range && <DetailRow label="Days" value={getNumerOfDaysSelected(date_range).toString()} />}
                     {start_end_hour && <DetailRow label="Start/End Time" value={formatTime(start_end_hour)} />}
                     <DetailRow label="$/GPU/Day" value={getValueForPricePerGPUPerDay()} />
-                    {total_price && <DetailRow label="Total" value={total_price.toString()} noSeparator />}
+                    {total_price && (
+                        <DetailRow label="Total" value={formatCurrency(total_price.toString())} noSeparator />
+                    )}
                 </div>
                 {method === "limit" && (
                     <div className="text-sm bg-muted text-muted-foreground rounded-md p-4 text-center">
