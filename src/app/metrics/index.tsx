@@ -19,9 +19,21 @@ export default function Metrics() {
                     orientation={isDesktop ? "vertical" : "horizontal"}
                 />
                 <div className="w-full">
+                    <div className="py-4 px-2">
+                        <h2 className="text-lg font-georgia leading-none">
+                            Availability
+                        </h2>
+                    </div>
                     <AvailabilityChart />
                     <Separator />
-                    <OrderBookList />
+                    <div>
+                        <div className="py-4 px-2">
+                            <h2 className="text-lg font-georgia leading-none">
+                                Order Book
+                            </h2>
+                        </div>
+                        <OrderBookList />
+                    </div>
                 </div>
             </div>
         </main>
