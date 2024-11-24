@@ -143,8 +143,14 @@ const ordersColumns: ColumnDef<TOrder>[] = [
                         headers: { "Content-Type": "application/json" },
                     });
 
+                    const data = await response.json();
+
                     if (!response.ok) {
-                        throw new Error("Failed to cancel order");
+                        throw new Error(
+                            typeof data.error === "string"
+                                ? data.error
+                                : "Failed to cancel order"
+                        );
                     }
 
                     const onOrderCanceled = (
@@ -152,12 +158,17 @@ const ordersColumns: ColumnDef<TOrder>[] = [
                             onOrderCanceled?: (id: string) => void;
                         }
                     )?.onOrderCanceled;
+
                     if (onOrderCanceled) onOrderCanceled(original.id);
 
                     toast.success("Order canceled");
                 } catch (error) {
                     console.error("Error canceling order:", error);
-                    toast.error("Failed to cancel order");
+                    toast.error(
+                        error instanceof Error
+                            ? error.message
+                            : "Failed to cancel order"
+                    );
                 }
             };
 
