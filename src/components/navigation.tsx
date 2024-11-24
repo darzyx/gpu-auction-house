@@ -52,19 +52,15 @@ export default function Navigation() {
                 <div>
                     <Image
                         src="/icon.svg"
-                        width={25}
-                        height={25}
+                        width={20}
+                        height={20}
                         alt="GPU Exchange Logo"
                     />
                 </div>
                 <Sheet>
                     <SheetTrigger asChild>
-                        <Button
-                            variant="secondary"
-                            size="icon"
-                            className="h-8 w-8"
-                        >
-                            <Menu className="h-5 w-5" />
+                        <Button variant="secondary" size="icon">
+                            <Menu />
                         </Button>
                     </SheetTrigger>
                     <SheetContent className="w-[200px]">
@@ -75,8 +71,8 @@ export default function Navigation() {
                             <div className="pb-4">
                                 <Image
                                     src="/icon.svg"
-                                    width={25}
-                                    height={25}
+                                    width={20}
+                                    height={20}
                                     alt="GPU Exchange Logo"
                                 />
                             </div>
@@ -101,8 +97,8 @@ export default function Navigation() {
                 <div className="flex justify-end lg:pb-4">
                     <Image
                         src="/icon.svg"
-                        width={25}
-                        height={25}
+                        width={20}
+                        height={20}
                         alt="GPU Exchange Logo"
                     />
                 </div>

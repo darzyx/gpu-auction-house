@@ -68,7 +68,7 @@ export default function RootLayout({
                 }
             >
                 <div className="w-full max-w-7xl h-full p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
-                    <div className="lg:h-full p-4 sm:p-6 lg:p-4">
+                    <div className="lg:h-full p-4">
                         <Navigation />
                     </div>
                     <Separator

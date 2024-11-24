@@ -29,7 +29,7 @@ export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
     };
 
     return (
-        <main className="grid grid-rows-[auto_auto_1fr] h-full">
+        <main className="w-full grid grid-rows-[auto_auto_1fr]">
             <div className="w-full grid grid-cols-1 md:grid-cols-[375px_auto_1fr] lg:grid-cols-[400px_auto_1fr]">
                 <div>
                     <div className="p-4 sm:p-6 lg:p-4">
