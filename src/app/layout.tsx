@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
+import Navigation from "@/components/navigation";
+import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -65,7 +67,17 @@ export default function RootLayout({
                     "antialiased flex w-full h-full justify-center"
                 }
             >
-                {children}
+                <div className="w-full max-w-7xl h-full p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
+                    <div className="lg:h-full p-4 sm:p-6 lg:p-4">
+                        <Navigation />
+                    </div>
+                    <Separator
+                        orientation="vertical"
+                        className="hidden lg:block"
+                    />
+                    <Separator orientation="horizontal" className="lg:hidden" />
+                    <div>{children}</div>
+                </div>
                 <Toaster />
             </body>
         </html>
