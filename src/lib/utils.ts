@@ -7,13 +7,13 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatDateForDisplay(date: Date | string) {
     const d = new Date(date);
-    return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d
-        .getHours()
+    return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d
+        .getFullYear()
         .toString()
-        .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d
-        .getSeconds()
+        .slice(-2)} ${d.getHours().toString().padStart(2, "0")}:${d
+        .getMinutes()
         .toString()
-        .padStart(2, "0")}`;
+        .padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
 }
 
 export function formatShortDateForDisplay(date: Date | string) {

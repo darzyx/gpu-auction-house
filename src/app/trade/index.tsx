@@ -9,7 +9,7 @@ import ordersColumns from "@/components/trade/orders/columns";
 import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices";
 import { Separator } from "@/components/ui/separator";
-import { TOrder } from "@/types";
+import { TOrder } from "@/db/schema";
 
 export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
     const [orders, setOrders] = useState<TOrder[]>(initOrders);
@@ -46,7 +46,10 @@ export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
                         </div>
                     </div>
                     <Separator className="md:hidden" />
-                    <Separator orientation="vertical" className="hidden md:block" />
+                    <Separator
+                        orientation="vertical"
+                        className="hidden md:block"
+                    />
                     <div className="p-4 sm:p-6 lg:p-4">
                         <Prices />
                     </div>
@@ -54,7 +57,11 @@ export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
                 <Separator />
                 <div className="relative">
                     <div className="pb-10 md:pb-4 p-4 sm:p-6 lg:p-4 w-full absolute md:inset-0 md:overflow-auto">
-                        <Orders orders={orders} columns={ordersColumns} onOrderCanceled={handleOrderCanceled} />
+                        <Orders
+                            orders={orders}
+                            columns={ordersColumns}
+                            onOrderCanceled={handleOrderCanceled}
+                        />
                     </div>
                 </div>
             </div>

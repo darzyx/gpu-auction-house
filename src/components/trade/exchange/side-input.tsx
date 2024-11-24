@@ -23,10 +23,14 @@ export default function SideInput({
         >
             <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="buy">
-                    <span className={side === "buy" ? "text-green-600" : ""}>Buy</span>
+                    <span className={side === "buy" ? "text-green-600" : ""}>
+                        Buy
+                    </span>
                 </TabsTrigger>
                 <TabsTrigger value="sell">
-                    <span className={side === "sell" ? "text-red-600" : ""}>Sell</span>
+                    <span className={side === "sell" ? "text-red-600" : ""}>
+                        Sell
+                    </span>
                 </TabsTrigger>
             </TabsList>
         </Tabs>

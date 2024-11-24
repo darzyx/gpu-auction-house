@@ -64,7 +64,11 @@ export default function DateRangeInput({
     };
 
     useEffect(() => {
-        if (!gpuCountInt || !date_range || (!date_range.from && !date_range.to)) {
+        if (
+            !gpuCountInt ||
+            !date_range ||
+            (!date_range.from && !date_range.to)
+        ) {
             setDatesPrices({});
         } else if (date_range.from && !date_range.to) {
             setDatesPrices(getPricesWithStartDate(formData));
@@ -86,13 +90,17 @@ export default function DateRangeInput({
         <Button
             id="date"
             variant="outline"
-            className={cn("w-full justify-start text-left font-normal", !date_range && "text-muted-foreground")}
+            className={cn(
+                "w-full justify-start text-left font-normal",
+                !date_range && "text-muted-foreground"
+            )}
         >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date_range?.from ? (
                 date_range.to ? (
                     <>
-                        {format(date_range.from, "M/d/yy")} - {format(date_range.to, "M/d/yy")}
+                        {format(date_range.from, "M/d/yy")} -{" "}
+                        {format(date_range.to, "M/d/yy")}
                     </>
                 ) : (
                     format(date_range.from, "M/d/yy")
@@ -132,9 +140,13 @@ export default function DateRangeInput({
                                 <span className="text-xs text-muted-foreground">
                                     {side === "buy" ? "from" : "up to"}
                                 </span>
-                                <span className="font-berkeley-mono">{formatCurrency(getSelectedRangePrice())}</span>
+                                <span className="font-berkeley-mono">
+                                    {formatCurrency(getSelectedRangePrice())}
+                                </span>
                             </span>
-                            <span className="text-xs text-muted-foreground">per GPU per day</span>
+                            <span className="text-xs text-muted-foreground">
+                                per GPU per day
+                            </span>
                         </span>
                     ) : (
                         <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
@@ -171,7 +183,9 @@ export default function DateRangeInput({
                                     Select Date Range
                                 </DialogTitle>
                                 <DialogDescription className="font-normal text-center">
-                                    {numSelectedDays} {numSelectedDays === 1 ? "day" : "days"} selected
+                                    {numSelectedDays}{" "}
+                                    {numSelectedDays === 1 ? "day" : "days"}{" "}
+                                    selected
                                 </DialogDescription>
                             </DialogHeader>
                             <div className="flex flex-col justify-center items-center">
@@ -188,7 +202,9 @@ export default function DateRangeInput({
                                     Select Date Range
                                 </DrawerTitle>
                                 <DrawerDescription className="font-normal text-center">
-                                    {numSelectedDays} {numSelectedDays === 1 ? "day" : "days"} selected
+                                    {numSelectedDays}{" "}
+                                    {numSelectedDays === 1 ? "day" : "days"}{" "}
+                                    selected
                                 </DrawerDescription>
                             </DrawerHeader>
                             <CalendarContent />
@@ -197,7 +213,8 @@ export default function DateRangeInput({
                 )}
                 <div className="absolute -bottom-5 flex flex-col justify-center items-end">
                     <span className="text-muted-foreground text-xs">
-                        You have {numSelectedDays} {numSelectedDays === 1 ? "day" : "days"} selected
+                        You have {numSelectedDays}{" "}
+                        {numSelectedDays === 1 ? "day" : "days"} selected
                     </span>
                 </div>
             </div>

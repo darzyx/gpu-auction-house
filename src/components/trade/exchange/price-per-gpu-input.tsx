@@ -27,12 +27,13 @@ export default function PricePerGpuInput({
                 placeholder="0"
                 value={price_per_gpu ?? ""}
                 onChange={(e) => {
-                    const num = parseFloat(e.target.value || "0");
-                    const newFormData: TOrderFormData = {
-                        ...formData,
-                        price_per_gpu: Math.min(MAX_PRICE, Math.max(0, num)).toString(),
-                    };
-                    setFormData({ ...newFormData, total_price: calculateTotal(newFormData) });
+                    const newFormData: TOrderFormData = { ...formData };
+                    newFormData.price_per_gpu = Math.min(
+                        MAX_PRICE,
+                        Math.max(0, parseFloat(e.target.value || "0"))
+                    ).toString();
+                    newFormData.total_price = calculateTotal(newFormData);
+                    setFormData(newFormData);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();

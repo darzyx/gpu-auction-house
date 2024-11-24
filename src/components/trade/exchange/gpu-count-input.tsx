@@ -28,7 +28,10 @@ export default function GPUCountInput({
                 placeholder="0"
                 value={gpu_count ?? ""}
                 onChange={(e) => {
-                    const newGPUCount = Math.min(parseInt(e.target.value || "0"), maxGPUs);
+                    const newGPUCount = Math.min(
+                        parseInt(e.target.value || "0"),
+                        maxGPUs
+                    );
                     const newFormData: TOrderFormData = { ...formData };
                     newFormData.gpu_count = newGPUCount.toString();
                     if (newFormData.method === "market") {
@@ -43,7 +46,9 @@ export default function GPUCountInput({
                 }}
             />
             <div className="absolute -bottom-5 flex flex-col justify-center items-end">
-                <span className="text-muted-foreground text-xs">Max {maxGPUs} available</span>
+                <span className="text-muted-foreground text-xs">
+                    Max {maxGPUs} available
+                </span>
             </div>
         </div>
     );

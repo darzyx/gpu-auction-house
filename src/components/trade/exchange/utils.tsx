@@ -8,24 +8,47 @@ export const LOWEST_PRICE_HOURS = [2, 3, 16, 17, 23];
 export const HIGHEST_PRICE_HOURS = [4, 5, 18, 19];
 export const UNAVAILABLE_HOURS = [7, 21, 22];
 
-const generateDeterministicCents = (date1: Date, date2: Date, gpu_count: string): number => {
-    const seed = (date1.getDate() * date2.getMonth() + date2.getDate() * date1.getMonth()) * parseInt(gpu_count);
+const generateDeterministicCents = (
+    date1: Date,
+    date2: Date,
+    gpu_count: string
+): number => {
+    const seed =
+        (date1.getDate() * date2.getMonth() +
+            date2.getDate() * date1.getMonth()) *
+        parseInt(gpu_count);
     return seed % 100;
 };
 
-const generatePriceForRange = (from: Date, to: Date, gpu_count: string): string => {
+const generatePriceForRange = (
+    from: Date,
+    to: Date,
+    gpu_count: string
+): string => {
     if (!gpu_count) return "0";
     const gpuCountInt = parseInt(gpu_count);
-    const seed = (from.getDate() * to.getMonth() + to.getDate() * from.getMonth() + gpuCountInt) % 25;
+    const seed =
+        (from.getDate() * to.getMonth() +
+            to.getDate() * from.getMonth() +
+            gpuCountInt) %
+        25;
     const dollars = 35 + seed;
     const cents = generateDeterministicCents(from, to, gpu_count);
     return `${dollars}.${cents.toString().padStart(2, "0")}`;
 };
 
-const generateMediumPrice = (from: Date, to: Date, gpu_count: string): string => {
+const generateMediumPrice = (
+    from: Date,
+    to: Date,
+    gpu_count: string
+): string => {
     const basePrice = generatePriceForRange(from, to, gpu_count);
     const gpuCountInt = parseInt(gpu_count);
-    const increaseSeed = (from.getHours() * to.getDate() + to.getHours() * from.getDate() + gpuCountInt) % 2000;
+    const increaseSeed =
+        (from.getHours() * to.getDate() +
+            to.getHours() * from.getDate() +
+            gpuCountInt) %
+        2000;
     const percentageIncrease = 0.05 + (increaseSeed / 2000) * 0.45;
     const increasedPrice = +basePrice * (1 + percentageIncrease);
     const newCentsSeed = new Date(from.getTime() + to.getTime());
@@ -34,7 +57,10 @@ const generateMediumPrice = (from: Date, to: Date, gpu_count: string): string =>
     const increasedDollars = Math.floor(increasedPrice);
 
     if (increasedDollars === baseDollars) {
-        const additionalCents = (generateDeterministicCents(from, newCentsSeed, gpu_count) % (99 - baseCents)) + 1;
+        const additionalCents =
+            (generateDeterministicCents(from, newCentsSeed, gpu_count) %
+                (99 - baseCents)) +
+            1;
         const newCents = baseCents + additionalCents;
         return `${increasedDollars}.${newCents.toString().padStart(2, "0")}`;
     }
@@ -43,7 +69,11 @@ const generateMediumPrice = (from: Date, to: Date, gpu_count: string): string =>
     return `${increasedDollars}.${newCents.toString().padStart(2, "0")}`;
 };
 
-const generateHighestPrice = (from: Date, to: Date, gpu_count: string): string => {
+const generateHighestPrice = (
+    from: Date,
+    to: Date,
+    gpu_count: string
+): string => {
     const basePrice = generatePriceForRange(from, to, gpu_count);
     const increasedPrice = +basePrice * 1.65;
     const newCentsSeed = new Date(from.getTime() + to.getTime());
@@ -52,7 +82,9 @@ const generateHighestPrice = (from: Date, to: Date, gpu_count: string): string =
     return `${dollars}.${newCents.toString().padStart(2, "0")}`;
 };
 
-export const getPricesWithStartDate = (formData: TOrderFormData): Record<string, string> => {
+export const getPricesWithStartDate = (
+    formData: TOrderFormData
+): Record<string, string> => {
     if (!formData.gpu_count || !formData.date_range?.from) return {};
     const prices: Record<string, string> = {};
     const endOfJanuary = new Date(2025, 0, 31);
@@ -63,8 +95,16 @@ export const getPricesWithStartDate = (formData: TOrderFormData): Record<string,
         const dateKey = currentDate.toISOString().split("T")[0];
         prices[dateKey] =
             formData.side === "buy"
-                ? generatePriceForRange(formData.date_range?.from, currentDate, formData.gpu_count)
-                : generateHighestPrice(formData.date_range?.from, currentDate, formData.gpu_count);
+                ? generatePriceForRange(
+                      formData.date_range?.from,
+                      currentDate,
+                      formData.gpu_count
+                  )
+                : generateHighestPrice(
+                      formData.date_range?.from,
+                      currentDate,
+                      formData.gpu_count
+                  );
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -72,7 +112,9 @@ export const getPricesWithStartDate = (formData: TOrderFormData): Record<string,
     return prices;
 };
 
-export const getPricesWithDateRange = (formData: TOrderFormData): Record<string, string> => {
+export const getPricesWithDateRange = (
+    formData: TOrderFormData
+): Record<string, string> => {
     if (!formData.gpu_count) return {};
     const prices: Record<string, string> = {};
     if (!formData.date_range?.from || !formData.date_range?.to) return prices;
@@ -82,8 +124,16 @@ export const getPricesWithDateRange = (formData: TOrderFormData): Record<string,
         const dateKey = currentDate.toISOString().split("T")[0];
         prices[dateKey] =
             formData.side === "buy"
-                ? generatePriceForRange(currentDate, formData.date_range?.to, formData.gpu_count)
-                : generateHighestPrice(currentDate, formData.date_range?.to, formData.gpu_count);
+                ? generatePriceForRange(
+                      currentDate,
+                      formData.date_range?.to,
+                      formData.gpu_count
+                  )
+                : generateHighestPrice(
+                      currentDate,
+                      formData.date_range?.to,
+                      formData.gpu_count
+                  );
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -94,8 +144,16 @@ export const getPricesWithDateRange = (formData: TOrderFormData): Record<string,
         const dateKey = currentDate.toISOString().split("T")[0];
         prices[dateKey] =
             formData.side === "buy"
-                ? generatePriceForRange(formData.date_range?.from, currentDate, formData.gpu_count)
-                : generateHighestPrice(formData.date_range?.from, currentDate, formData.gpu_count);
+                ? generatePriceForRange(
+                      formData.date_range?.from,
+                      currentDate,
+                      formData.gpu_count
+                  )
+                : generateHighestPrice(
+                      formData.date_range?.from,
+                      currentDate,
+                      formData.gpu_count
+                  );
         currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -103,17 +161,29 @@ export const getPricesWithDateRange = (formData: TOrderFormData): Record<string,
     return prices;
 };
 
-export const getLowestPrice = (startDate: Date, endDate: Date, gpu_count: string): string => {
+export const getLowestPrice = (
+    startDate: Date,
+    endDate: Date,
+    gpu_count: string
+): string => {
     if (!gpu_count) return "0";
     return generatePriceForRange(startDate, endDate, gpu_count);
 };
 
-export const getMediumPrice = (startDate: Date, endDate: Date, gpu_count: string | undefined): string => {
+export const getMediumPrice = (
+    startDate: Date,
+    endDate: Date,
+    gpu_count: string | undefined
+): string => {
     if (!gpu_count) return "0";
     return generateMediumPrice(startDate, endDate, gpu_count);
 };
 
-export const getHighestPrice = (startDate: Date, endDate: Date, gpu_count: string): string => {
+export const getHighestPrice = (
+    startDate: Date,
+    endDate: Date,
+    gpu_count: string
+): string => {
     if (!gpu_count) return "0";
     return generateHighestPrice(startDate, endDate, gpu_count);
 };
@@ -123,8 +193,16 @@ export type PriceInfo = {
     priceType: "highest" | "lowest" | "normal" | "unavailable";
 };
 
-export const getPriceForHour = (data: TOrderFormData, startEndHour: string): string => {
-    if (!data.gpu_count || !data.date_range?.from || !data.date_range?.to || typeof startEndHour !== "string") {
+export const getPriceForHour = (
+    data: TOrderFormData,
+    startEndHour: string
+): string => {
+    if (
+        !data.gpu_count ||
+        !data.date_range?.from ||
+        !data.date_range?.to ||
+        typeof startEndHour !== "string"
+    ) {
         return "0";
     }
 
@@ -142,7 +220,10 @@ export const getPriceForHour = (data: TOrderFormData, startEndHour: string): str
         : getMediumPrice(dateFrom, dateTo, data.gpu_count);
 };
 
-export const getDatePriceInfo = (formData: TOrderFormData, startEndHour: string): PriceInfo => {
+export const getDatePriceInfo = (
+    formData: TOrderFormData,
+    startEndHour: string
+): PriceInfo => {
     if (
         formData.date_range?.from &&
         formData.gpu_count &&
@@ -171,25 +252,32 @@ export const getDatePriceInfo = (formData: TOrderFormData, startEndHour: string)
     return { price: getPriceForHour(formData, startEndHour), priceType };
 };
 
-export const calculateTotal = (data: TOrderFormData): number => {
+export const calculateTotal = (data: TOrderFormData): string => {
     const gpuCountInt = parseInt(data.gpu_count || "0");
 
-    if (!gpuCountInt) return 0;
+    if (!gpuCountInt) return "0";
 
-    if (!data.date_range?.from || !data.date_range?.to) return 0;
+    if (!data.date_range?.from || !data.date_range?.to) return "0";
 
-    const days = Math.ceil((data.date_range.to.getTime() - data.date_range.from.getTime()) / (1000 * 60 * 60 * 24));
-    if (days <= 0) return 0;
+    const days = Math.ceil(
+        (data.date_range.to.getTime() - data.date_range.from.getTime()) /
+            (1000 * 60 * 60 * 24)
+    );
+    if (days <= 0) return "0";
 
     if (data.method === "limit") {
-        return gpuCountInt * parseFloat(data.price_per_gpu || "0") * days;
+        return (
+            gpuCountInt *
+            parseFloat(data.price_per_gpu || "0") *
+            days
+        ).toString();
     }
 
-    if (!data.start_end_hour) return 0;
+    if (!data.start_end_hour) return "0";
 
     const price = +getPriceForHour(data, data.start_end_hour);
 
-    return gpuCountInt * price * days;
+    return (gpuCountInt * price * days).toString();
 };
 
 export const validateFormData = (data: TOrderFormData): boolean => {
@@ -214,7 +302,10 @@ export const validateFormData = (data: TOrderFormData): boolean => {
 
     if (!data.date_range?.from || !data.date_range?.to) return false;
 
-    const numDays = Math.ceil((data.date_range.to.getTime() - data.date_range.from.getTime()) / (1000 * 60 * 60 * 24));
+    const numDays = Math.ceil(
+        (data.date_range.to.getTime() - data.date_range.from.getTime()) /
+            (1000 * 60 * 60 * 24)
+    );
     if (numDays < 1) return false;
 
     if (!data.start_end_hour) return false;
@@ -242,10 +333,12 @@ export const initFormData: TOrderFormData = {
     price_per_gpu: "",
     date_range: undefined,
     start_end_hour: "",
-    total_price: 0,
+    total_price: "0",
 };
 
 export const getNumerOfDaysSelected = (days: DateRange) => {
     if (!days?.from || !days?.to) return 0;
-    return Math.round((days.to.getTime() - days.from.getTime()) / (1000 * 60 * 60 * 24));
+    return Math.round(
+        (days.to.getTime() - days.from.getTime()) / (1000 * 60 * 60 * 24)
+    );
 };

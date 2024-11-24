@@ -9,7 +9,13 @@ import {
 } from "@/components/trade/exchange/start-end-hour-input.tsx/custom-select";
 import { Label } from "@/components/ui/label";
 import { TOrderFormData } from "@/types";
-import { calculateTotal, formatCurrency, formatTime, getDatePriceInfo, getPriceForHour } from "../utils";
+import {
+    calculateTotal,
+    formatCurrency,
+    formatTime,
+    getDatePriceInfo,
+    getPriceForHour,
+} from "../utils";
 
 export function StartEndHourInput({
     formData,
@@ -21,7 +27,9 @@ export function StartEndHourInput({
     const { date_range, method, gpu_count, start_end_hour, side } = formData;
     const gpuCountInt = parseInt(gpu_count || "0");
 
-    const getPriceColor = (priceType: "highest" | "lowest" | "normal" | "unavailable") => {
+    const getPriceColor = (
+        priceType: "highest" | "lowest" | "normal" | "unavailable"
+    ) => {
         if (priceType === "normal" || priceType === "unavailable") {
             return "text-muted-foreground";
         } else if (side === "buy") {
@@ -33,7 +41,8 @@ export function StartEndHourInput({
         }
     };
 
-    const showLabel = method === "market" && (!date_range?.from || !gpuCountInt);
+    const showLabel =
+        method === "market" && (!date_range?.from || !gpuCountInt);
 
     return (
         <div className="space-y-1">
@@ -43,9 +52,15 @@ export function StartEndHourInput({
             <Select
                 value={start_end_hour}
                 onValueChange={(newStartEndHour) => {
-                    const newFormData: TOrderFormData = { ...formData, start_end_hour: newStartEndHour };
+                    const newFormData: TOrderFormData = {
+                        ...formData,
+                        start_end_hour: newStartEndHour,
+                    };
                     if (newFormData.method === "market") {
-                        newFormData.price_per_gpu = getPriceForHour(newFormData, newStartEndHour);
+                        newFormData.price_per_gpu = getPriceForHour(
+                            newFormData,
+                            newStartEndHour
+                        );
                     }
                     newFormData.total_price = calculateTotal(newFormData);
                     setFormData(newFormData);
@@ -69,9 +84,17 @@ export function StartEndHourInput({
                         )}
                         {Array.from({ length: 24 }, (_, i) => {
                             const hour = String(i).padStart(2, "0");
-                            const { price, priceType } = getDatePriceInfo(formData, hour);
-                            const showPrice: boolean = method === "market" && !!date_range?.from && !!gpuCountInt;
-                            const isUnavailable: boolean = priceType === "unavailable" && method === "market";
+                            const { price, priceType } = getDatePriceInfo(
+                                formData,
+                                hour
+                            );
+                            const showPrice: boolean =
+                                method === "market" &&
+                                !!date_range?.from &&
+                                !!gpuCountInt;
+                            const isUnavailable: boolean =
+                                priceType === "unavailable" &&
+                                method === "market";
 
                             return (
                                 <SelectItem
@@ -83,8 +106,18 @@ export function StartEndHourInput({
                                     <div className="w-full flex justify-between items-center gap-8">
                                         <span>{formatTime(i.toString())}</span>
                                         {showPrice && (
-                                            <span className={getPriceColor(priceType) + " " + "font-berkeley-mono"}>
-                                                {isUnavailable ? "unavailable" : `${formatCurrency(price)}/GPU/day`}
+                                            <span
+                                                className={
+                                                    getPriceColor(priceType) +
+                                                    " " +
+                                                    "font-berkeley-mono"
+                                                }
+                                            >
+                                                {isUnavailable
+                                                    ? "unavailable"
+                                                    : `${formatCurrency(
+                                                          price
+                                                      )}/GPU/day`}
                                             </span>
                                         )}
                                     </div>

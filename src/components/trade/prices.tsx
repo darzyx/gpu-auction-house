@@ -2,9 +2,21 @@
 
 import { ArrowRight, TrendingUp } from "lucide-react";
 import Link from "next/link";
-import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts";
+import {
+    CartesianGrid,
+    LabelList,
+    Line,
+    LineChart,
+    XAxis,
+    YAxis,
+} from "recharts";
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart";
 import { AVAILABLE_GPUS, TOTAL_GPUS } from "./exchange/utils";
 
 const chartData = [
@@ -28,7 +40,9 @@ export default function Prices() {
         <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
             <div className="flex flex-col lg:grid lg:grid-cols-[auto_1fr_auto_auto] gap-1.5 lg:gap-0">
                 <div className="space-y-2">
-                    <h2 className="text-lg font-georgia leading-none">Prices</h2>
+                    <h2 className="text-lg font-georgia leading-none">
+                        Prices
+                    </h2>
                     <div className="flex items-center gap-1 text-muted-foreground text-sm leading-none">
                         Dec 15 - Dec 21, 2024
                     </div>
@@ -36,17 +50,28 @@ export default function Prices() {
                 <div />
                 <div className="grid grid-cols-2 lg:flex gap-4">
                     <div className="flex flex-col text-xs bg-muted rounded-md p-2">
-                        <h3 className="text-muted-foreground leading-none uppercase">Average</h3>
+                        <h3 className="text-muted-foreground leading-none uppercase">
+                            Average
+                        </h3>
                         <div className="font-berkeley-mono">$32.98/GPU/day</div>
                     </div>
                     <div className="flex flex-col text-xs bg-muted rounded-md p-2">
-                        <h3 className="text-muted-foreground leading-none uppercase">Availability</h3>
+                        <h3 className="text-muted-foreground leading-none uppercase">
+                            Availability
+                        </h3>
                         <div className="font-berkeley-mono">{`${AVAILABLE_GPUS}/${TOTAL_GPUS} GPUs`}</div>
                     </div>
                 </div>
             </div>
-            <ChartContainer config={chartConfig} className="font-berkeley-mono min-w-full w-full h-full">
-                <LineChart accessibilityLayer data={chartData} margin={{ left: -10, right: 25, top: 0, bottom: 0 }}>
+            <ChartContainer
+                config={chartConfig}
+                className="font-berkeley-mono min-w-full w-full h-full"
+            >
+                <LineChart
+                    accessibilityLayer
+                    data={chartData}
+                    margin={{ left: -10, right: 25, top: 0, bottom: 0 }}
+                >
                     <CartesianGrid vertical={false} />
                     <XAxis
                         dataKey="day"
@@ -61,7 +86,10 @@ export default function Prices() {
                         tickMargin={8}
                         tickFormatter={(v: number) => `$${v.toFixed(2)}`}
                     />
-                    <ChartTooltip cursor={true} content={<ChartTooltipContent dollarAmount />} />
+                    <ChartTooltip
+                        cursor={true}
+                        content={<ChartTooltipContent dollarAmount />}
+                    />
                     <Line
                         dataKey="high"
                         type="monotone"
@@ -114,9 +142,13 @@ export default function Prices() {
             </ChartContainer>
             <div className="flex justify-end lg:justify-between items-center text-muted-foreground text-xs xl:text-sm leading-none gap-4">
                 <div className="hidden lg:flex items-center gap-2">
-                    Average up $3.70 from yesterday <TrendingUp className="h-4 w-4" />
+                    Average up $3.70 from yesterday{" "}
+                    <TrendingUp className="h-4 w-4" />
                 </div>
-                <Link href="/trade" className="group flex items-center gap-1 hover:underline underline-offset-2">
+                <Link
+                    href="/trade"
+                    className="group flex items-center gap-1 hover:underline underline-offset-2"
+                >
                     Learn how the market works{" "}
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
