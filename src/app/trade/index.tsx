@@ -8,7 +8,7 @@ import Exchange from "@/components/trade/exchange";
 import OrdersTable from "@/components/trade/orders-table";
 import ordersColumns from "@/components/trade/orders-table/columns";
 import Portfolio from "@/components/trade/portfolio";
-import Prices from "@/components/trade/prices";
+import Prices from "@/components/trade/prices-chart";
 import { Separator } from "@/components/ui/separator";
 import { TOrder } from "@/db/schema";
 

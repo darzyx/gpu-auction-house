@@ -35,7 +35,7 @@ const chartConfig = {
     low: { label: "Low", color: "hsl(var(--chart-3))" },
 } satisfies ChartConfig;
 
-export default function Prices() {
+export default function PricesChart() {
     return (
         <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
             <div className="flex flex-col lg:grid lg:grid-cols-[auto_1fr_auto_auto] gap-1.5 lg:gap-0">
