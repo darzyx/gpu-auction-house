@@ -3,14 +3,26 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import { TOrderFormData } from "@/types";
 import { formatCurrency, formatTime, getNumerOfDaysSelected } from "./utils";
 
-const DetailRow = ({ label, value }: { label: string; value: string | JSX.Element }) => (
-    <div className="flex justify-between items-center gap-4">
-        <span className="font-georgia leading-none">{label}</span>
-        <span className="text-sm leading-none">{value}</span>
-    </div>
+const DetailRow = ({
+    label,
+    value,
+    noSeparator = false,
+}: {
+    label: string;
+    value: string | JSX.Element;
+    noSeparator?: boolean;
+}) => (
+    <>
+        <div className="flex justify-between items-center gap-4">
+            <span className="font-georgia leading-none text-sm">{label}</span>
+            <span className="text-sm leading-none">{value}</span>
+        </div>
+        {!noSeparator && <Separator />}
+    </>
 );
 
 export default function ConfirmOrder({
@@ -45,7 +57,7 @@ export default function ConfirmOrder({
                         Confirm {method === "limit" ? "Order" : side === "buy" ? "Purchase" : "Sale"}
                     </DialogTitle>
                 </DialogHeader>
-                <div className="space-y-4">
+                <div className="space-y-3">
                     {method === "limit" && <DetailRow label="Side" value={side === "buy" ? "Buy" : "Sell"} />}
                     <DetailRow label="Method" value={method === "limit" ? "Limit Order" : "Market Order"} />
                     <DetailRow label="GPU Count" value={`${gpu_count} GPUs`} />
@@ -64,7 +76,7 @@ export default function ConfirmOrder({
                     {date_range && <DetailRow label="Days" value={getNumerOfDaysSelected(date_range).toString()} />}
                     {start_end_hour && <DetailRow label="Start/End Time" value={formatTime(start_end_hour)} />}
                     <DetailRow label="$/GPU/Day" value={getValueForPricePerGPUPerDay()} />
-                    {total_price && <DetailRow label="Total" value={total_price.toString()} />}
+                    {total_price && <DetailRow label="Total" value={total_price.toString()} noSeparator />}
                 </div>
                 {method === "limit" && (
                     <div className="text-sm bg-muted text-muted-foreground rounded-md p-4 text-center">
