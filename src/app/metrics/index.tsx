@@ -4,8 +4,9 @@ import PricesChart from "@/components/trade/prices-chart";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import AvailabilityChart from "./availability-chart";
+import OrderBookList from "./order-book";
 
-export default function Prices() {
+export default function Metrics() {
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     return (
@@ -20,6 +21,7 @@ export default function Prices() {
                 <div className="w-full">
                     <AvailabilityChart />
                     <Separator />
+                    <OrderBookList />
                 </div>
             </div>
         </main>

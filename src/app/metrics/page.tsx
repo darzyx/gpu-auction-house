@@ -1,7 +1,5 @@
-export const dynamic = "force-dynamic";
-
-import Prices from ".";
+import Metrics from ".";
 
 export default async function Page() {
-    return <Prices />;
+    return <Metrics />;
 }
