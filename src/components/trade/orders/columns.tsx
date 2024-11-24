@@ -61,7 +61,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     },
     {
         accessorKey: "start_end_hour",
-        header: ({ column }) => <SortableHeader column={column}>Start/End Hour</SortableHeader>,
+        header: ({ column }) => <SortableHeader column={column}>Hour</SortableHeader>,
         cell: ({ row }) => {
             const v: TOrder["start_end_hour"] = row.getValue("start_end_hour");
             return formatTime(v.toString());
