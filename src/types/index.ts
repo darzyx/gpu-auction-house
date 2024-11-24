@@ -17,10 +17,18 @@ export type TOrderFormData = {
 
 export type TOrderForSubmit = Omit<
     TOrder,
-    "id" | "created_at" | "updated_at" | "start_date" | "end_date"
+    | "id"
+    | "created_at"
+    | "updated_at"
+    | "start_date"
+    | "end_date"
+    | "price_per_gpu"
+    | "total_price"
 > & {
     start_date: string;
     end_date: string;
+    price_per_gpu: number;
+    total_price: number;
 };
 
 export type TOrderForTable = Omit<TOrder, "id" | "updated_at">;

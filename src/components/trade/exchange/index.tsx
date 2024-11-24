@@ -81,11 +81,11 @@ export default function Exchange({
                 method: formData.method,
                 status: formData.method === "market" ? "filled" : "pending",
                 gpu_count: gpuCount,
-                price_per_gpu: formData.price_per_gpu,
-                total_price: formData.total_price,
+                price_per_gpu: parseFloat(formData.price_per_gpu),
+                total_price: parseFloat(formData.total_price),
                 start_date: formData.date_range.from.toISOString(),
-                start_end_hour: startEndHour,
                 end_date: formData.date_range.to.toISOString(),
+                start_end_hour: startEndHour,
             };
 
             response = await fetch("/api/orders", {
