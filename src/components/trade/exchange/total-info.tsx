@@ -5,7 +5,11 @@ export default function TotalInfo({ formData: { total_price } }: { formData: TOr
     return (
         <div className="flex justify-between text-sm">
             <div className="font-semibold uppercase">Total</div>
-            {total_price ? <div>{formatCurrency(total_price)}</div> : <div className="text-muted-foreground">---</div>}
+            {total_price ? (
+                <div>{formatCurrency(total_price.toString())}</div>
+            ) : (
+                <div className="text-muted-foreground">---</div>
+            )}
         </div>
     );
 }
