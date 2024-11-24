@@ -2,7 +2,7 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { formatDate, formatShortDate } from "@/lib/utils";
+import { formatDateForDisplay, formatShortDateForDisplay } from "@/lib/utils";
 import { TOrder } from "@/types";
 import { Column, ColumnDef } from "@tanstack/react-table";
 import { formatCurrency, formatTime } from "../exchange/utils";
@@ -32,7 +32,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         header: ({ column }) => <SortableHeader column={column}>Time Placed</SortableHeader>,
         cell: ({ row }) => {
             const v = row.getValue("created_date") as TOrder["created_date"];
-            return <div className="text-muted-foreground">{formatDate(v)}</div>;
+            return <div className="text-muted-foreground">{formatDateForDisplay(v)}</div>;
         },
     },
     {
@@ -56,7 +56,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         header: ({ column }) => <SortableHeader column={column}>Start</SortableHeader>,
         cell: ({ row }) => {
             const v = row.getValue("start_date") as TOrder["start_date"];
-            return formatShortDate(v);
+            return formatShortDateForDisplay(v);
         },
     },
     {
@@ -72,7 +72,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
         header: ({ column }) => <SortableHeader column={column}>End</SortableHeader>,
         cell: ({ row }) => {
             const v = row.getValue("end_date") as TOrder["end_date"];
-            return formatShortDate(v);
+            return formatShortDateForDisplay(v);
         },
     },
     {

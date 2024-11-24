@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function formatDate(date: Date | string) {
+export function formatDateForDisplay(date: Date | string) {
     const d = new Date(date);
     return `${d.getMonth() + 1}/${d.getDate().toString().padStart(2, "0")}/${d.getFullYear().toString().slice(-2)} ${d
         .getHours()
@@ -16,7 +16,7 @@ export function formatDate(date: Date | string) {
         .padStart(2, "0")}`;
 }
 
-export function formatShortDate(date: Date | string) {
+export function formatShortDateForDisplay(date: Date | string) {
     return new Intl.DateTimeFormat("en-US", {
         month: "numeric",
         day: "2-digit",
