@@ -17,7 +17,7 @@ const generateRandomOrder = (): TOrder => {
     let status: "pending" | "filled" | "canceled";
     if (method === "limit") {
         const rand = Math.random();
-        status = rand < 0.6 ? "pending" : rand < 0.8 ? "filled" : "canceled";
+        status = rand < 0.3 ? "pending" : rand < 0.85 ? "filled" : "canceled";
     } else {
         status = Math.random() < 0.9 ? "filled" : "canceled";
     }
@@ -60,7 +60,7 @@ export default function OrderBookList() {
     }, []);
 
     return (
-        <Table>
+        <Table className="min-w-80">
             <TableHeader>
                 <TableRow>
                     <TableHead>Side</TableHead>
