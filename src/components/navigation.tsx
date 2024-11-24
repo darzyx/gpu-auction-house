@@ -9,33 +9,31 @@ import {
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navigationItems = [
-    { id: "home", label: "Home", href: "/trade" },
+    { id: "home", label: "Home", href: "/home" },
     { id: "trade", label: "Trade", href: "/trade" },
-    { id: "orders", label: "Orders", href: "/trade" },
-    { id: "metrics", label: "Metrics", href: "/trade" },
-    { id: "learn", label: "Learn", href: "/trade" },
-    { id: "settings", label: "Settings", href: "/trade" },
-    { id: "logout", label: "Logout", href: "/trade" },
+    { id: "orders", label: "Orders", href: "/orders" },
+    { id: "metrics", label: "Metrics", href: "/metrics" },
+    { id: "learn", label: "Learn", href: "/learn" },
+    { id: "settings", label: "Settings", href: "/settings" },
+    { id: "logout", label: "Logout", href: "/login" },
 ];
 
 const Item = ({
-    id,
     href,
+    isActive,
     children,
 }: {
-    id: string;
     href: string;
+    isActive: boolean;
     children: React.ReactNode;
 }) => {
-    let className =
-        "flex justify-end items-center text-sm hover:underline underline-offset-2 leading-none lg:py-4 ";
-    if (id === "trade") {
-        className += "underline";
-    } else {
-        className += "text-muted-foreground";
-    }
+    const className = `flex justify-end items-center text-sm hover:underline underline-offset-2 leading-none lg:py-4 ${
+        isActive ? "underline" : "text-muted-foreground"
+    }`;
+
     return (
         <Link className={className} href={href}>
             {children}
@@ -44,6 +42,8 @@ const Item = ({
 };
 
 export default function Navigation() {
+    const pathname = usePathname();
+
     return (
         <>
             <div className="flex justify-between items-center md:hidden">
@@ -83,7 +83,7 @@ export default function Navigation() {
                                     key={item.id}
                                     href={item.href}
                                     className={`py-2 text-sm ${
-                                        item.id === "trade"
+                                        pathname === item.href
                                             ? "font-medium"
                                             : "text-muted-foreground"
                                     }`}
@@ -105,7 +105,11 @@ export default function Navigation() {
                     />
                 </div>
                 {navigationItems.map((item) => (
-                    <Item key={item.id} id={item.id} href={item.href}>
+                    <Item
+                        key={item.id}
+                        href={item.href}
+                        isActive={pathname === item.href}
+                    >
                         {item.label}
                     </Item>
                 ))}
