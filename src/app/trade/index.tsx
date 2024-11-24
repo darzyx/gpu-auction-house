@@ -11,8 +11,12 @@ import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices-chart";
 import { Separator } from "@/components/ui/separator";
 import { TOrder } from "@/db/schema";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import TradesTable from "../metrics/trades-table";
 
 export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
+    const is2Xl = useMediaQuery("(min-width: 1536px)");
+
     const [orders, setOrders] = useState<TOrder[]>(initOrders);
 
     const handleOrderAdded = (newOrder: TOrder) => {
@@ -30,7 +34,7 @@ export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
 
     return (
         <main className="w-full grid grid-rows-[auto_auto_1fr]">
-            <div className="w-full grid grid-cols-1 md:grid-cols-[375px_auto_1fr] lg:grid-cols-[400px_auto_1fr]">
+            <div className="w-full grid grid-cols-1 md:grid-cols-[375px_auto_1fr] 2xl:grid-cols-[375px_auto_2fr_auto_350px]">
                 <div>
                     <div className="p-4 sm:p-6 lg:p-4">
                         <Portfolio />
@@ -40,11 +44,21 @@ export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
                         <Exchange onOrderAdded={handleOrderAdded} />
                     </div>
                 </div>
-                <Separator className="md:hidden" />
-                <Separator orientation="vertical" className="hidden md:block" />
+                <Separator orientation="vertical" />
                 <div className="p-4 sm:p-6 lg:p-4">
                     <Prices />
                 </div>
+                {is2Xl && (
+                    <>
+                        <Separator
+                            orientation="vertical"
+                            className="hidden lg:block"
+                        />
+                        <div className="p-4 sm:p-6 lg:p-4 hidden lg:block">
+                            <TradesTable />
+                        </div>
+                    </>
+                )}
             </div>
             <Separator />
             <div className="relative">
