@@ -37,7 +37,10 @@ export default function DateRangeInput({
     const [datePrices, setDatesPrices] = useState<Record<string, string>>({});
 
     const handleSelect = (newDateRange: DateRange | undefined) => {
-        let newFormData: TOrderFormData = { ...formData, date_range: newDateRange };
+        const newFormData: TOrderFormData = {
+            ...formData,
+            date_range: newDateRange,
+        };
         setFormData(newFormData);
     };
 

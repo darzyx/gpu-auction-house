@@ -2,17 +2,22 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TOrderFormData, TOrderMethod } from "@/types";
 
 export default function MethodInput({
-    formData: { method },
+    formData,
     setFormData,
 }: {
     formData: TOrderFormData;
     setFormData: React.Dispatch<React.SetStateAction<TOrderFormData>>;
 }) {
+    const { method } = formData;
     return (
         <Tabs
             value={method}
             onValueChange={(newMethod) => {
-                setFormData((prev) => ({ ...prev, method: newMethod as TOrderMethod }));
+                const newFormData: TOrderFormData = {
+                    ...formData,
+                    method: newMethod as TOrderMethod,
+                };
+                setFormData(newFormData);
             }}
         >
             <TabsList className="inline-flex h-auto items-center text-muted-foreground w-full justify-start rounded-none border-b bg-transparent p-0">

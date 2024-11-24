@@ -43,7 +43,10 @@ export function StartEndHourInput({
             <Select
                 value={start_end_hour}
                 onValueChange={(newStartEndHour) => {
-                    const newFormData: TOrderFormData = { ...formData, start_end_hour: newStartEndHour };
+                    const newFormData: TOrderFormData = {
+                        ...formData,
+                        start_end_hour: newStartEndHour,
+                    };
                     setFormData(newFormData);
                 }}
             >

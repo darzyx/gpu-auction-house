@@ -3,12 +3,13 @@ import { Label } from "@/components/ui/label";
 import { TOrderFormData } from "@/types";
 
 export default function PricePerGpuInput({
-    formData: { price_per_gpu, side },
+    formData,
     setFormData,
 }: {
     formData: TOrderFormData;
     setFormData: React.Dispatch<React.SetStateAction<TOrderFormData>>;
 }) {
+    const { price_per_gpu, side } = formData;
     const MAX_PRICE = 10000;
 
     return (
@@ -26,10 +27,11 @@ export default function PricePerGpuInput({
                 value={price_per_gpu ?? ""}
                 onChange={(e) => {
                     const num = parseFloat(e.target.value || "0");
-                    setFormData((prev) => ({
-                        ...prev,
+                    const newFormData: TOrderFormData = {
+                        ...formData,
                         price_per_gpu: Math.min(MAX_PRICE, Math.max(0, num)).toString(),
-                    }));
+                    };
+                    setFormData(newFormData);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();

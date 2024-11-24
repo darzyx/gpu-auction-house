@@ -2,17 +2,22 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TOrderFormData, TOrderSide } from "@/types";
 
 export default function SideInput({
-    formData: { side },
+    formData,
     setFormData,
 }: {
     formData: TOrderFormData;
     setFormData: React.Dispatch<React.SetStateAction<TOrderFormData>>;
 }) {
+    const { side } = formData;
     return (
         <Tabs
             value={side}
             onValueChange={(newSide) => {
-                setFormData((prev) => ({ ...prev, side: newSide as TOrderSide }));
+                const newFormData: TOrderFormData = {
+                    ...formData,
+                    side: newSide as TOrderSide,
+                };
+                setFormData(newFormData);
             }}
             className="space-y-4"
         >

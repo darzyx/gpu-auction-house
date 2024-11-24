@@ -22,14 +22,6 @@ import { calculateTotal, getPriceForHour, initFormData, validateFormData } from 
 export default function Exchange({ onOrderAdded }: { onOrderAdded: (order: TOrder) => void }) {
     const [formData, setFormData] = useState<TOrderFormData>(initFormData);
 
-    const handleChangeDateRange = (newDateRange: DateRange | undefined) => {
-        const newFormData: TOrderFormData = {
-            ...formData,
-            date_range: newDateRange,
-        };
-        setFormData(newFormData);
-    };
-
     const totalPrice = useMemo(() => +calculateTotal(formData), [formData]);
 
     const isValid = validateFormData(formData);

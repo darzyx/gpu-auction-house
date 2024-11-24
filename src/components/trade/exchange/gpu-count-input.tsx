@@ -6,12 +6,13 @@ import { TOrderFormData } from "@/types";
 import { AVAILABLE_GPUS, USER_GPUS } from "./utils";
 
 export default function GPUCountInput({
-    formData: { gpu_count, side },
+    formData,
     setFormData,
 }: {
     formData: TOrderFormData;
     setFormData: React.Dispatch<React.SetStateAction<TOrderFormData>>;
 }) {
+    const { gpu_count, side } = formData;
     const maxGPUs = side === "buy" ? AVAILABLE_GPUS : USER_GPUS;
 
     return (
@@ -28,10 +29,11 @@ export default function GPUCountInput({
                 value={gpu_count ?? ""}
                 onChange={(e) => {
                     const num = parseInt(e.target.value || "0");
-                    setFormData((prev) => ({
-                        ...prev,
+                    const newFormData: TOrderFormData = {
+                        ...formData,
                         gpu_count: Math.min(num, maxGPUs).toString(),
-                    }));
+                    };
+                    setFormData(newFormData);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "-") e.preventDefault();
