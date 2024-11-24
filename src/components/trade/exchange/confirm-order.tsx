@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { TOrderFormData } from "@/types";
 import { formatCurrency, formatTime, getNumerOfDaysSelected } from "./utils";
@@ -56,6 +56,7 @@ export default function ConfirmOrder({
                     <DialogTitle className="font-georgia text-lg font-normal">
                         Confirm {method === "limit" ? "Order" : side === "buy" ? "Purchase" : "Sale"}
                     </DialogTitle>
+                    <DialogDescription>Review your order details</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-3">
                     {method === "limit" && <DetailRow label="Side" value={side === "buy" ? "Buy" : "Sell"} />}
