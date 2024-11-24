@@ -60,7 +60,7 @@ export default function OrderBookList() {
     }, []);
 
     return (
-        <Table className="min-w-80">
+        <Table className="w-[22rem]">
             <TableHeader>
                 <TableRow>
                     <TableHead>Side</TableHead>
