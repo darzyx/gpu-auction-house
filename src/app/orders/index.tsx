@@ -20,11 +20,15 @@ export default function Orders({ initOrders }: { initOrders: TOrder[] }) {
 
     return (
         <main className="w-full h-full p-4 sm:p-6 lg:p-4">
-            <OrdersTable
-                orders={orders}
-                columns={ordersColumns}
-                onOrderCanceled={handleOrderCanceled}
-            />
+            <div className="relative h-[500px]">
+                <div className="absolute inset-0 overflow-x-auto">
+                    <OrdersTable
+                        orders={orders}
+                        columns={ordersColumns}
+                        onOrderCanceled={handleOrderCanceled}
+                    />
+                </div>
+            </div>
         </main>
     );
 }
