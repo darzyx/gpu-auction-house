@@ -9,10 +9,11 @@ const paramSchema = z.string();
 
 export async function PATCH(
     _request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const validatedId = paramSchema.safeParse(params.id);
+        const { id } = await params;
+        const validatedId = paramSchema.safeParse(id);
 
         if (!validatedId.success) {
             return NextResponse.json(
