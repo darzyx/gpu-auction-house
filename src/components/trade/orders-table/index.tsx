@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { TOrder } from "@/db/schema";
 
-export default function Orders({
+export default function OrdersTable({
     orders,
     columns,
     onOrderCanceled,

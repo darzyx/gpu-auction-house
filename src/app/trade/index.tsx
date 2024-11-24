@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import Navigation from "@/components/navigation";
 import Exchange from "@/components/trade/exchange";
-import Orders from "@/components/trade/orders";
-import ordersColumns from "@/components/trade/orders/columns";
+import OrdersTable from "@/components/trade/orders-table";
+import ordersColumns from "@/components/trade/orders-table/columns";
 import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices";
 import { Separator } from "@/components/ui/separator";
@@ -57,7 +57,7 @@ export default function Trade({ initOrders }: { initOrders: TOrder[] }) {
                 <Separator />
                 <div className="relative">
                     <div className="pb-10 md:pb-4 p-4 sm:p-6 lg:p-4 w-full absolute md:inset-0 md:overflow-auto">
-                        <Orders
+                        <OrdersTable
                             orders={orders}
                             columns={ordersColumns}
                             onOrderCanceled={handleOrderCanceled}
