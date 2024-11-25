@@ -72,7 +72,7 @@ function OrdersTable({ orders }: { orders: TOrder[] }) {
                                       "h-10 xl:h-12 text-xs 2xl:text-sm";
                                   if (idx === 0) className += " pl-0";
                                   if (idx === row.getVisibleCells().length - 1)
-                                      className += " pr-0";
+                                      className += " pr-[1px]";
                                   return (
                                       <TableCell
                                           key={cell.id}
