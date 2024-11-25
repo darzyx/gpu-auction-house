@@ -131,7 +131,7 @@ export default function DateRangeInput({
                         ""
                     ) : !gpuCountInt ? (
                         <span className="flex flex-col justify-center items-end text-xs md:text-sm text-muted-foreground">
-                            <span>Add GPU count</span>
+                            <span>Add amount (GPUs)</span>
                             <span>to see prices</span>
                         </span>
                     ) : date_range?.from && date_range?.to ? (

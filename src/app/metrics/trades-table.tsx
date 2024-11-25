@@ -23,7 +23,7 @@ import { TOrderSide } from "@/types";
 const columns: ColumnDef<TOrder>[] = [
     {
         accessorKey: "gpu_count",
-        header: "GPUs",
+        header: "Amount (GPUs)",
         cell: ({ row }) => {
             const count = row.getValue("gpu_count") as number;
             return count.toLocaleString();
@@ -139,7 +139,7 @@ export default function TradesTable() {
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header, idx) => {
-                                let className = "font-berkeley-mono";
+                                let className = "font-berkeley-mono text-xs";
                                 if (idx === 0) className += " pl-0";
                                 if (idx === headerGroup.headers.length - 1) {
                                     className += " pr-0 text-right";

@@ -50,7 +50,7 @@ export default function Exchange({
 
             const gpuCount = parseInt(formData.gpu_count || "0");
             if (isNaN(gpuCount) || gpuCount <= 0) {
-                toast.error("Please enter a valid GPU count.");
+                toast.error("Please enter a valid amount (GPUs).");
                 return;
             }
 

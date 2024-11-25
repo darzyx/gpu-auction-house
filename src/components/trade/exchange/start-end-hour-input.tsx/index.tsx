@@ -76,10 +76,10 @@ export function StartEndHourInput({
                         {showLabel && (
                             <SelectLabel>
                                 {!date_range?.from && !gpuCountInt
-                                    ? "Add GPU count and dates to see prices."
+                                    ? "Add amount (GPUs) and dates to see prices."
                                     : !date_range?.from
                                     ? "Add date range to see prices."
-                                    : "Add GPU count to see prices."}
+                                    : "Add amount (GPUs) to see prices."}
                             </SelectLabel>
                         )}
                         {Array.from({ length: 24 }, (_, i) => {

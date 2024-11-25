@@ -18,7 +18,7 @@ export default function GPUCountInput({
     return (
         <div className="relative space-y-1">
             <Label htmlFor="gpu-count" className="text-xs">
-                GPU COUNT
+                AMOUNT (GPUs)
             </Label>
             <Input
                 id="gpu-count"

@@ -99,7 +99,10 @@ export default function ConfirmOrder({
                             method === "limit" ? "Limit Order" : "Market Order"
                         }
                     />
-                    <DetailRow label="GPU Count" value={`${gpu_count} GPUs`} />
+                    <DetailRow
+                        label="Amount (GPUs)"
+                        value={gpu_count.toString()}
+                    />
                     {method === "limit" && price_per_gpu && (
                         <DetailRow
                             label={`${
