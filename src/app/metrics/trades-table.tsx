@@ -41,17 +41,8 @@ const columns: ColumnDef<TOrder>[] = [
         accessorKey: "total_price",
         header: "Total",
         cell: ({ row }) => {
-            const side = row.original.side as TOrderSide;
             const total = row.getValue("total_price") as string;
-            return (
-                <div
-                    className={
-                        side === "buy" ? "text-green-600" : "text-red-600"
-                    }
-                >
-                    ${Number(total).toLocaleString()}
-                </div>
-            );
+            return <div>${Number(total).toLocaleString()}</div>;
         },
     },
     {
