@@ -65,7 +65,11 @@ const MobileNavigation = ({ pathname }: { pathname: string }) => {
             </div>
             <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="secondary" size="icon">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="w-fit h-fit hover:bg-transparent"
+                    >
                         <Menu />
                     </Button>
                 </SheetTrigger>
