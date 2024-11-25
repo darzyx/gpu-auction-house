@@ -24,13 +24,24 @@ import {
 import { getOrders } from "@/db/actions";
 import { TOrder } from "@/db/schema";
 
-function OrdersTable({ orders }: { orders: TOrder[] }) {
+function OrdersTable({
+    orders,
+    pathname,
+}: {
+    orders: TOrder[];
+    pathname: string;
+}) {
     const table = useReactTable({
         data: orders,
         columns: ordersColumns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        initialState: {
+            pagination: {
+                pageSize: pathname === "/trade" ? 5 : 25,
+            },
+        },
     });
 
     return (
@@ -118,7 +129,7 @@ export default function OrdersSection() {
         return (
             <div className="space-y-1">
                 <h2 className="text-lg font-georgia leading-none">Orders</h2>
-                <OrdersTable orders={orders} />
+                <OrdersTable orders={orders} pathname={pathname} />
                 {orders.length === 0 && (
                     <div className="w-full flex justify-center items-center h-20 lg:h-40">
                         <p className="text-sm text-muted-foreground">
