@@ -20,6 +20,7 @@ export async function cancelOrder(orderId: string) {
         revalidatePath("/orders");
         return { success: true };
     } catch (error) {
+        console.error("Failed to cancel order:", error);
         throw new Error("Failed to cancel order");
     }
 }
