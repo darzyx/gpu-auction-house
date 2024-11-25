@@ -5,7 +5,7 @@ import { TOrder } from "@/db/schema";
 import { formatDateForDisplay, formatShortDateForDisplay } from "@/lib/utils";
 import { Column, ColumnDef } from "@tanstack/react-table";
 import { formatCurrency, formatTime } from "../exchange/utils";
-import CancelButton from "./cancel-button";
+import ActionsDropdown from "./actions-dropdown";
 
 const SortableHeader = ({
     column,
@@ -121,7 +121,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     },
     {
         accessorKey: "status",
-        header: () => <div className="text-right">Status</div>,
+        header: () => <div>Status</div>,
         cell: ({ row }) => {
             const v = row.getValue("status") as TOrder["status"];
             const color =
@@ -130,12 +130,14 @@ const ordersColumns: ColumnDef<TOrder>[] = [
                     : v === "pending"
                     ? "text-yellow-600"
                     : "text-red-600";
-            return <div className={color + " text-right capitalize"}>{v}</div>;
+            return <div className={color + " capitalize"}>{v}</div>;
         },
     },
     {
         id: "actions",
-        cell: ({ row: { original } }) => <CancelButton original={original} />,
+        cell: ({ row: { original } }) => (
+            <ActionsDropdown original={original} />
+        ),
     },
 ];
 
