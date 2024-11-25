@@ -197,9 +197,7 @@ export default function TradesTable() {
             </Table>
             {!hasOrders && (
                 <div className="w-full flex justify-center items-center h-20 lg:h-40">
-                    <p className="text-sm text-muted-foreground">
-                        No orders in the book.
-                    </p>
+                    <p className="text-sm text-muted-foreground">Loading...</p>
                 </div>
             )}
         </div>
