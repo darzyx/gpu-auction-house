@@ -55,7 +55,7 @@ const chartConfig = {
 export default function AvailabilityChart() {
     return (
         <div>
-            <h2 className="text-lg font-georgia leading-none px-4 sm:px-6 lg:px-4 py-0">
+            <h2 className="text-lg font-georgia leading-none px-4 pt-4 sm:px-6 sm:pt-6 lg:px-4 lg:pt-4 pb-0">
                 Availability
             </h2>
             <ChartContainer
