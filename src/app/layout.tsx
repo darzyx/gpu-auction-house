@@ -67,7 +67,7 @@ export default function RootLayout({
                     "antialiased flex w-full h-full justify-center"
                 }
             >
-                <div className="w-full max-w-8xl h-full p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
+                <div className="w-full max-w-7xl h-full p-0 lg:p-8 grid grid-rows-[auto_auto_1fr] lg:grid-rows-1 lg:grid-cols-[auto_auto_1fr]">
                     <div className="lg:h-full p-4">
                         <Navigation />
                     </div>
