@@ -78,7 +78,7 @@ export default function OrdersTable({
                               >
                                   {row.getVisibleCells().map((cell, idx) => {
                                       let className =
-                                          "h-10 xl:h-12 text-xs xl:text-sm";
+                                          "h-10 xl:h-12 text-xs 2xl:text-sm";
                                       if (idx === 0) className += " pl-0";
                                       if (
                                           idx ===
