@@ -55,10 +55,12 @@ const chartConfig = {
 export default function AvailabilityChart() {
     return (
         <div>
-            <h2 className="text-lg font-georgia leading-none">Availability</h2>
+            <h2 className="text-lg font-georgia leading-none px-4 sm:px-6 lg:px-4 py-0">
+                Availability
+            </h2>
             <ChartContainer
                 config={chartConfig}
-                className="w-full aspect-square h-[250px]"
+                className="w-full aspect-square h-[250px] p-0 m-0"
             >
                 <PieChart>
                     <ChartTooltip

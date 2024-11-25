@@ -19,7 +19,7 @@ export default function Metrics() {
                     orientation={isDesktop ? "vertical" : "horizontal"}
                 />
                 <div>
-                    <div className="p-4 sm:p-6 lg:p-4">
+                    <div>
                         <AvailabilityChart />
                     </div>
                     <Separator />
