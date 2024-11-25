@@ -5,6 +5,7 @@ import Navigation from "@/components/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -76,7 +77,9 @@ export default function RootLayout({
                         className="hidden lg:block"
                     />
                     <Separator orientation="horizontal" className="lg:hidden" />
-                    <div>{children}</div>
+                    <Providers>
+                        <div>{children}</div>
+                    </Providers>
                 </div>
                 <Toaster />
             </body>

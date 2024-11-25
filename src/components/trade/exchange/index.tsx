@@ -1,11 +1,12 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { TOrder } from "@/db/schema";
+import { postOrder } from "@/db/actions";
 import { cn } from "@/lib/utils";
 import { TOrderFormData, TOrderForSubmit } from "@/types";
 import ConfirmOrder from "./confirm-order";
@@ -19,17 +20,33 @@ import { StartEndHourInput } from "./start-end-hour-input.tsx";
 import TotalInfo from "./total-info";
 import { getPriceForHour, initFormData, validateFormData } from "./utils";
 
-export default function Exchange({
-    onOrderAdded,
-}: {
-    onOrderAdded: (order: TOrder) => void;
-}) {
+export default function Exchange() {
     const [formData, setFormData] = useState<TOrderFormData>(initFormData);
+    const [isConfirmOrderModalOpen, setIsConfirmOrderModalOpen] =
+        useState(false);
+    const queryClient = useQueryClient();
 
     const isValid = validateFormData(formData);
 
-    const [isConfirmOrderModalOpen, setIsConfirmOrderModalOpen] =
-        useState(false);
+    const orderMutation = useMutation({
+        mutationFn: (orderData: TOrderForSubmit) => postOrder(orderData),
+        onSuccess: () => {
+            toast.success("Order placed");
+            setIsConfirmOrderModalOpen(false);
+            setFormData(initFormData);
+            queryClient.invalidateQueries({ queryKey: ["orders"] });
+        },
+        onError: (error) => {
+            toast.error(
+                "An error occurred while placing the order. Please try again later."
+            );
+            if (error instanceof Error) {
+                console.error("Order creation error:", error.message);
+            }
+            setIsConfirmOrderModalOpen(false);
+        },
+    });
+
     const handleSubmit = () => {
         setIsConfirmOrderModalOpen(true);
     };
@@ -40,7 +57,6 @@ export default function Exchange({
             return;
         }
 
-        let response;
         try {
             const startEndHour = parseInt(formData.start_end_hour || "0");
             if (isNaN(startEndHour) || startEndHour < 0 || startEndHour >= 24) {
@@ -81,40 +97,19 @@ export default function Exchange({
                 method: formData.method,
                 status: formData.method === "market" ? "filled" : "pending",
                 gpu_count: gpuCount,
-                price_per_gpu: parseFloat(formData.price_per_gpu),
+                price_per_gpu: pricePerGpu,
                 total_price: parseFloat(formData.total_price),
                 start_date: formData.date_range.from.toISOString(),
                 end_date: formData.date_range.to.toISOString(),
                 start_end_hour: startEndHour,
             };
 
-            response = await fetch("/api/orders", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(orderForSubmit),
-            });
-
-            let responseOrder: TOrder;
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("API Error:", errorData);
-                toast.error(
-                    "An error occurred while placing the order. Please try again later."
-                );
-                return;
-            } else {
-                responseOrder = await response.json();
-            }
-
-            toast.success("Order placed");
-            onOrderAdded(responseOrder);
-            setIsConfirmOrderModalOpen(false);
-            setFormData(initFormData);
+            orderMutation.mutate(orderForSubmit);
         } catch (error) {
             toast.error(
                 "An error occurred while placing the order. Please try again later."
             );
-            console.error("Frontend Error:", error);
+            console.error("Validation error:", error);
             setIsConfirmOrderModalOpen(false);
         }
     };
@@ -152,7 +147,7 @@ export default function Exchange({
             )}
             <TotalInfo formData={formData} />
             <Button
-                disabled={!isValid}
+                disabled={!isValid || orderMutation.isPending}
                 className={cn(
                     "w-full",
                     formData.side === "buy"
@@ -161,8 +156,12 @@ export default function Exchange({
                 )}
                 onClick={handleSubmit}
             >
-                Place {formData.method === "market" ? "Market" : "Limit"}{" "}
-                {formData.side === "buy" ? "Buy" : "Sell"} Order
+                {orderMutation.isPending
+                    ? "Placing Order..."
+                    : `Place ${
+                          formData.method === "market" ? "Market" : "Limit"
+                      } 
+                    ${formData.side === "buy" ? "Buy" : "Sell"} Order`}
             </Button>
             <ConfirmOrder
                 formData={formData}

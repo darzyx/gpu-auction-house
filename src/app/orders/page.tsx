@@ -1,23 +1,15 @@
-import { desc } from "drizzle-orm";
+"use client";
 
-import { db } from "@/db";
-import { orders, TOrder } from "@/db/schema";
-import Orders from ".";
+import OrdersSection from "@/components/trade/orders-section";
 
-export default async function Page() {
-    try {
-        const initOrders: TOrder[] = await db
-            .select()
-            .from(orders)
-            .orderBy(desc(orders.created_at));
-
-        return <Orders initOrders={initOrders} />;
-    } catch (error) {
-        console.error("Failed to fetch orders:", error);
-        return (
-            <div className="p-4 text-red-500">
-                Error loading orders. Please try again later.
+export default function Page() {
+    return (
+        <main className="w-full h-full p-4 sm:p-6 lg:p-4">
+            <div className="relative h-[500px]">
+                <div className="absolute inset-0 overflow-x-auto">
+                    <OrdersSection />
+                </div>
             </div>
-        );
-    }
+        </main>
+    );
 }
