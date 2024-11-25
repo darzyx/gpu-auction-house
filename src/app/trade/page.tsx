@@ -5,9 +5,8 @@ import OrdersSection from "@/components/trade/orders-section";
 import Portfolio from "@/components/trade/portfolio";
 import Prices from "@/components/trade/prices-chart";
 import { Separator } from "@/components/ui/separator";
-import { TOrder } from "@/db/schema";
 
-export default function Page({ initOrders }: { initOrders: TOrder[] }) {
+export default function Page() {
     return (
         <main className="w-full grid grid-rows-[auto_auto_1fr]">
             <div className="w-full grid grid-cols-1 md:grid-cols-[375px_auto_1fr]">
