@@ -85,7 +85,7 @@ const generateRandomOrder = (): TOrder => {
         status = Math.random() < 0.9 ? "filled" : "canceled";
     }
 
-    const gpuCount = Math.floor(Math.random() * 90) + 50;
+    const gpuCount = Math.floor(Math.random() * 950) + 50;
     const pricePerGpu = (Math.random() * 40 + 25).toFixed(2);
     const now = new Date();
     const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
