@@ -135,9 +135,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     },
     {
         id: "actions",
-        cell: ({ row: { original }, table }) => (
-            <CancelButton original={original} table={table} />
-        ),
+        cell: ({ row: { original } }) => <CancelButton original={original} />,
     },
 ];
 
