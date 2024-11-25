@@ -23,7 +23,7 @@ import { TOrderSide } from "@/types";
 const columns: ColumnDef<TOrder>[] = [
     {
         accessorKey: "gpu_count",
-        header: "Amount (GPUs)",
+        header: "GPUs",
         cell: ({ row }) => {
             const count = row.getValue("gpu_count") as number;
             return count.toLocaleString();

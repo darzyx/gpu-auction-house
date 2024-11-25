@@ -96,7 +96,7 @@ const ordersColumns: ColumnDef<TOrder>[] = [
     {
         accessorKey: "gpu_count",
         header: ({ column }) => (
-            <SortableHeader column={column}>Amount (GPUs)</SortableHeader>
+            <SortableHeader column={column}>GPUs</SortableHeader>
         ),
     },
     {
