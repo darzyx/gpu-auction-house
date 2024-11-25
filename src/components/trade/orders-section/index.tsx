@@ -8,6 +8,9 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import ordersColumns from "@/components/trade/orders-section/columns";
 import {
@@ -20,9 +23,6 @@ import {
 } from "@/components/ui/table";
 import { getOrders } from "@/db/actions";
 import { TOrder } from "@/db/schema";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 function OrdersTable({ orders }: { orders: TOrder[] }) {
     const table = useReactTable({
