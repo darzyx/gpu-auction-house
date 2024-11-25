@@ -18,7 +18,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { type TOrder } from "@/db/schema";
-import { TOrderSide } from "@/types";
 
 const columns: ColumnDef<TOrder>[] = [
     {
