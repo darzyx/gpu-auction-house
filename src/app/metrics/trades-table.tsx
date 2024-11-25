@@ -18,24 +18,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { type TOrder } from "@/db/schema";
+import { TOrderSide } from "@/types";
 
 const columns: ColumnDef<TOrder>[] = [
-    {
-        accessorKey: "side",
-        header: "Side",
-        cell: ({ row }) => {
-            const side = row.getValue("side") as string;
-            return (
-                <div
-                    className={
-                        side === "buy" ? "text-green-600" : "text-red-600"
-                    }
-                >
-                    {side.charAt(0).toUpperCase() + side.slice(1)}
-                </div>
-            );
-        },
-    },
     {
         accessorKey: "gpu_count",
         header: "GPUs",
@@ -56,26 +41,32 @@ const columns: ColumnDef<TOrder>[] = [
         accessorKey: "total_price",
         header: "Total",
         cell: ({ row }) => {
+            const side = row.original.side as TOrderSide;
             const total = row.getValue("total_price") as string;
-            return <div>${Number(total).toLocaleString()}</div>;
-        },
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => {
-            const status = row.getValue("status") as string;
             return (
                 <div
                     className={
-                        status === "pending"
-                            ? "text-yellow-600"
-                            : status === "filled"
-                            ? "text-green-600"
-                            : "text-red-600"
+                        side === "buy" ? "text-green-600" : "text-red-600"
                     }
                 >
-                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                    ${Number(total).toLocaleString()}
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "created_at",
+        header: "Time",
+        cell: ({ row }) => {
+            const date = new Date(row.getValue("created_at") as Date);
+            return (
+                <div className="text-muted-foreground">
+                    {date.toLocaleTimeString("en-US", {
+                        hour12: false,
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                    })}
                 </div>
             );
         },
@@ -94,8 +85,8 @@ const generateRandomOrder = (): TOrder => {
         status = Math.random() < 0.9 ? "filled" : "canceled";
     }
 
-    const gpuCount = Math.floor(Math.random() * 90) + 10;
-    const pricePerGpu = (Math.random() * 30 + 20).toFixed(2);
+    const gpuCount = Math.floor(Math.random() * 90) + 50;
+    const pricePerGpu = (Math.random() * 40 + 25).toFixed(2);
     const now = new Date();
     const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 

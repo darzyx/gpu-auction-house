@@ -11,7 +11,7 @@ export default function Metrics() {
 
     return (
         <main className="w-full h-full">
-            <div className="md:grid md:grid-cols-[2fr_auto_350px]">
+            <div className="md:grid md:grid-cols-[2fr_auto_325px]">
                 <div className="p-4 sm:p-6 lg:p-4">
                     <PricesChart />
                 </div>
