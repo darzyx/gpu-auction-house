@@ -56,7 +56,7 @@ const MobileNavigation = ({ pathname }: { pathname: string }) => {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="flex justify-between items-center md:hidden">
+        <div className="flex justify-between items-center sm:hidden">
             <div>
                 <Logo />
             </div>
@@ -101,11 +101,11 @@ const MobileNavigation = ({ pathname }: { pathname: string }) => {
 };
 
 const DesktopNavigation = ({ pathname }: { pathname: string }) => (
-    <nav className="hidden md:flex md:justify-between lg:flex-col lg:justify-start gap-4 lg:gap-2">
+    <nav className="hidden sm:flex sm:justify-between lg:flex-col lg:justify-start gap-4 lg:gap-2">
         <div className="flex justify-end lg:pb-4">
             <Logo />
         </div>
-        <div className="hidden md:flex lg:flex-col gap-4 lg:gap-2">
+        <div className="hidden sm:flex lg:flex-col gap-4 lg:gap-2">
             {navigationItems.map((item) => (
                 <NavigationLink
                     key={item.id}
