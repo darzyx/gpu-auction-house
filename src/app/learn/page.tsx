@@ -37,10 +37,7 @@ export default function Page() {
                             <h3 className="text-lg font-georgia">
                                 What You Can Trade
                             </h3>
-                            <p>
-                                On GPU Exchange, you&apos;re trading blocks of
-                                compute time:
-                            </p>
+                            <p>You&apos;re trading blocks of compute time:</p>
                             <ul className="space-y-2 ml-6 list-disc">
                                 <li>Select any number of GPUs</li>
                                 <li>Choose your rental duration</li>
@@ -89,11 +86,10 @@ export default function Page() {
                                 How the Market Works
                             </h2>
                             <p>
-                                GPU Exchange operates as a two-sided market with
-                                buy orders and sell orders. Unlike traditional
-                                GPU cloud providers with fixed pricing, our
-                                market allows prices to be determined by supply
-                                and demand.
+                                We operate as a two-sided market with buy orders
+                                and sell orders. Unlike traditional GPU cloud
+                                providers with fixed pricing, our market allows
+                                prices to be determined by supply and demand.
                             </p>
                             <Separator />
                         </section>
@@ -206,10 +202,9 @@ export default function Page() {
                                 Understanding Pricing
                             </h2>
                             <p>
-                                GPU Exchange uses market-based pricing, which
-                                means prices fluctuate based on supply and
-                                demand. Each block of compute time is priced
-                                independently.
+                                We use market-based pricing, which means prices
+                                fluctuate based on supply and demand. Each block
+                                of compute time is priced independently.
                             </p>
                             <Separator />
                         </section>
@@ -218,9 +213,8 @@ export default function Page() {
                                 Price Factors
                             </h3>
                             <ul className="space-y-2 ml-6 list-disc">
-                                <li>Block size (number of GPUs)</li>
-                                <li>Duration of rental</li>
-                                <li>Start time and date</li>
+                                <li>Number of GPUs</li>
+                                <li>Date range and start/end time</li>
                                 <li>Current market demand</li>
                                 <li>Available supply</li>
                             </ul>
