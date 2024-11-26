@@ -34,7 +34,6 @@ const navigationItems: NavigationItem[] = [
     { id: "orders", label: "Orders", href: "/orders" },
     { id: "metrics", label: "Metrics", href: "/metrics" },
     { id: "learn", label: "Learn", href: "/learn" },
-    { id: "logout", label: "Logout", href: "/login" },
 ];
 
 const Logo = () => (
