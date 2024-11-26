@@ -21,7 +21,7 @@ export default function Page() {
                     <TabsContent value="overview" className="space-y-4 mr-6">
                         <section className="space-y-4">
                             <h2 className="text-xl font-georgia">
-                                Welcome to GPU Exchange
+                                What is GPU Exchange
                             </h2>
                             <p>
                                 GPU Exchange is a marketplace for trading
