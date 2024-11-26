@@ -101,19 +101,21 @@ const MobileNavigation = ({ pathname }: { pathname: string }) => {
 };
 
 const DesktopNavigation = ({ pathname }: { pathname: string }) => (
-    <nav className="hidden md:flex lg:flex-col gap-4 lg:gap-2">
+    <nav className="hidden md:flex md:justify-between lg:flex-col lg:justify-start gap-4 lg:gap-2">
         <div className="flex justify-end lg:pb-4">
             <Logo />
         </div>
-        {navigationItems.map((item) => (
-            <NavigationLink
-                key={item.id}
-                href={item.href}
-                isActive={pathname === item.href}
-            >
-                {item.label}
-            </NavigationLink>
-        ))}
+        <div className="hidden md:flex lg:flex-col gap-4 lg:gap-2">
+            {navigationItems.map((item) => (
+                <NavigationLink
+                    key={item.id}
+                    href={item.href}
+                    isActive={pathname === item.href}
+                >
+                    {item.label}
+                </NavigationLink>
+            ))}
+        </div>
     </nav>
 );
 
