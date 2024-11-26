@@ -43,7 +43,7 @@ const Logo = () => (
 const NavigationLink = ({ href, isActive, children }: NavigationLinkProps) => (
     <Link
         className={cn(
-            "flex justify-end items-center text-sm hover:underline underline-offset-2 leading-none lg:py-4",
+            "flex justify-end items-center text-sm hover:underline underline-offset-2 leading-none px-2 lg:px-0 lg:py-4",
             isActive ? "underline" : "text-muted-foreground"
         )}
         href={href}
@@ -105,7 +105,7 @@ const DesktopNavigation = ({ pathname }: { pathname: string }) => (
         <div className="flex justify-end lg:pb-4">
             <Logo />
         </div>
-        <div className="hidden sm:flex lg:flex-col gap-4 lg:gap-2">
+        <div className="hidden sm:flex lg:flex-col gap-4">
             {navigationItems.map((item) => (
                 <NavigationLink
                     key={item.id}
