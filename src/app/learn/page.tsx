@@ -33,19 +33,18 @@ export default function Page() {
                                     compute time on a large H100 cluster with
                                     InfiniBand connectivity. You can buy GPU
                                     time when you need it and sell it back when
-                                    you don't, allowing for efficient resource
-                                    allocation and cost management.
+                                    you don&apos;t, allowing for efficient
+                                    resource allocation and cost management.
                                 </p>
                                 <Separator />
                             </section>
-
                             <section className="space-y-4">
                                 <h3 className="text-lg font-georgia">
                                     What You Can Trade
                                 </h3>
                                 <p>
-                                    On GPU Exchange, you're trading blocks of
-                                    compute time:
+                                    On GPU Exchange, you&apos;re trading blocks
+                                    of compute time:
                                 </p>
                                 <ul className="space-y-2 ml-6 list-disc">
                                     <li>Select any number of GPUs</li>
