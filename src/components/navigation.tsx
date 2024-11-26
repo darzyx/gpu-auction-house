@@ -83,7 +83,7 @@ const MobileNavigation = ({ pathname }: { pathname: string }) => {
                                 <Link
                                     href={item.href}
                                     className={cn(
-                                        "py-2 text-sm",
+                                        "py-4 text-sm",
                                         pathname === item.href
                                             ? "font-medium"
                                             : "text-muted-foreground"
