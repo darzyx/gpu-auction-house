@@ -30,12 +30,10 @@ type NavigationLinkProps = {
 };
 
 const navigationItems: NavigationItem[] = [
-    { id: "home", label: "Home", href: "/home" },
     { id: "trade", label: "Trade", href: "/trade" },
     { id: "orders", label: "Orders", href: "/orders" },
     { id: "metrics", label: "Metrics", href: "/metrics" },
     { id: "learn", label: "Learn", href: "/learn" },
-    { id: "settings", label: "Settings", href: "/settings" },
     { id: "logout", label: "Logout", href: "/login" },
 ];
 
