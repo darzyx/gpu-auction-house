@@ -224,7 +224,7 @@ export default function Page() {
                             <h3 className="text-lg font-georgia">
                                 Price Chart Guide
                             </h3>
-                            <p>Our price chart shows three key metrics:</p>
+                            <p>Our price chart shows three simple metrics:</p>
                             <ul className="space-y-2">
                                 <li>
                                     <span className="text-pink-500 font-semibold">
